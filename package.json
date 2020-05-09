@@ -1,0 +1,21 @@
+{
+  "name": "moult",
+  "version": "1.0.2",
+  "description": "Web Framework",
+  "main": "moult.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/michael-codesjs/moult"
+  },
+  "keywords": [
+    "moult",
+    "moultjs",
+    "moult.js"
+  ],
+  "author": "michael-codesjs",
+  "license": "ISC"
+}

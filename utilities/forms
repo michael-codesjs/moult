@@ -1,0 +1,3 @@
+var forms = {
+email: /[a-z0-9A-Z.]+@[-a-z0-9A-Z.]+\.[a-z]{2,}/,
+}
