@@ -1,0 +1,32 @@
+# builds
+bin
+dist
+tsconfig.tsbuildinfo
+
+# backups
+
+
+# package directories
+node_modules
+jspm_packages
+
+*.yarn-error.log
+.yarn
+yarn-error.log
+
+
+# Docs
+coverage
+typedoc
+
+# Terraform
+terraform.tfstate
+terraform.tfstate.backup
+.terraform
+
+# Serverless directories
+.serverless
+
+# esbuild directories
+.esbuild
+*.env

@@ -1,0 +1,46 @@
+name: Data Layer Infrastructure
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [deploy-data-infrastructure]
+jobs:
+  deploy-data-infrastructure:
+    name: Deploy Data Layer Infrastructure
+    defaults:
+      run:
+        working-directory: ./layers/data/infrastructure
+    permissions:
+        id-token: write
+        contents: read
+    environment: ${{ matrix.environment }}
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v3
+        - name: Use Node.js ${{ matrix.node-version }}
+          uses: actions/setup-node@v3
+          with:
+            node-version: ${{ matrix.node-version }}
+        - name: Install Dependencies
+          run: yarn install --prefer-offline --frozen-lockfile
+        - name: Setup Terraform CLI
+          uses: hashicorp/setup-terraform@v2.0.2
+        - name: Configure 'prod' AWS Credentials
+          if: github.ref == 'refs/heads/main'
+          uses: aws-actions/configure-aws-credentials@v1
+          with:
+            aws-region: eu-central-1
+            role-to-assume: ${{ secrets.PROD_DEPLOY_ROLE_ARN }}
+            role-session-name: oicd-prod-session
+        - name: Configure 'dev' AWS Credentials
+          if: github.ref != 'refs/heads/main'
+          uses: aws-actions/configure-aws-credentials@v1
+          with:
+            aws-region: eu-central-1
+            role-to-assume: ${{ secrets.DEV_DEPLOY_ROLE_ARN }}
+            role-session-name: oicd-session
+        - name: Initialize & Deploy to 'prod'
+          if: github.ref == 'refs/heads/main'
+          run: yarn deploy --stage=prod
+        - name: Initialize & Deploy to 'dev'
+          if: github.ref != 'refs/heads/main'
+          run: yarn deploy --stage-dev

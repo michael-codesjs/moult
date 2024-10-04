@@ -1,0 +1,39 @@
+name: Deploy Deployables
+on:
+    workflow_dispatch:
+    push:
+jobs:
+    deploy-deployables:
+        name: Deploy Deployables
+        permissions:
+            id-token: write
+            contents: read
+        environment: ${{ matrix.environment }}
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+              with:
+                fetch-depth: 0
+            - name: install-dependencies
+              run: yarn install --prefer-offline --frozen-lockfile
+            - name: Configure 'prod' AWS Credentials
+              if: github.ref == 'refs/heads/main'
+              uses: aws-actions/configure-aws-credentials@v1
+              with:
+                aws-region: eu-central-1
+                role-to-assume: ${{ secrets.PROD_DEPLOY_ROLE_ARN }}
+                role-session-name: oicd-prod-session
+            - name: Configure 'dev' AWS Credentials
+              if: github.ref != 'refs/heads/main'
+              uses: aws-actions/configure-aws-credentials@v1
+              with:
+                aws-region: eu-central-1
+                role-to-assume: ${{ secrets.DEV_DEPLOY_ROLE_ARN }}
+                role-session-name: oicd-session
+            - name: build-action
+              working-directory: ./.github/actions/deploy-deployables
+              run: yarn build
+            - name: deploy-deployables
+              uses: ./.github/actions/deploy-deployables
+              with:
+                github_token: ${{ secrets.GITHUB_TOKEN }}

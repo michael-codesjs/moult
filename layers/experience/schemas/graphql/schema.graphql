@@ -1,0 +1,67 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+enum EntityType {
+  ESTATE
+  USER
+}
+
+interface Common {
+  id: ID!
+  entityType: EntityType!
+  creator: ID!
+  creatorType: EntityType!
+  created: AWSDateTime!
+  modified: AWSDateTime
+  discontinued: Boolean!
+}
+
+type Coordinates {
+  x: String!
+  y: String!
+}
+
+input CoordinatesInput {
+  x: String!
+  y: String!
+}
+
+input CreateEstateInput {
+  name: String!
+  coorindates: CoordinatesInput
+}
+
+type Estate implements Common {
+  id: ID!
+  entityType: EntityType!
+  creator: ID!
+  creatorType: EntityType!
+  created: AWSDateTime!
+  modified: AWSDateTime
+  discontinued: Boolean!
+  name: String!
+  coorindates: Coordinates
+}
+
+type User implements Common {
+  id: ID!
+  entityType: EntityType!
+  creator: ID!
+  creatorType: EntityType!
+  created: AWSDateTime!
+  modified: AWSDateTime
+  discontinued: Boolean!
+  name: AWSEmail!
+  phoneNumber: AWSPhone!
+  email: AWSEmail
+}
+
+type Query {
+  getEstate(id: String!): Estate! @aws_cognito_user_pools
+}
+
+type Mutation {
+  createEstate(input: CreateEstateInput!): Estate! @aws_cognito_user_pools
+}

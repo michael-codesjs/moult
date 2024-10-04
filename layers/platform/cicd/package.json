@@ -1,0 +1,13 @@
+{
+  "name": "@moult/cicd-infrastructure",
+  "version": "1.0.0",
+  "description": "moult cicd infrastructure.",
+  "repository": "https://github.com/michael-codesjs/moult",
+  "author": "Michael Phiri",
+  "license": "MIT",
+  "scripts": {
+    "deploy-cicd": "terraform init & terraform apply -auto-approve",
+    "destroy-cicd": "terraform destroy -auto-approve"
+  },
+  "packageManager": "yarn@1.22.22"
+}

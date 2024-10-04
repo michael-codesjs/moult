@@ -1,0 +1,17 @@
+{
+  "name": "@moult/experience-infrastructure",
+  "version": "1.0.0",
+  "description": "moult experience layer infrastructure.",
+  "repository": "https://github.com/michael-codesjs/moult",
+  "author": "Michael Phiri",
+  "license": "MIT",
+  
+  "dependencies": {
+    "@moult/platform-infrastructure": "*"
+  },
+  "scripts": {
+    "deploy": "terraform init & terraform apply -auto-approve",
+    "destroy": "terraform destroy -auto-approve"
+  },
+  "packageManager": "yarn@1.22.22"
+}

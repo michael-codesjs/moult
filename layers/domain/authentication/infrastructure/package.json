@@ -1,0 +1,17 @@
+{
+  "name": "@moult/authentication-infrastructure",
+  "version": "1.0.0",
+  "description": "moult authentication domain infrastructure.",
+  "repository": "https://github.com/michael-codesjs/moult",
+  "author": "Michael Phiri",
+  "license": "MIT",
+  "scripts": {
+    "deploy": "terraform init & terraform apply -auto-approve",
+    "destroy": "terraform destroy -auto-approve"
+  },
+  "dependencies": {
+    "@moult/platform-infrastructure": "*",
+    "@moult/data-infrastructure": "*"
+  },
+  "packageManager": "yarn@1.22.22"
+}

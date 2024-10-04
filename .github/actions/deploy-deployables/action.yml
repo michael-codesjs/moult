@@ -1,0 +1,10 @@
+name: Deploy Deployables
+author: michael-codesjs
+description: Deploys moult project deployables.
+inputs:
+  github_token:
+    description: Github access token
+    required: true
+runs:
+  using: node16
+  main: dist/index.js

@@ -1,0 +1,28 @@
+{
+  "typescript.tsdk": "./node_modules/typescript/lib",
+  "dart.lineLength": 120,
+  "[dart]": {
+    "editor.rulers": [120],
+  },
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#222222",
+    "activityBar.activeBorder": "#222222",
+    "activityBar.background": "#333333",
+    "activityBar.foreground": "#6be134",
+    "activityBar.inactiveForeground": "#555",
+    "activityBarBadge.background": "#00aa00",
+    "activityBarBadge.foreground": "#000000",
+    "sash.hoverBorder":  "#6be134",
+    "statusBar.background": "#6be134",
+    "statusBar.foreground": "#000000",
+    "statusBarItem.hoverBackground": "#6be134",
+    "statusBarItem.remoteBackground": "#6be134",
+    "statusBarItem.remoteForeground": "#000000",
+    "titleBar.activeBackground": "#6be134",
+    "titleBar.activeForeground": "#000",
+    "titleBar.inactiveBackground": "#6be134",
+    "titleBar.inactiveForeground": "#333",
+    "commandCenter.border": "#333"
+  },
+  "files.exclude": {}
+}

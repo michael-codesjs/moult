@@ -1,0 +1,45 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "removeComments": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "outDir": "dist",
+    "baseUrl": "application",
+    "paths": {
+      "@shared": ["../../../../shared/typescript/sdk/src/index.ts"],
+      "@adapters/*": ["adapters/*"],
+      "@domain/*": ["domain/*"],
+      "@errors/*": ["errors/*"],
+      "@errors": ["errors/index.ts"],
+      "@interfaces/*": ["interfaces/*"],
+      "@interfaces": ["interfaces/index.ts"],
+      "@repositories/*": ["repositories/*"],
+      "@repositories": ["repositories/index.ts"],
+      "@typings/*": ["types/*"],
+      "@typings": ["types/index.ts"],
+      "@use-cases/*": ["use-cases/*"],
+      "@use-cases": ["use-cases/index.ts"],
+      "@utilities/*": ["utilities/*"]
+    }
+  },
+  "references": [
+    { "path": "../../../shared/typescript/sdk" }
+  ],
+  "include": [
+    "serverless.ts",
+    "application/**/*.ts",
+    "scripts/**/*.ts"
+  ],
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  },
+  "typeAcquisition": {
+    "include": ["jest"]
+  }
+}

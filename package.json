@@ -1,0 +1,46 @@
+{
+  "name": "@moult/root",
+  "version": "0.0.1",
+  "description": "moult root workspace.",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "layers/**",
+      ".github/actions/**"
+    ]
+  },
+  "scripts": {
+    "deploy": "lerna run deploy",
+    "destroy": "ts-node scripts/destroy.ts",
+    "prep:test": "lerna run generate-env",
+    "test": "lerna run test --stream",
+    "clients:web": "lerna run start --scope='@moult/experience-web-*' --stream",
+    "clients:web:live": "lerna run start:live --scope='@moult/experience-web-*' --stream",
+    "shared": "lerna run build --scope='@shared/sdk'",
+    "shared:live": "lerna run build:watch --scope='@shared/sdk' --stream",
+    "actions": "lerna run build --scope='@moult/deploy-deployables-action'",
+    "actions:live": "lerna run build:watch --scope='@moult/deploy-deployables-action' --stream",
+    "docs": "typedoc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michael-codesjs/moult.git"
+  },
+  "author": "Michael Phiri",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/michael-codesjs/moult/issues"
+  },
+  "homepage": "https://github.com/michael-codesjs/moult#readme",
+  "devDependencies": {
+    "@types/chance": "^1.1.3",
+    "@types/ora": "^3.2.0",
+    "chalk": "4.0",
+    "lerna": "^6.5.1",
+    "ora": "4.0",
+    "ts-node": "^10.9.1",
+    "typedoc": "^0.23.27",
+    "typescript": "^4.9.5"
+  },
+  "packageManager": "yarn@1.22.22"
+}

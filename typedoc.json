@@ -1,0 +1,10 @@
+{
+    "$schema": "https://typedoc.org/schema.json",
+    "out": "docs/typedoc",
+    "entryPointStrategy": "packages",
+    "entryPoints": [
+        "layers/**"
+    ],
+    "darkHighlightTheme": "dark-plus",
+    "theme": "default"
+}
