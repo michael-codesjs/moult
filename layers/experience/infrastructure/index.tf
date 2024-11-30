@@ -34,3 +34,15 @@ module "authentication" {
   stage  = var.stage
   region = var.region
 }
+
+
+module "client_deployments" {
+  source = "./client-deployments"
+  stage  = var.stage
+  region = var.region
+  graphql_api_id = module.api.graphal_api_id
+  graphql_api_endpoint = module.api.graphal_api_endpoint
+  cognito_user_pool_arn = module.authentication.cognito_user_pool_arn
+  cognito_user_pool_id = module.authentication.cognito_user_pool_id
+  cognito_user_pool_name = module.authentication.cognito_user_pool_name
+}

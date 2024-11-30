@@ -8,7 +8,10 @@ import chalk from "chalk";
 console.clear();
 
 const execAsync = (command: string, options: any) => new Promise((res) => {
-    exec(command, options, error => res(error === null));
+    exec(command, options, error => {
+        if(error) console.log(error)
+        res(error === null)
+    });
 });
 
 const ssmClient = new SSMClient({ region: process.env.AWS_REGION || "eu-central-1" });
@@ -45,7 +48,7 @@ const initializeTerraform = async () => {
 };
 
 
-const deploy = async () => {    
+const deployInfrastructure = async () => {    
 
     const spinner = ora(`Deploying user-credentials service infrastructure to ${chalk.black(stage)}.`)
     spinner.start();
@@ -54,15 +57,29 @@ const deploy = async () => {
     const success = await execAsync(command, { stdio: "pipe" });
 
     if (success) return spinner.succeed(`Successfully deployed user-credentials service infrastructure to ${chalk.black(stage)}.`) || true;
-    else spinner.fail(`Failed to deploy infrastructure to ${chalk.black(stage)}.`);
+    else spinner.fail(`Failed to deploy user-credentials service infrastructure to ${chalk.black(stage)}.`);
 
 };
+
+const deployApplication = async () => {    
+
+    const spinner = ora(`Deploying user-credentials service application to ${chalk.black(stage)}.`)
+    spinner.start();
+  
+    const command = `sls deploy --stage=${stage}`;
+    const success = await execAsync(command, { stdio: "pipe" });
+
+    if (success) return spinner.succeed(`Successfully deployed user-credentials service application to ${chalk.black(stage)}.`) || true;
+    else spinner.fail(`Failed to deploy user-credentials service application to ${chalk.black(stage)}.`);
+
+};
+
 
 (async () => {
 
     const shouldInitialize = forceInitialize || !existsSync("./.terraform");
-
     const initialized = shouldInitialize ? await initializeTerraform() : true;
-    initialized && await deploy();
+    
+    initialized && await deployInfrastructure() && await deployApplication();
 
 })();

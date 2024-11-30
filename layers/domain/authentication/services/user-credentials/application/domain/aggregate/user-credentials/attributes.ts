@@ -18,11 +18,11 @@ export class UserCredentialsAttributes extends Attributes<UserCredentialsAttribu
 
         const creatorType = new Attribute<"USER_CREDENTIALS", true>({ required: true, value: "USER_CREDENTIALS" });
         const entityType = new Attribute<"USER_CREDENTIALS", true>({ required: true, value: "USER_CREDENTIALS" });
-        const email = new Attribute({ required: false, value: null, validate: (value) => validator.isEmail(value) });
-        const phoneNumber = new Attribute({ required: false, value: null, validate: (value) => validator.isMobilePhone(value) });
-        const emailVerified = new Attribute({ required: false, value: null });
-        const phoneNumberVerified = new Attribute({ required: false, value: null });
-        const password = new Attribute({ required: false, value: null });
+        const email = new Attribute<string>({ required: false, value: null, validate: (value) => validator.isEmail(value) });
+        const phoneNumber = new Attribute<string>({ required: false, value: null, validate: (value) => validator.isMobilePhone(value) });
+        const emailVerified = new Attribute<boolean>({ required: false, value: null });
+        const phoneNumberVerified = new Attribute<boolean>({ required: false, value: null });
+        const password = new Attribute<string>({ required: false, value: null });
 
         super({ creatorType, entityType, email, phoneNumber, emailVerified, phoneNumberVerified, password });
 

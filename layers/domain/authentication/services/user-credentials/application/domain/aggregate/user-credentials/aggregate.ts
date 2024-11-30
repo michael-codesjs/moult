@@ -1,8 +1,8 @@
-import { USER_CREDENTIALS_DOMAIN_EVENTS } from "@domain/events";
-import { AggregateRoot, DomainEvent, NotPutable, NotUpdateable } from "@shared";
-import { UserCredentialsDTO } from "@domain/models";
-import { UserCredentialsAttributes } from "./attributes";
-import { CreateUserCredentialsParams, UpdateUserCredentialsParams } from "./types";
+import { USER_CREDENTIALS_DOMAIN_EVENTS } from '@domain/events';
+import { AggregateRoot, DomainEvent, NotPutable, NotUpdateable } from '@shared';
+import { UserCredentialsDTO } from '@domain/models';
+import { UserCredentialsAttributes } from './attributes';
+import { CreateUserCredentialsParams, UpdateUserCredentialsParams } from './types';
 
 export class UserCredentials extends AggregateRoot {
 
@@ -16,36 +16,86 @@ export class UserCredentials extends AggregateRoot {
     this.attributes.parse(attributes);
   }
 
-  getDomainEvents(): Array<DomainEvent> {
-    const domainEvents = Array.from(this.domainEvents);
-    this.clearDomainEvents();
-    return domainEvents;
+  getDomainEvents(): Array<USER_CREDENTIALS_DOMAIN_EVENTS> {
+    const events = Array.from(this.domainEvents);
+    this.clearDomainEvents()
+    return events;
   }
 
-  protected registerDomainEvent(domainEvent: Omit<DomainEvent, "version">): void {
-    this.domainEvents.push({ ...domainEvent, version: ++this.eventVersion } as USER_CREDENTIALS_DOMAIN_EVENTS);
+  protected clearDomainEvents(): void {
+    this.domainEvents = []
   }
 
-  protected clearDomainEvents() {
-    this.domainEvents = [];
+  protected takeSnapshot() {
+    this.registerDomainEvent({
+      name: 'USER_CREDENTIALS_SNAPSHOT',
+      payload: this.attributes.collective(),
+      source: 'UserCredentials',
+      date: new Date(),
+    })
+  }
+
+  protected registerDomainEvent(domainEvent: Omit<DomainEvent, 'version' | 'id'>) {
+    const version = ++this.eventVersion;
+    const id = this.attributes.get('id')
+    this.domainEvents.push({ ...domainEvent, version, id } as USER_CREDENTIALS_DOMAIN_EVENTS);
+    version % 9 === 0 && this.takeSnapshot() // 10th should be a snapshot
+  }
+
+  static getCurrentState(events: Array<USER_CREDENTIALS_DOMAIN_EVENTS>) {
+
+    if(!events.length) throw new Error('No events to replay')
+
+    const id = events[0].payload.id // get aggregate id
+    const user_credential = new UserCredentials({ id })
+
+    // if a snapshot is present in the events start at the snapshot and only apply events after that
+
+    let snapshot_index = 0;
+    const snapshot = events.find((event, index) => {
+      const is_snapshot = event.name === 'USER_CREDENTIALS_SNAPSHOT'
+      if(is_snapshot) {
+        snapshot_index = index
+        return is_snapshot
+      }
+    })
+
+    events = snapshot ? events.slice(snapshot_index) : events
+
+    for(const event of events) {
+      switch(event.name) {
+        case 'USER_CREDENTIALS_CREATED':
+        case 'USER_CREDENTIALS_SNAPSHOT':
+          user_credential.attributes.parse(event.payload)
+        case 'USER_CREDENTIALS_UPDATED':
+          user_credential.attributes.set(event.payload)
+        default:
+          throw new Error('Unrecognized domain event for aggregate UserCredentials')
+      }
+    }
+
+    return user_credential
+
   }
 
   static create(attributes: CreateUserCredentialsParams): UserCredentials {
 
-    if (!attributes.email && !attributes.phoneNumber && !attributes.username) throw new Error("At least one username parameter is to be supplied on creation.");
+    if (!attributes.email && !attributes.phoneNumber && !attributes.username) { // at least one username param is required
+      throw new Error('At least one username parameter is to be supplied on creation.');
+    }
 
-    const userCredentials = new UserCredentials(attributes);
+    const user_credentials = new UserCredentials(attributes);
 
-    if (!userCredentials.attributes.isPutable()) throw new NotPutable();
+    if (!user_credentials.attributes.isPutable()) throw new NotPutable();
 
-    userCredentials.registerDomainEvent({
-      name: "USER_CREDENTIALS_CREATED",
-      payload: userCredentials.attributes.collective(),
-      source: "UserCredentials",
+    user_credentials.registerDomainEvent({
+      name: 'USER_CREDENTIALS_CREATED',
+      payload: user_credentials.attributes.collective(),
+      source: 'UserCredentials',
       date: new Date(),
     });
 
-    return userCredentials;
+    return user_credentials;
 
   }
 
@@ -59,9 +109,9 @@ export class UserCredentials extends AggregateRoot {
     if (!isUpdateable) throw new NotUpdateable();
 
     this.registerDomainEvent({
-      name: "USER_CREDENTIALS_UPDATED",
+      name: 'USER_CREDENTIALS_UPDATED',
       payload: attributes,
-      source: "UserCredentials",
+      source: 'UserCredentials',
       date: new Date()
     });
 

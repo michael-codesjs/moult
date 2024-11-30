@@ -4,6 +4,7 @@ export type DomainEvent<
   P extends Record<string, any> = Record<string, any>,
   V extends number = number
 > = {
+  id: string,
   source: S, // source of the domain event.
   name: N, // unique name of the event domain event, eg: ESTATE_CREATED
   payload: P, // event payload

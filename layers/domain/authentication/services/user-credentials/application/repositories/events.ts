@@ -1,14 +1,23 @@
 import { dependencies } from "@dependencies/dependencies";
-import { EventsAdapter, EventsRepositrory as IEventsRepositrory } from "@interfaces";
-import { DomainEvent as TDomainEvent } from "@shared";
+import { USER_CREDENTIALS_DOMAIN_EVENTS } from "@domain/events";
+import { EventBusAdapter, EventStoreAdapter, EventsRepositrory as IEventsRepositrory } from "@interfaces";
 import { inject, injectable } from "inversify";
 
 @injectable() export class EventsRepositrory implements IEventsRepositrory {
 
-  @inject(dependencies.EventsAdapter) private adapter: EventsAdapter;
+  @inject(dependencies.EventBusAdapter) private bus: EventBusAdapter;
+  @inject(dependencies.EventStoreAdapter) private store: EventStoreAdapter
 
-  async publish(events: Array<TDomainEvent>) {
-    return await this.adapter.publish(events);
+  async publish(events: Array<USER_CREDENTIALS_DOMAIN_EVENTS>) {
+    return await this.bus.publish(events);
+  }
+
+  async write(events: Array<USER_CREDENTIALS_DOMAIN_EVENTS>) {
+    return await this.store.write(events)
+  }
+
+  async read(id: string) {
+    return await this.store.read(id)
   }
 
 }

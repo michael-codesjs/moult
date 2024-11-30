@@ -35,13 +35,13 @@ resource "aws_dynamodb_table" "event_store_table" {
 }
 
 resource "aws_ssm_parameter" "event_store_table_name" {
-  name  = "/moult/${var.stage}/domain/user-credentials/infrastructure/storage/moult-user-credentials-event-store-table/name"
+  name  = "/moult/${var.stage}/domain/authentication/service/user-credentials/infrastructure/storage/moult-user-credentials-event-store-table/name"
   type  = "SecureString"
   value = aws_dynamodb_table.event_store_table.name
 }
 
 resource "aws_ssm_parameter" "event_store_table_arn" {
-  name  = "/moult/${var.stage}/domain/user-credentials/infrastructure/storage/moult-user-credentials-event-store-table/arn"
+  name  = "/moult/${var.stage}/domain/authentication/service/user-credentials/infrastructure/storage/moult-user-credentials-event-store-table/arn"
   type  = "SecureString"
   value = aws_dynamodb_table.event_store_table.arn
 }

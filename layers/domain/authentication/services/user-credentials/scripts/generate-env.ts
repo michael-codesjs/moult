@@ -12,10 +12,11 @@ const ssmClient = new SSMClient({ region: process.env.AWS_REGION || "eu-central-
 // exports values to a .env in ../
 
 /** POJO of envioment variables and their respective SSM parameter paths. */
+
 const VARIABLES = Object.freeze({
   REST_API_URL: "/moult/dev/infrastructure/io/central/api/url",
   CENTRAL_EVENT_BUS_NAME: "/moult/dev/infrastructure/io/event-bus/central/name",
-  USER_CREDENTIALS_DYNAMODB_TABLE_NAME: "/moult/dev/domain/authentication/service/authentication/infrastructure/storage/table/user-credentials/name"
+  USER_CREDENTIALS_DYNAMODB_TABLE_NAME: "/moult/dev/domain/authentication/service/user-credentials/infrastructure/storage/table/user-credentials/arn"
 });
 
 (async () => {
@@ -52,6 +53,6 @@ const VARIABLES = Object.freeze({
   }
 
   writeFileSync(join(__dirname, "../.env"), envString, { encoding: "utf-8" }); // export .env to ../
-  console.log(chalk.bold("\n The .env file has been exported to the root folder of the estate service\n"));
+  console.log(chalk.bold("\n The .env file has been exported to the root folder of the service\n"));
 
 })();

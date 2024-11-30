@@ -1,3 +1,4 @@
+import { USER_CREDENTIALS_DOMAIN_EVENTS } from "@domain/events";
 import { UserCredentialsDTO } from "@domain/models/user-credentials";
 import { DomainEvent } from "@shared";
 
@@ -11,6 +12,11 @@ export interface UserDatabaseAdapter {
     getByUsername(username: string): Promise<UserCredentialsDTO>
 };
 
-export interface EventsAdapter {
+export interface EventBusAdapter {
     publish(events: Array<DomainEvent>): Promise<void>
+};
+
+export interface EventStoreAdapter {
+    write(events: Array<USER_CREDENTIALS_DOMAIN_EVENTS>): Promise<void>
+    read(id: string): Promise<Array<USER_CREDENTIALS_DOMAIN_EVENTS>>
 };

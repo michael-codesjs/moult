@@ -1,7 +1,7 @@
 {
-  "name": "@moult/authentication-service",
+  "name": "@moult/authentication-user-credentials-service",
   "version": "0.9.0",
-  "description": "authentication service in the authentication(supporting) domain.",
+  "description": "user credentials service in the authentication(supporting) domain.",
   "main": "serverless.ts",
   "repository": "https://github.com/michael-codesjs/moult",
   "author": "Michael Phiri(github@michael-codesjs)",
@@ -10,7 +10,8 @@
     "deploy": "ts-node scripts/deploy-infrastructure.ts",
     "destroy": "sls remove && cd infrastructure && terraform init && terraform destroy -auto-approve",
     "generate-env": "ts-node scripts/generate-env.ts",
-    "test": "jest --silent"
+    "test": "jest --silent",
+    "test:silent": "ts-node scripts/generate-env.ts && jest --silent"
   },
   "dependencies": {
     "@moult/data-infrastructure": "*",
@@ -22,7 +23,8 @@
     "@middy/input-output-logger": "^4.2.6",
     "aws-sigv4-fetch": "^1.3.0",
     "correlation-id": "^5.0.0",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "dynamodb-onetable": "^2.7.5"
   },
   "devDependencies": {
     "@aws-sdk/client-eventbridge": "^3.279.0",

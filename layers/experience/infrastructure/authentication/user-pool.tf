@@ -62,3 +62,13 @@ output "cognito_user_pool_id" {
   value       = aws_cognito_user_pool.user_pool.id
   description = "Cognito user pool ID."
 }
+
+output "cognito_user_pool_name" {
+  value       = aws_cognito_user_pool.user_pool.name
+  description = "Cognito user pool name."
+}
+
+output "cognito_user_pool_arn" {
+  value       = aws_cognito_user_pool.user_pool.arn
+  description = "Cognito user pool ARN."
+}

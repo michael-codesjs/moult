@@ -1,3 +1,5 @@
+import { DomainEvent } from "@shared";
+
 export type CreateUserCredentialsParams = {
     id?: string
     username?: string,
