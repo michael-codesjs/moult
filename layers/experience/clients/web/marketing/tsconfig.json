@@ -13,20 +13,20 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
+    "noEmit": true,
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
     "jsx": "react-jsx",
-    "baseUrl": "src",
+    "baseUrl": "./src",
     "paths": {
       "@layout/*": ["./layout/*"],
       "@repositories/*": ["./repositories/*"],
       "@components/*": ["./components/*"],
       "@hooks/*": ["./hooks/*"],
       "@data/*": ["./data/*"],
-      "@utilities/*": ["./utilities/*"],
+      "@utilities/*": ["utilities/*"],
       "@typings/*": ["./types/*"],
       "@typings": ["./types/index.ts"]
     }

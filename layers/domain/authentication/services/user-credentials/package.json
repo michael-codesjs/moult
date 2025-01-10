@@ -8,6 +8,7 @@
   "license": "MIT",
   "scripts": {
     "deploy": "ts-node scripts/deploy-infrastructure.ts",
+    "deploy:application": "sls deploy",
     "destroy": "sls remove && cd infrastructure && terraform init && terraform destroy -auto-approve",
     "generate-env": "ts-node scripts/generate-env.ts",
     "test": "jest --silent",

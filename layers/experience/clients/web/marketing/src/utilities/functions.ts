@@ -1,4 +1,4 @@
-import { Breakpoints, ColorMode, Season } from "@typings";
+import { Breakpoints, ColorMode } from "@typings";
 import { breakpointKeys } from "./constants";
 
 export const changeColorMode = (value: ColorMode) => {
@@ -41,15 +41,6 @@ export const getNearestBreakPointValue = <T = any>(values: Partial<Record<Breakp
   return values[breakpointKeys[index] as Breakpoints] as T;
 }
 
-export const getCurrentSeason = (): Season => {
-
-  const now = new Date();
-  const month = now.getMonth() + 1;
-
-  return (
-    month > 3 && month < 6 ? 'SPRING' :
-      month > 6 && month < 9 ? 'SUMMER' :
-        month > 9 && month < 12 ? 'FALL' :
-          'WINTER' // default
-  );
-}
+export const someFunction = () => {
+    // function implementation
+};
