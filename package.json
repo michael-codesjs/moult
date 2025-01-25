@@ -14,7 +14,7 @@
     "destroy": "ts-node scripts/destroy.ts",
     "prep:test": "lerna run generate-env",
     "test": "lerna run test --stream",
-    "clients:web": "lerna run start --scope='@moult/experience-web-*' --stream",
+    "clients:web": "lerna run dev --scope='@moult/experience-web-*' --stream",
     "clients:web:live": "lerna run start:live --scope='@moult/experience-web-*' --stream",
     "shared": "lerna run build --scope='@shared/sdk'",
     "shared:live": "lerna run build:watch --scope='@shared/sdk' --stream",

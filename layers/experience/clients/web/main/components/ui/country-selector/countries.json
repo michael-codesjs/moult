@@ -1,0 +1,340 @@
+{
+  "countries": [
+    {
+      "name": "Afghanistan",
+      "code": "AF",
+      "flag": "https://flagcdn.com/w40/af.png",
+      "dialCode": "+93"
+    },
+    {
+      "name": "Albania",
+      "code": "AL",
+      "flag": "https://flagcdn.com/w40/al.png",
+      "dialCode": "+355"
+    },
+    {
+      "name": "Algeria",
+      "code": "DZ",
+      "flag": "https://flagcdn.com/w40/dz.png",
+      "dialCode": "+213"
+    },
+    {
+      "name": "Angola",
+      "code": "AO",
+      "flag": "https://flagcdn.com/w40/ao.png",
+      "dialCode": "+244"
+    },
+    {
+      "name": "Argentina",
+      "code": "AR",
+      "flag": "https://flagcdn.com/w40/ar.png",
+      "dialCode": "+54"
+    },
+    {
+      "name": "Australia",
+      "code": "AU",
+      "flag": "https://flagcdn.com/w40/au.png",
+      "dialCode": "+61"
+    },
+    {
+      "name": "Austria",
+      "code": "AT",
+      "flag": "https://flagcdn.com/w40/at.png",
+      "dialCode": "+43"
+    },
+    {
+      "name": "Bahrain",
+      "code": "BH",
+      "flag": "https://flagcdn.com/w40/bh.png",
+      "dialCode": "+973"
+    },
+    {
+      "name": "Bangladesh",
+      "code": "BD",
+      "flag": "https://flagcdn.com/w40/bd.png",
+      "dialCode": "+880"
+    },
+    {
+      "name": "Belgium",
+      "code": "BE",
+      "flag": "https://flagcdn.com/w40/be.png",
+      "dialCode": "+32"
+    },
+    {
+      "name": "Botswana",
+      "code": "BW",
+      "flag": "https://flagcdn.com/w40/bw.png",
+      "dialCode": "+267"
+    },
+    {
+      "name": "Brazil",
+      "code": "BR",
+      "flag": "https://flagcdn.com/w40/br.png",
+      "dialCode": "+55"
+    },
+    {
+      "name": "Canada",
+      "code": "CA",
+      "flag": "https://flagcdn.com/w40/ca.png",
+      "dialCode": "+1"
+    },
+    {
+      "name": "China",
+      "code": "CN",
+      "flag": "https://flagcdn.com/w40/cn.png",
+      "dialCode": "+86"
+    },
+    {
+      "name": "Egypt",
+      "code": "EG",
+      "flag": "https://flagcdn.com/w40/eg.png",
+      "dialCode": "+20"
+    },
+    {
+      "name": "Ethiopia",
+      "code": "ET",
+      "flag": "https://flagcdn.com/w40/et.png",
+      "dialCode": "+251"
+    },
+    {
+      "name": "France",
+      "code": "FR",
+      "flag": "https://flagcdn.com/w40/fr.png",
+      "dialCode": "+33"
+    },
+    {
+      "name": "Germany",
+      "code": "DE",
+      "flag": "https://flagcdn.com/w40/de.png",
+      "dialCode": "+49"
+    },
+    {
+      "name": "Ghana",
+      "code": "GH",
+      "flag": "https://flagcdn.com/w40/gh.png",
+      "dialCode": "+233"
+    },
+    {
+      "name": "India",
+      "code": "IN",
+      "flag": "https://flagcdn.com/w40/in.png",
+      "dialCode": "+91"
+    },
+    {
+      "name": "Indonesia",
+      "code": "ID",
+      "flag": "https://flagcdn.com/w40/id.png",
+      "dialCode": "+62"
+    },
+    {
+      "name": "Italy",
+      "code": "IT",
+      "flag": "https://flagcdn.com/w40/it.png",
+      "dialCode": "+39"
+    },
+    {
+      "name": "Japan",
+      "code": "JP",
+      "flag": "https://flagcdn.com/w40/jp.png",
+      "dialCode": "+81"
+    },
+    {
+      "name": "Kenya",
+      "code": "KE",
+      "flag": "https://flagcdn.com/w40/ke.png",
+      "dialCode": "+254"
+    },
+    {
+      "name": "Malaysia",
+      "code": "MY",
+      "flag": "https://flagcdn.com/w40/my.png",
+      "dialCode": "+60"
+    },
+    {
+      "name": "Mexico",
+      "code": "MX",
+      "flag": "https://flagcdn.com/w40/mx.png",
+      "dialCode": "+52"
+    },
+    {
+      "name": "Morocco",
+      "code": "MA",
+      "flag": "https://flagcdn.com/w40/ma.png",
+      "dialCode": "+212"
+    },
+    {
+      "name": "Mozambique",
+      "code": "MZ",
+      "flag": "https://flagcdn.com/w40/mz.png",
+      "dialCode": "+258"
+    },
+    {
+      "name": "Namibia",
+      "code": "NA",
+      "flag": "https://flagcdn.com/w40/na.png",
+      "dialCode": "+264"
+    },
+    {
+      "name": "Netherlands",
+      "code": "NL",
+      "flag": "https://flagcdn.com/w40/nl.png",
+      "dialCode": "+31"
+    },
+    {
+      "name": "New Zealand",
+      "code": "NZ",
+      "flag": "https://flagcdn.com/w40/nz.png",
+      "dialCode": "+64"
+    },
+    {
+      "name": "Nigeria",
+      "code": "NG",
+      "flag": "https://flagcdn.com/w40/ng.png",
+      "dialCode": "+234"
+    },
+    {
+      "name": "Norway",
+      "code": "NO",
+      "flag": "https://flagcdn.com/w40/no.png",
+      "dialCode": "+47"
+    },
+    {
+      "name": "Pakistan",
+      "code": "PK",
+      "flag": "https://flagcdn.com/w40/pk.png",
+      "dialCode": "+92"
+    },
+    {
+      "name": "Philippines",
+      "code": "PH",
+      "flag": "https://flagcdn.com/w40/ph.png",
+      "dialCode": "+63"
+    },
+    {
+      "name": "Poland",
+      "code": "PL",
+      "flag": "https://flagcdn.com/w40/pl.png",
+      "dialCode": "+48"
+    },
+    {
+      "name": "Portugal",
+      "code": "PT",
+      "flag": "https://flagcdn.com/w40/pt.png",
+      "dialCode": "+351"
+    },
+    {
+      "name": "Russia",
+      "code": "RU",
+      "flag": "https://flagcdn.com/w40/ru.png",
+      "dialCode": "+7"
+    },
+    {
+      "name": "Saudi Arabia",
+      "code": "SA",
+      "flag": "https://flagcdn.com/w40/sa.png",
+      "dialCode": "+966"
+    },
+    {
+      "name": "Singapore",
+      "code": "SG",
+      "flag": "https://flagcdn.com/w40/sg.png",
+      "dialCode": "+65"
+    },
+    {
+      "name": "South Africa",
+      "code": "ZA",
+      "flag": "https://flagcdn.com/w40/za.png",
+      "dialCode": "+27"
+    },
+    {
+      "name": "South Korea",
+      "code": "KR",
+      "flag": "https://flagcdn.com/w40/kr.png",
+      "dialCode": "+82"
+    },
+    {
+      "name": "Spain",
+      "code": "ES",
+      "flag": "https://flagcdn.com/w40/es.png",
+      "dialCode": "+34"
+    },
+    {
+      "name": "Sweden",
+      "code": "SE",
+      "flag": "https://flagcdn.com/w40/se.png",
+      "dialCode": "+46"
+    },
+    {
+      "name": "Switzerland",
+      "code": "CH",
+      "flag": "https://flagcdn.com/w40/ch.png",
+      "dialCode": "+41"
+    },
+    {
+      "name": "Tanzania",
+      "code": "TZ",
+      "flag": "https://flagcdn.com/w40/tz.png",
+      "dialCode": "+255"
+    },
+    {
+      "name": "Thailand",
+      "code": "TH",
+      "flag": "https://flagcdn.com/w40/th.png",
+      "dialCode": "+66"
+    },
+    {
+      "name": "Turkey",
+      "code": "TR",
+      "flag": "https://flagcdn.com/w40/tr.png",
+      "dialCode": "+90"
+    },
+    {
+      "name": "Uganda",
+      "code": "UG",
+      "flag": "https://flagcdn.com/w40/ug.png",
+      "dialCode": "+256"
+    },
+    {
+      "name": "Ukraine",
+      "code": "UA",
+      "flag": "https://flagcdn.com/w40/ua.png",
+      "dialCode": "+380"
+    },
+    {
+      "name": "UAE",
+      "code": "AE",
+      "flag": "https://flagcdn.com/w40/ae.png",
+      "dialCode": "+971"
+    },
+    {
+      "name": "United Kingdom",
+      "code": "GB",
+      "flag": "https://flagcdn.com/w40/gb.png",
+      "dialCode": "+44"
+    },
+    {
+      "name": "United States",
+      "code": "US",
+      "flag": "https://flagcdn.com/w40/us.png",
+      "dialCode": "+1"
+    },
+    {
+      "name": "Vietnam",
+      "code": "VN",
+      "flag": "https://flagcdn.com/w40/vn.png",
+      "dialCode": "+84"
+    },
+    {
+      "name": "Zambia",
+      "code": "ZM",
+      "flag": "https://flagcdn.com/w40/zm.png",
+      "dialCode": "+260"
+    },
+    {
+      "name": "Zimbabwe",
+      "code": "ZW",
+      "flag": "https://flagcdn.com/w40/zw.png",
+      "dialCode": "+263"
+    }
+  ]
+} 
