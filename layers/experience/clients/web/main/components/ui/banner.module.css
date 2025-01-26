@@ -1,0 +1,93 @@
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes floatDiagonal {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  25% {
+    transform: translate(10px, -10px);
+  }
+  50% {
+    transform: translate(15px, 0px);
+  }
+  75% {
+    transform: translate(5px, 5px);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.iconFloat {
+  animation: float 3s ease-in-out infinite;
+}
+
+.iconFloatDiagonal {
+  animation: floatDiagonal 4s ease-in-out infinite;
+}
+
+.iconPulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.iconRotate {
+  animation: rotate 10s linear infinite;
+}
+
+.iconBounce {
+  animation: bounce 3s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* Add different animation delays */
+.delay1 { animation-delay: 0s; }
+.delay2 { animation-delay: 0.5s; }
+.delay3 { animation-delay: 1s; }
+.delay4 { animation-delay: 1.5s; }
+.delay5 { animation-delay: 2s; }
+.delay6 { animation-delay: 2.5s; }
+
+/* Add different animation durations */
+.duration1 { animation-duration: 4s; }
+.duration2 { animation-duration: 5s; }
+.duration3 { animation-duration: 6s; }
+.duration4 { animation-duration: 7s; } 

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { inter } from "@ui/font";
-import ConfigureAmplifyClientSide from "@/lib/auth/amplify";
+// import ConfigureAmplifyClientSide from "@/lib/auth/amplify";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <ConfigureAmplifyClientSide />
+      {/* <ConfigureAmplifyClientSide /> */}
       <body
         className={`${inter.className}`}
       >

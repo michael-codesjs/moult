@@ -8,20 +8,26 @@ export const authConfig = {
     async authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
       const isLoginPage = nextUrl.pathname === '/login';
-      
-      // Redirect authenticated users from login page to dashboard
-      if (isLoggedIn && isLoginPage) {
-        return Response.redirect(new URL('/dashboard', nextUrl));
-      }
+      const isPublicPath = ['/', '/login', '/register', '/forgot-password'].includes(nextUrl.pathname);
 
-      // Allow access to login page
-      if (isLoginPage) {
+      // Allow public paths
+      if (isPublicPath) {
+        // If logged in and trying to access login/register pages, redirect to dashboard
+        if (isLoggedIn && isLoginPage) {
+          return Response.redirect(new URL('/dashboard', nextUrl.origin));
+        }
         return true;
       }
 
-      // Protect all other pages
+      // If not logged in and trying to access protected routes, redirect to login
       if (!isLoggedIn) {
-        return Response.redirect(new URL('/login', nextUrl));
+        let from = nextUrl.pathname;
+        if (nextUrl.search) {
+          from += nextUrl.search;
+        }
+        const loginUrl = new URL('/login', nextUrl.origin);
+        loginUrl.searchParams.set('from', from);
+        return Response.redirect(loginUrl);
       }
 
       return true;
