@@ -12,6 +12,7 @@ import { useSignUp } from "@/hooks/useSignUp"
 import { Modal } from "@/components/ui/modal"
 import { EyeIcon, EyeOffIcon } from "@/components/ui/icons"
 import { Banner } from "@/components/ui/banner"
+import Link from "next/link"
 
 type ContactMethod = "phone" | "email"
 
@@ -74,8 +75,7 @@ export default function CreateAccount() {
           <div> 
           </div>
           <p className="text-base sm:text-md md:text-lg text-slate-500 max-w-md">
-            Step into the Future of Fashion <br />
-            Connect, Create, and Catwalk in 3D & VR!
+            Already part of the community? <Link href="/login" className="text-blue-600 hover:underline">Join us</Link>
             <br />
             {error && <span className="text-red-500">{error.message}</span>}
           </p>
