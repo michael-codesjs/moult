@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { Button } from "@/components/ui/button"
 import { Banner } from "@/components/ui/banner"
 import Image from "next/image"
@@ -55,7 +55,7 @@ function ResendButton({ onResend, isLoading }: ResendButtonProps) {
   )
 }
 
-export default function VerificationScreen() {
+function VerificationContent() {
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""))
   const [loading, setLoading] = useState(false)
   const searchParams = useSearchParams()
@@ -150,5 +150,19 @@ export default function VerificationScreen() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function VerificationScreen() {
+  return (
+    <Suspense fallback={
+      <div className="flex flex-col items-center justify-center w-full">
+        <div className="text-center space-y-4">
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">Loading...</h1>
+        </div>
+      </div>
+    }>
+      <VerificationContent />
+    </Suspense>
   )
 }

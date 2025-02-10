@@ -3,7 +3,9 @@ import Image from "next/image"
 import { ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Popover } from "@/components/ui/popover"
-import { countries } from "./countries.json"
+import countriesData from "./countries.json"
+
+const countries = countriesData.countries || countriesData
 
 export type Country = {
   name: string

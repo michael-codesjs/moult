@@ -25,11 +25,16 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'flagcdn.com',
+        hostname: 'flagcdn.com'
       },
       {
         protocol: 'https',
-        hostname: 'hebbkx1anhila5yf.public.blob.vercel-storage.com',
+        hostname: 'hebbkx1anhila5yf.public.blob.vercel-storage.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'w.flagcdn.com',
+        pathname: '/**',
       },
       {
         protocol: 'https',
@@ -74,7 +79,7 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       }
     ],
-    domains: ['images.unsplash.com', 'flagcdn.com'],
+    domains: ['images.unsplash.com']
   }
 };
 
