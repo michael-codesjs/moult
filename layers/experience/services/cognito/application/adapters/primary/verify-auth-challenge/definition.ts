@@ -7,7 +7,8 @@ export const definition: AWS.ServerlessLambdaFunction = {
         cognitoUserPool: {
             pool: "moult-user-pool-${self:custom.stage}",
             trigger: "VerifyAuthChallengeResponse",
-            existing: true
+            existing: true,
+            forceDeploy: true
         },
     }]
 };

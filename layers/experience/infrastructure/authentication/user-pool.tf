@@ -2,11 +2,15 @@ resource "aws_cognito_user_pool" "user_pool" {
 
   name                = "moult-user-pool-${var.stage}"
   deletion_protection = var.stage == "prod" ? "ACTIVE" : "INACTIVE"
-  alias_attributes = ["phone_number", "email"]
+  username_attributes = ["email", "phone_number"]
+  
+  username_configuration {
+    case_sensitive = false
+  }
 
   account_recovery_setting {
     recovery_mechanism {
-      name = "admin_only"
+      name     = "admin_only"
       priority = 1
     }
   }
@@ -23,9 +27,31 @@ resource "aws_cognito_user_pool" "user_pool" {
     name                = "name"
     attribute_data_type = "String"
     required            = true
-    mutable             = true
+    mutable            = true
     string_attribute_constraints {
       min_length = 1
+      max_length = 256
+    }
+  }
+
+  schema {
+    name                = "email"
+    attribute_data_type = "String"
+    required            = false
+    mutable            = true
+    string_attribute_constraints {
+      min_length = 3
+      max_length = 256
+    }
+  }
+
+  schema {
+    name                = "phone_number"
+    attribute_data_type = "String"
+    required            = false
+    mutable            = true
+    string_attribute_constraints {
+      min_length = 3
       max_length = 256
     }
   }
@@ -36,7 +62,9 @@ resource "aws_cognito_user_pool" "user_pool" {
     ]
   }
 
-  mfa_configuration = "OFF"
+  user_pool_add_ons {
+    advanced_security_mode = "OFF"  # or "AUDIT" or "ENFORCED" based on your needs
+  }
 
 }
 

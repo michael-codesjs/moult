@@ -7,7 +7,8 @@ export const definition: AWS.ServerlessLambdaFunction = {
         cognitoUserPool: {
             pool: "moult-user-pool-${self:custom.stage}",
             trigger: "PostAuthentication",
-            existing: true
+            existing: true,
+            forceDeploy: true
         },
     }],
     iamRoleStatements: [{
@@ -18,5 +19,4 @@ export const definition: AWS.ServerlessLambdaFunction = {
     environment: {
         CENTRAL_EVENT_BUS_NAME: "${ssm:/moult/${self:custom.stage}/infrastructure/io/event-bus/central/name}"
     }
-
 };

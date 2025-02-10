@@ -19,9 +19,9 @@ export const preSignUp: PreSignUpUseCase = async () => {
     // TODO: check if user exists.
 
     return {
-        confirmed: true,
-        emailVerified: true,
-        phoneNumberVerified: true,
+        confirmed: false,
+        emailVerified: false,
+        phoneNumberVerified: false,
         alias_exists: false
     };
 

@@ -8,10 +8,8 @@ export function Banner() {
       const gridY = Math.floor(i / 4);
       const baseX = (gridX * 480) + 160;
       const baseY = (gridY * 270) + 90;
-      const offsetX = (Math.random() * 160 - 80) + (gridX * 40);
-      const offsetY = (Math.random() * 160 - 80) + (gridY * 40);
       const rotation = Math.random() * 40 - 20;
-      return { baseX, baseY, offsetX, offsetY, rotation };
+      return { baseX, baseY, rotation };
     }), 
     []
   );
@@ -22,38 +20,32 @@ export function Banner() {
       const gridY = Math.floor(i / 4);
       const baseX = (gridX * 480) + 320;
       const baseY = (gridY * 270) + 180;
-      const offsetX = (Math.random() * 160 - 80) + (gridX * 40);
-      const offsetY = (Math.random() * 160 - 80) + (gridY * 40);
       const rotation = Math.random() * 40 - 20;
-      return { baseX, baseY, offsetX, offsetY, rotation };
+      return { baseX, baseY, rotation };
     }), 
     []
   );
 
-  const casualShoeIcons = useMemo(() => 
+  const glassesIcons = useMemo(() => 
     Array.from({ length: 16 }).map((_, i) => {
       const gridX = i % 4;
       const gridY = Math.floor(i / 4);
       const baseX = (gridX * 480) + 240;
       const baseY = (gridY * 270) + 135;
-      const offsetX = (Math.random() * 160 - 80) + (gridX * 40);
-      const offsetY = (Math.random() * 160 - 80) + (gridY * 40);
       const rotation = Math.random() * 40 - 20;
-      return { baseX, baseY, offsetX, offsetY, rotation };
+      return { baseX, baseY, rotation };
     }), 
     []
   );
 
-  const giftBagIcons = useMemo(() => 
+  const hatIcons = useMemo(() => 
     Array.from({ length: 16 }).map((_, i) => {
       const gridX = i % 4;
       const gridY = Math.floor(i / 4);
       const baseX = (gridX * 480) + 400;
       const baseY = (gridY * 270) + 225;
-      const offsetX = (Math.random() * 160 - 80) + (gridX * 40);
-      const offsetY = (Math.random() * 160 - 80) + (gridY * 40);
       const rotation = Math.random() * 40 - 20;
-      return { baseX, baseY, offsetX, offsetY, rotation };
+      return { baseX, baseY, rotation };
     }), 
     []
   );
@@ -92,13 +84,13 @@ export function Banner() {
 
         {/* Grid Pattern */}
         <path
-          d="M0 540 H1920 M0 270 H1920 M0 810 H1920"
+          d="M0 540 C480 520, 960 560, 1920 540 M0 270 C480 250, 960 290, 1920 270 M0 810 C480 790, 960 830, 1920 810"
           stroke="#9333EA"
           strokeWidth="0.5"
           opacity="0.1"
         />
         <path
-          d="M480 0 V1080 M960 0 V1080 M1440 0 V1080"
+          d="M480 0 C460 360, 500 720, 480 1080 M960 0 C940 360, 980 720, 960 1080 M1440 0 C1420 360, 1460 720, 1440 1080"
           stroke="#9333EA"
           strokeWidth="0.5"
           opacity="0.1"
@@ -201,7 +193,7 @@ export function Banner() {
         {/* Bird Icons */}
         {birdIcons.map((icon, i) => (
           <g key={`bird-${i}`} 
-            transform={`translate(${icon.baseX + icon.offsetX}, ${icon.baseY + icon.offsetY}) rotate(${icon.rotation}) scale(0.6)`}
+            transform={`translate(${icon.baseX}, ${icon.baseY}) rotate(${icon.rotation}) scale(0.628)`}
           >
             <svg height="64" width="64" version="1.1" viewBox="0 0 64 64">
               <g>
@@ -217,7 +209,7 @@ export function Banner() {
         {/* Shoe Icons */}
         {shoeIcons.map((icon, i) => (
           <g key={`shoe-${i}`} 
-            transform={`translate(${icon.baseX + icon.offsetX}, ${icon.baseY + icon.offsetY}) rotate(${icon.rotation}) scale(0.08)`}
+            transform={`translate(${icon.baseX}, ${icon.baseY}) rotate(${icon.rotation}) scale(0.06)`}
           >
             <svg viewBox="0 0 511.903 511.903">
               <g transform="translate(0 -1)">
@@ -241,41 +233,67 @@ export function Banner() {
           </g>
         ))}
 
-        {/* Casual Shoe Icons */}
-        {casualShoeIcons.map((icon, i) => (
-          <g key={`casual-shoe-${i}`} 
-            transform={`translate(${icon.baseX + icon.offsetX}, ${icon.baseY + icon.offsetY}) rotate(${icon.rotation}) scale(0.06)`}
+        {/* Glasses Icons */}
+        {glassesIcons.map((icon, i) => (
+          <g key={`glasses-${i}`} 
+            transform={`translate(${icon.baseX}, ${icon.baseY}) rotate(${icon.rotation}) scale(0.054)`}
           >
-            <svg viewBox="0 0 100 100">
+            <svg viewBox="0 0 32 32">
               <path
-                d="M67.3,45c0-12.6-3-20.5-15.7-20.5c-12.5,0-15.6,6.6-15.7,16.5H6.2c-3.3,0-5.6,3.8-4.5,7.4c3.1,10.2,10.8,27.2,26.5,27.2
-                c22.4,0,45.7-22.2,69.3-22.2C97.5,53.3,83.4,48.6,67.3,45z M40.3,39.9c0.7,0,16.8-0.9,23.2,2.2c0.5,0.2,0.7,0.8,0.5,1.3
-                c-0.2,0.4-0.5,0.6-0.9,0.6c-0.1,0-0.3,0-0.4-0.1c-6-2.9-22.1-2-22.3-2c-0.6,0-1-0.4-1.1-0.9C39.3,40.4,39.7,40,40.3,39.9z
-                M78.8,53.3c-4.5,0-10.9,3.1-18.4,6.7C50.3,65,38.7,70.6,27.3,70.6c-7.4,0-12.8-5.9-16.1-10.9c-3.6-5.5-5.5-11.3-5.5-12.7
-                c0-0.6,0.4-1,1-1s1,0.4,1,1c0,2,7.3,21.6,19.6,21.6c11,0,22.3-5.5,32.3-10.3c7.6-3.7,14.2-6.9,19.2-6.9c0.6,0,1,0.4,1,1
-                S79.3,53.3,78.8,53.3z M62.8,67.4c-2.3,1.1-4.7,2.2-7,3.3c2.8,2,8.3,4.9,16.8,4.9c11.6,0,26.2-11.8,26-19.3
-                C87.3,56.5,74,62,62.8,67.4z M90.9,61.8c-7,7.7-13.7,9.2-18.1,9.2c-2.9,0-4.7-0.7-4.9-0.7c-0.5-0.2-0.8-0.8-0.6-1.3
-                c0.2-0.5,0.8-0.8,1.3-0.6c0.4,0.2,10.1,3.7,20.7-8c0.4-0.4,1-0.4,1.4-0.1C91.2,60.8,91.3,61.4,90.9,61.8z"
+                d="M3,11v10c0,1.1,0.9,2,2,2h6.2c0.5,0,1-0.2,1.4-0.6l2-2c0.8-0.8,2-0.8,2.8,0l2,2c0.4,0.4,0.9,0.6,1.4,0.6H27
+                c1.1,0,2-0.9,2-2V11c0-1.1-0.9-2-2-2H5C3.9,9,3,9.9,3,11z"
                 stroke="#9333EA"
-                strokeWidth="0.34"
+                strokeWidth="0.176"
                 fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <circle
+                cx="9"
+                cy="16"
+                r="3"
+                stroke="#9333EA"
+                strokeWidth="0.176"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <circle
+                cx="23"
+                cy="16"
+                r="3"
+                stroke="#9333EA"
+                strokeWidth="0.176"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </g>
         ))}
 
-        {/* Gift Bag Icons */}
-        {giftBagIcons.map((icon, i) => (
-          <g key={`gift-bag-${i}`} 
-            transform={`translate(${icon.baseX + icon.offsetX}, ${icon.baseY + icon.offsetY}) rotate(${icon.rotation}) scale(0.03)`}
+        {/* Hat Icons */}
+        {hatIcons.map((icon, i) => (
+          <g key={`hat-${i}`} 
+            transform={`translate(${icon.baseX}, ${icon.baseY}) rotate(${icon.rotation}) scale(0.05)`}
           >
-            <svg viewBox="0 0 1024 1024">
-              <path
-                d="M545.7 254.4H160.2l3-22.6c6-45.7 28.4-87.7 63.1-118.3 35-30.9 80-47.9 126.7-47.9s91.7 17 126.7 47.9c34.7 30.6 57.1 72.6 63.1 118.3l2.9 22.6z m-338.1-40h290.7C479.8 151 420.9 105.5 353 105.5S226.2 151 207.6 214.4z M641 960.2H136.7c-39.6 0-71.8-32.1-71.8-71.8v-674H641v745.8z M834.3 488.3H448.8l3-22.6c6-45.7 28.4-87.7 63.1-118.3 35-30.9 80-47.9 126.7-47.9s91.7 17 126.7 47.9C803 378 825.4 420 831.4 465.7l2.9 22.6z m-338.1-40h290.7c-18.6-63.4-77.5-108.8-145.3-108.8-67.9 0-126.8 45.4-145.4 108.8z M890.8 959.6H392.4c-39.4 0-71.4-32-71.4-71.4v-440h641.3v439.9c-0.1 39.5-32 71.5-71.5 71.5z"
-                stroke="#9333EA"
-                strokeWidth="0.34"
-                fill="none"
-              />
+            <svg viewBox="0 0 512 512">
+              <g>
+                <path
+                  d="M421.056,23.544c-2.227,64.02-81.681,115.542-179.485,115.542
+                  c-97.448,0-176.814-51.2-179.396-114.978l78.564-23.705c0.089,0.081,0.178,0.161,0.267,0.161
+                  c28.593,12.82,63.243,20.238,100.566,20.238c37.322,0,71.883-7.418,100.565-20.238c0.356-0.161,0.802-0.323,1.158-0.484
+                  L421.056,23.544z M483.141,266.966L469.42,488.988C468.622,501.9,456.823,512,442.536,512H40.604
+                  c-14.286,0-26.086-10.1-26.884-23.012L0,266.966c44.626-20.237,39.816-62.004,39.816-109.979V30.882l22.358-6.774l78.564-23.705
+                  c-0.357-0.081-0.624-0.242-0.98-0.404h1.247v0.565c0,7.902,0.534,15.48,1.515,22.979c0,0.08,0.089,0.241,0.089,0.322
+                  c8.285,64.021,49.437,112.64,98.962,112.64s90.678-48.619,98.962-112.64c0-0.081,0.089-0.242,0.089-0.322
+                  c0.98-7.499,1.514-15.078,1.514-22.979V0h1.336c-0.089,0-0.089,0.081-0.178,0.081l77.762,23.464l22.269,6.692v126.75
+                  C443.324,204.962,438.515,246.728,483.141,266.966z"
+                  stroke="#9333EA"
+                  strokeWidth="2.34"
+                  fill="none"
+                />
+              </g>
             </svg>
           </g>
         ))}

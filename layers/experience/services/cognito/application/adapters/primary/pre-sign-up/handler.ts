@@ -4,7 +4,6 @@ import { PreSignUpTriggerHandler } from "aws-lambda";
 
 /** 'preSignUp' lambda function handler. */
 const handler: PreSignUpTriggerHandler = async event => {
-
     const { email, phone_number } = event.request.userAttributes;
     
     const preSignUpParams: { email?: string, phoneNumber?: string } = {};
@@ -14,13 +13,11 @@ const handler: PreSignUpTriggerHandler = async event => {
 
     const { confirmed, emailVerified, phoneNumberVerified } = await preSignUp(preSignUpParams);
 
-    event.response.autoConfirmUser = confirmed;
-
-    if (email) event.response.autoVerifyEmail = emailVerified;
-    if (phone_number) event.response.autoVerifyPhone = phoneNumberVerified;
+    event.response.autoConfirmUser = true;
+    event.response.autoVerifyEmail = emailVerified;
+    event.response.autoVerifyPhone = phoneNumberVerified;
 
     return event;
-
 };
 
 /** 'preSignUp' handler wrapped in required middleware. */

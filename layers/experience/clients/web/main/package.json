@@ -10,15 +10,12 @@
     "lint:fix": "next lint --fix"
   },
   "dependencies": {
-    "@aws-amplify/adapter-nextjs": "^1.4.0",
-    "@radix-ui/react-label": "^2.1.1",
-    "@radix-ui/react-slot": "^1.1.1",
-    "aws-amplify": "^6.12.0",
+    "aws-amplify": "^6.0.27",
+    "@aws-amplify/adapter-nextjs": "^1.4.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.474.0",
     "next": "15.1.4",
-    "next-auth": "^5.0.0-beta.25",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "recoil": "^0.7.7",

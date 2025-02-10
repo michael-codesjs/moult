@@ -16,6 +16,18 @@ const serverlessConfiguration: AWS.Service = {
     apiGateway: {
       restApiId: "${ssm:/moult/${self:custom.stage}/infrastructure/io/central/api/id}",
       restApiRootResourceId: "${ssm:/moult/${self:custom.stage}/infrastructure/io/central/api/root-resource-id}"
+    },
+
+    iam: {
+      role: {
+        statements: [{
+          Effect: "Allow",
+          Action: ["ssm:GetParameter", "ssm:GetParameters"],
+          Resource: [
+            "arn:aws:ssm:${self:custom.region}:*:parameter/moult/${self:custom.stage}/*"
+          ]
+        }]
+      }
     }
 
   },

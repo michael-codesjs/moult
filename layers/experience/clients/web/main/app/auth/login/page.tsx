@@ -8,93 +8,60 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { CountrySelector } from "@/components/ui/country-selector"
 import { countries } from "@/components/ui/country-selector/countries.json"
-import { useSignUp } from "@/hooks/useSignUp"
-import { Modal } from "@/components/ui/modal"
+import { useAuth } from "@/hooks/useAuth"
 import { EyeIcon, EyeOffIcon } from "@/components/ui/icons"
 import { Banner } from "@/components/ui/banner"
 import Link from "next/link"
+import { ArrowRight } from "lucide-react"
 
 type ContactMethod = "phone" | "email"
 
-interface SignUpFormData {
-  fullName: string
+interface SignInFormData {
   email: string
   phone: string
   password: string
 }
 
-export default function CreateAccount() {
+export default function Login() {
   const [contactMethod, setContactMethod] = useState<ContactMethod>("phone")
-  const [selectedCountry, setSelectedCountry] = useState(countries[0])
-  const [showConfirmation, setShowConfirmation] = useState(false)
-  const [confirmationCode, setConfirmationCode] = useState("")
+  const [selectedCountry, setSelectedCountry] = useState(countries.find(country => country.code === 'US') || countries[0])
   const [showPassword, setShowPassword] = useState(false)
-  const { signUpUser, confirmUser, loading, error } = useSignUp()
+  const { signInUser, loading, error } = useAuth()
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
-  } = useForm<SignUpFormData>({
+  } = useForm<SignInFormData>({
     defaultValues: {
-      fullName: "",
       email: "",
       phone: "",
       password: "",
     }
   })
 
-  const onSubmit = async (data: SignUpFormData) => {
+  const onSubmit = async (data: SignInFormData) => {
     try {
-      await signUpUser({
-        fullName: data.fullName,
-        email: contactMethod === "email" ? data.email : undefined,
-        phone: contactMethod === "phone" ? `${selectedCountry.dialCode}${data.phone}` : undefined,
+      const username = contactMethod === "email" ? data.email : `${selectedCountry.dialCode}${data.phone}`
+      await signInUser({
+        username,
         password: data.password,
       })
-      setShowConfirmation(true)
     } catch (err) {
-      console.error("Sign up error:", err)
+      console.error("Sign in error:", err)
     }
   }
 
-  const handleConfirmation = async (e: React.FormEvent) => {
-    e.preventDefault()
-    const formData = watch()
-    const username = contactMethod === "email" ? formData.email : `${selectedCountry.dialCode}${formData.phone}`
-    await confirmUser(username, confirmationCode)
-  }
-
   return (
-    <div className="relative min-h-screen">
-      <Banner />
-      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center py-10 px-4">
+      <div className="flex flex-col items-center justify-center w-full">
         <div className="text-center space-y-2 mb-8">
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">Create an account</h1>
-          <div> 
-          </div>
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">Welcome back</h1>
           <p className="text-base sm:text-md md:text-lg text-slate-500 max-w-md">
-            Already part of the community? <Link href="/login" className="text-blue-600 hover:underline">Join us</Link>
-            <br />
-            {error && <span className="text-red-500">{error.message}</span>}
+            Not part of the community? <Link href="/auth/register" className="text-blue-600 hover:underline inline-flex items-center justify-center"><span>Create an account</span> <ArrowRight className="inline-block w-4 h-4 ml-1" /></Link>
           </p>
         </div>
         <div className="w-full max-w-md bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8">
           <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-6">
-            <div className="flex flex-col space-y-4 w-full">
-              <Label htmlFor="fullName">Full Name:</Label>
-              <Input
-                id="fullName"
-                {...register("fullName", { required: "Full name is required" })}
-                placeholder="Enter your full name here."
-                className="h-12"
-              />
-              {errors.fullName && (
-                <span className="text-sm text-red-500">{errors.fullName.message}</span>
-              )}
-            </div>
-
             {contactMethod === "phone" ? (
               <div className="flex flex-col space-y-4 w-full">
                 <div className="flex items-center justify-between">
@@ -161,19 +128,20 @@ export default function CreateAccount() {
             )}
 
             <div className="flex flex-col space-y-4 w-full">
-              <Label htmlFor="password">Password:</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="password">Password:</Label>
+                <Link href="/forgot-password" className="text-sm text-blue-600 hover:underline">
+                  Forgot password?
+                </Link>
+              </div>
               <div className="relative">
                 <Input
                   type={showPassword ? "text" : "password"}
                   id="password"
                   {...register("password", {
                     required: "Password is required",
-                    minLength: {
-                      value: 8,
-                      message: "Password must be at least 8 characters"
-                    }
                   })}
-                  placeholder="Create a strong password"
+                  placeholder="Enter your password"
                   className="h-12 pr-12"
                 />
                 <button
@@ -191,15 +159,15 @@ export default function CreateAccount() {
 
             <Button
               type="submit"
-              disabled={loading}
+              loading={loading}
               className="w-full h-14 text-lg bg-[#9333EA] hover:bg-[#7928CA] hover:shadow-lg rounded-full"
             >
-              {loading ? "Creating Account..." : "Create My Account"}
+              Sign In
             </Button>
           </form>
         </div>
         <div className="mt-8 text-center space-y-4">
-          <p className="text-slate-500">or sign-up using</p>
+          <p className="text-slate-500">or sign in using</p>
           <div className="flex justify-center gap-4">
             <button className="p-3 bg-white rounded-full border hover:bg-gray-50 transition-colors">
               <Image
@@ -220,6 +188,5 @@ export default function CreateAccount() {
           </div>
         </div>
       </div>
-    </div>
   )
-}
+} 

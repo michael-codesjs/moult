@@ -111,7 +111,8 @@ export function CountrySelector({ selectedCountry, onSelect, className }: Countr
       aria-haspopup="listbox"
       className={cn(
         "flex items-center justify-between h-12 space-x-2 w-28 px-3 border rounded-md",
-        "bg-background hover:bg-accent transition-colors focus:outline-none focus:ring-2 focus:ring-primary",
+        "bg-background hover:bg-accent transition-colors",
+        "focus:outline-none focus:ring-1 focus:ring-[#9333EA] focus:border-[#9333EA]",
         className
       )}
     >

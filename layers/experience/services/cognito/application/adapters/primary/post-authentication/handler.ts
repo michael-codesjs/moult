@@ -4,14 +4,25 @@ import { PostAuthenticationTriggerHandler } from "aws-lambda";
 
 /** 'postAuthentication' lambda function handler. */
 const handler: PostAuthenticationTriggerHandler = async event => {
+    try {
+        const isNewDevice = event.request.newDeviceUsed || false;
+        const { sub } = event.request.userAttributes;
 
-    const isNewDevice = event.request.newDeviceUsed;
-    const { sub } = event.request.userAttributes;
-    
-    await postAuthentication({ id: sub, isNewDevice });
+        if (!sub) {
+            console.error('Missing user sub (id) in user attributes');
+            return event;
+        }
 
-    return event;
+        await postAuthentication({ 
+            id: sub, 
+            isNewDevice 
+        });
 
+        return event;
+    } catch (error) {
+        console.error('Post authentication error:', error);
+        return event;
+    }
 };
 
 /** 'postAuthentication' handler wrapped in required middleware. */
