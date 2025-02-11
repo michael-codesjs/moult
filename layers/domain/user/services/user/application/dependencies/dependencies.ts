@@ -1,8 +1,7 @@
 export const dependencies = Object.freeze({
-    UserUseCases: Symbol.for("UserUseCases"),
-    EventsUseCases: Symbol.for("EventsUseCases"),
-    UserRepository: Symbol.for("UserRepository"),
-    EventsRepositrory: Symbol.for("EventsRepositrory"),
-    UserDatabaseAdapter: Symbol.for("UserDatabaseAdapter"),
-    EventsAdapter: Symbol.for("EventsAdapter")
+    EventStoreAdapter: Symbol.for('EventStoreAdapter'),
+    EventBusAdapter: Symbol.for('EventBusAdapter'),
+    EventsRepositrory: Symbol.for('EventsRepositrory'),
+    UserRepository: Symbol.for('UserRepository'),
+    UserUseCase: Symbol.for('UserUseCase')
 });

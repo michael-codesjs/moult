@@ -1,10 +1,11 @@
 "use client"
 
 import { useState } from "react"
-import { Sparkles, TrendingUp, Star, Brain, Clock, Heart, MessageCircle, Share2, Bookmark, Play, Users, Zap, ShoppingBag, Plus, ChevronRight, Box, Glasses, X, Search, SlidersHorizontal } from "lucide-react"
+import { Sparkles, TrendingUp, Star, Brain, Clock, Heart, MessageCircle, Share2, Bookmark, Play, Users, Zap, ShoppingBag, Plus, ChevronRight, Box, Glasses, X, SlidersHorizontal } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { Drawer } from "@/components/ui/drawer"
+import { Search } from "@/components/ui/search"
 
 // Custom Hanger Icon SVG Component
 function HangerIcon({ className = "" }: { className?: string }) {
@@ -328,66 +329,7 @@ export default function AppPage() {
       {/* Search Bar */}
       <div className="sticky top-0 z-30 bg-white/80 backdrop-blur-[2.4px] border-b">
         <div className="max-w-3xl mx-auto px-4 py-3">
-          <div className="relative">
-            <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-              <Search className="h-5 w-5 text-gray-600" />
-            </div>
-            <div className="absolute inset-y-0 right-3 flex items-center">
-              <button className="p-2 hover:bg-gray-200/50 rounded-full transition-colors">
-                <SlidersHorizontal className="h-5 w-5 text-gray-600" />
-              </button>
-            </div>
-            <input
-              type="text"
-              placeholder="Search..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onFocus={() => setIsSearchFocused(true)}
-              onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
-              className="w-full pl-11 pr-12 h-11 text-sm bg-gray-100/80 backdrop-blur-[2.4px] rounded-full focus:outline-none focus:bg-white/80 focus:ring-1 focus:ring-purple-500 transition-all"
-            />
-
-            {/* Search Suggestions Popover */}
-            {isSearchFocused && (
-              <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-                <div className="p-2">
-                  {/* Recent Searches */}
-                  <div className="px-3 py-2">
-                    <h3 className="text-xs font-medium text-gray-500 mb-2">Recent Searches</h3>
-                    <div className="space-y-2">
-                      <button className="flex items-center gap-3 w-full p-2 hover:bg-gray-50 rounded-lg transition-colors">
-                        <Clock className="w-4 h-4 text-gray-400" />
-                        <span className="text-sm">Digital Fashion Week</span>
-                      </button>
-                      <button className="flex items-center gap-3 w-full p-2 hover:bg-gray-50 rounded-lg transition-colors">
-                        <Clock className="w-4 h-4 text-gray-400" />
-                        <span className="text-sm">AR Accessories</span>
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Trending Searches */}
-                  <div className="px-3 py-2 border-t">
-                    <h3 className="text-xs font-medium text-gray-500 mb-2">Trending</h3>
-                    <div className="space-y-2">
-                      <button className="flex items-center gap-3 w-full p-2 hover:bg-gray-50 rounded-lg transition-colors">
-                        <TrendingUp className="w-4 h-4 text-pink-500" />
-                        <span className="text-sm">Metaverse Fashion</span>
-                      </button>
-                      <button className="flex items-center gap-3 w-full p-2 hover:bg-gray-50 rounded-lg transition-colors">
-                        <TrendingUp className="w-4 h-4 text-pink-500" />
-                        <span className="text-sm">Virtual Try-On</span>
-                      </button>
-                      <button className="flex items-center gap-3 w-full p-2 hover:bg-gray-50 rounded-lg transition-colors">
-                        <TrendingUp className="w-4 h-4 text-pink-500" />
-                        <span className="text-sm">Digital Couture</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
+          <Search />
         </div>
       </div>
 

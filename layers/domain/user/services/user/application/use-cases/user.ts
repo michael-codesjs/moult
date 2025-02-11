@@ -1,80 +1,91 @@
 import { injectable, inject } from "inversify";
-import { UserRepository, UserUseCase } from "@interfaces";
+import { UserAggregateRepository, UserUseCase } from "@interfaces";
 import { dependencies } from "@dependencies";
-import { UserDTO } from "@typings";
-import { User } from "@domain/entities";
+import { UserDTO } from "@domain/models";
+import { User as UserEntity } from "@domain/aggregate";
 import { UsernameAttributeInUseError } from "../errors";
+import { EventsRepositrory } from "@repositories/events";
 
 type CreateUserParams = {
     id?: string,
-    name: string,
+    username?: string,
     email?: string,
     phoneNumber?: string,
-    dateOfBirth?: Date,
+    password: string,
 };
 
 type UpdateUserParams = {
     id: string,
-    name?: string,
+    username?: string,
     email?: string,
-    phoneNumber?: string,
-    dateOfBirth?: Date,
-    gender: "MALE" | "FEMALE"
+    phoneNumber?: string
 };
 
-@injectable() export class Users implements UserUseCase {
+@injectable() export class User implements UserUseCase {
 
-    @inject(dependencies.UserRepository) private repository: UserRepository;
+    @inject(dependencies.UserRepository) private repository: UserAggregateRepository;
+    @inject(dependencies.EventsRepositrory) private events: EventsRepositrory
 
     /** Throws a 'UsernameAttributeInUseError' if a user other than the specified current user exists with the supplied username attributes. */
-    private async failIfUserWithEitherUsernameAttributesExists(params: { currentUser: string, email?: string, phoneNumber?: string }) {
+    private async failIfUserWithEitherUsernameAttributesExists(params: { currentUser: string, email?: string, phoneNumber?: string, username?: string }) {
 
-         if("email" in params) {
-            const user = await this.repository.getByEmail(params.email);
-            if(!user) return;
-            if(user && user.toDTO().id !== params.currentUser) throw new UsernameAttributeInUseError("email");
-        }
+        //  if("email" in params) {
+        //     const user = await this.repository.getByEmail(params.email);
+        //     if(!user) return;
+        //     if(user && user.toDTO().id !== params.currentUser) throw new UsernameAttributeInUseError("email");
+        // }
 
-        if("phoneNumber" in params) {
-            const user = await this.repository.getByPhoneNumber(params.phoneNumber);
-            if(!user) return;
-            if(user && user.toDTO().id !== params.currentUser) throw new UsernameAttributeInUseError("phone number");
-        }
+        // if("phoneNumber" in params) {
+        //     const user = await this.repository.getByPhoneNumber(params.phoneNumber);
+        //     if(!user) return;
+        //     if(user && user.toDTO().id !== params.currentUser) throw new UsernameAttributeInUseError("phone number");
+        // }
+
+        // if("username" in params) {
+        //     const user = await this.repository.getByUsername(params.username);
+        //     if(!user) return;
+        //     if(user && user.toDTO().id !== params.currentUser) throw new UsernameAttributeInUseError("phone number");
+        // }
 
     }
 
     async createUser(params: CreateUserParams): Promise<UserDTO> {
         
-        this.failIfUserWithEitherUsernameAttributesExists({ currentUser: params.id, ...params });
-        const user = User.create(params);
-        await this.repository.put(user);
-        
-        return user.toDTO();
+        // this.failIfUserWithEitherUsernameAttributesExists({ currentUser: params.id, ...params });
+        const user_credential = UserEntity.create(params);
+        const events = user_credential.getDomainEvents()
+
+        await this.events.write(events)
+        await this.events.publish(events)
+
+        return user_credential.toDTO()
     
     }
 
     async getUser(id: string): Promise<UserDTO> {
-        const user = await this.repository.get(id);
-        return user.toDTO();
+        const userCredentials = await this.repository.get(id)
+        return userCredentials.toDTO();
     }
 
     async updateUser(params: UpdateUserParams): Promise<UserDTO> {
 
-        const { id, ...rest } = params;
-        let user = await this.repository.get(id);
+        // const { id, ...rest } = params;
+        // let userCredentials = await this.repository.get(id);
 
-        this.failIfUserWithEitherUsernameAttributesExists({ currentUser: id, ...params });
+        // this.failIfUserWithEitherUsernameAttributesExists({ currentUser: id, ...params });
         
-        user.update(rest); // set attributes to be updated.
+        // userCredentials.update(rest); // set attributes to be updated.
 
-        const postUpdateUser = await this.repository.update(user); // update persited estate.
+        // const postUpdateUser = await this.repository.update(userCredentials); // update persited estate.
 
-        return postUpdateUser.toDTO();
+        // return postUpdateUser.toDTO();
+        return {} as any
 
     }
 
     async deleteUser(id: string): Promise<void> {
-        await this.repository.delete(id);
+        // await this.repository.delete(id);
+        return {} as any
     }
 
 

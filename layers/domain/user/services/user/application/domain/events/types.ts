@@ -1,60 +1,24 @@
 import { DomainCommand, DomainEvent } from "@shared";
-import { UserDTO } from "@typings";
+import { UserDTO } from "@domain/models";
 
 export type GetUserDomainCommandPayload = { id: string };
-export type GET_USER_DOMAIN_COMMAND = DomainCommand<string, "GET_USER", GetUserDomainCommandPayload, "1.0.0">;
+export type GET_USER_DOMAIN_COMMAND = DomainCommand<string, "GET_USER", GetUserDomainCommandPayload>;
 
-export type CreateUserDomainCommandPayload = {
-  id?: string,
-  name: string,
-  email?: string,
-  phoneNumber?: string,
-  gender?: "MALE" | "FEMALE",
-  dateOfBirth?: Date,
-};
+export type CreateUserDomainCommandPayload = { id?: string, username?: string, email?: string, phoneNumber?: string, password: string };
+export type CREATE_USER_DOMAIN_COMMAND = DomainCommand<string, "CREATE_ESTATE", CreateUserDomainCommandPayload>;
 
-export type CREATE_USER_DOMAIN_COMMAND = DomainCommand<
-  string,
-  "CREATE_ESTATE",
-  CreateUserDomainCommandPayload,
-  "1.0.0"
->;
-
-export type UpdateUserDomainCommandPayload = {
-  id: string,
-  name?: string,
-  email?: string,
-  phoneNumber?: string,
-  dateOfBirth?: Date,
-  gender?: "MALE" | "FEMALE"
-};
-
-export type UPDATE_USER_DOMAIN_COMMAND = DomainCommand<
-  string,
-  "UPDATE_ESTATE",
-  UpdateUserDomainCommandPayload,
-  "1.0.0"
->;
+export type UpdateUserDomainCommandPayload = { id: string, username?: string, email?: string, phoneNumber?: string };
+export type UPDATE_USER_DOMAIN_COMMAND = DomainCommand<string, "UPDATE_USER", UpdateUserDomainCommandPayload>;
 
 export type DeleteUserDomainCommandPayload = { id: string };
+export type DELETE_USER_DOMAIN_COMMAND = DomainCommand<string, "DELETE_USER", DeleteUserDomainCommandPayload>;
 
-export type DELETE_USER_DOMAIN_COMMAND = DomainCommand<
-  string,
-  "DELETE_USER",
-  DeleteUserDomainCommandPayload,
-  "1.0.0"
->;
+export type USER_CREATED_DOMAIN_EVENT = DomainEvent<string, "USER_CREATED", UserDTO>;
+export type USER_UPDATED_DOMAIN_EVENT = DomainEvent<string, "USER_UPDATED", Partial<UserDTO>>;
+export type USER_DELETE_DOMAIN_EVENT = DomainEvent<string, "USER_DELETED", {}>;
+export type USER_SNAPSHOT_DOMAIN_EVENT = DomainEvent<string, "USER_SNAPSHOT", UserDTO>;
 
-export type USER_CREATED_DOMAIN_EVENT = DomainEvent<
-  string,
-  "USER_CREATED",
-  UserDTO,
-  "1.0.0"
->;
-
-export type USER_UPDATED_DOMAIN_EVENT = DomainEvent<
-  string,
-  "USER_UPDATED",
-  UserDTO,
-  "1.0.0"
->;
+export type USER_DOMAIN_EVENTS =
+    USER_CREATED_DOMAIN_EVENT |
+    USER_UPDATED_DOMAIN_EVENT |
+    USER_SNAPSHOT_DOMAIN_EVENT 

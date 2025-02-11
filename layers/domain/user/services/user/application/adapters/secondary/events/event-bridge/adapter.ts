@@ -1,16 +1,17 @@
 
 import { EventBridgeClient, PutEventsCommand } from "@aws-sdk/client-eventbridge";
-import { EventsAdapter } from "@interfaces";
-import { configureEnviromentVariables, DomainEvent } from "@shared";
+import { USER_DOMAIN_EVENTS } from "@domain/events";
+import { EventBusAdapter } from "@interfaces";
+import { configureEnviromentVariables } from "@shared";
 import { injectable } from "inversify";
 
 const { REGION, CENTRAL_EVENT_BUS_NAME } = configureEnviromentVariables();
 
-@injectable() export class EventBridgeEventsAdapter implements EventsAdapter {
+@injectable() export class EventBridgeEventsAdapter implements EventBusAdapter {
 
   client = new EventBridgeClient({ region: REGION || "eu-central-1" });
 
-  async publish(events: Array<DomainEvent>): Promise<void> {
+  async publish(events: Array<USER_DOMAIN_EVENTS>): Promise<void> {
 
     const putEventsCommand: PutEventsCommand = new PutEventsCommand({
       Entries: events.map(

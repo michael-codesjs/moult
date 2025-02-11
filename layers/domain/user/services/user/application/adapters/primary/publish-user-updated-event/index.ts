@@ -1,1 +1,0 @@
-export { definition as publishUserUpdatedEvent } from "./definition";

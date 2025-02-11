@@ -1,21 +1,18 @@
-import { UserDTO } from "@typings/user"
+import { UserDTO } from "@domain/models"
 
 type CreateUserParams = {
     id?: string,
-    name: string,
+    username?: string,
     email?: string,
     phoneNumber?: string,
-    gender?: "MALE" | "FEMALE",
-    dateOfBirth?: Date
+    password: string
 };
 
 type UpdateUserParams = {
     id: string,
-    name?: string,
+    username?: string,
     email?: string,
-    phoneNumber?: string,
-    gender?: "MALE" | "FEMALE",
-    dateOfBirth?: Date
+    phoneNumber?: string
 };
 
 export interface UserUseCase {

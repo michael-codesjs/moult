@@ -12,14 +12,14 @@ export class ApiGwDomainCommandAdapter implements UserDomainCommandAdapter {
             source: "moult.services.cognito.confirmSignUp",
             name: "CREATE_USER",
             payload: params,
-            date: new Date(),
-            version: "1.0.0"
         };
 
-        await apiGatewaySignedFetch(CENTRAL_API_URL + "/user", {
+        const result = await apiGatewaySignedFetch(CENTRAL_API_URL + "/user/user", {
             method: "POST",
             body: JSON.stringify(createUserDomainCommand),
         });
+
+        console.log('result', result);
 
     }
 
@@ -29,8 +29,6 @@ export class ApiGwDomainCommandAdapter implements UserDomainCommandAdapter {
             source: "moult.services.cognito.preSignUp",
             name: "CHECK_IF_USER_WITH_USERNAME_ATTRIBUTES_EXISTS",
             payload: params,
-            date: new Date(),
-            version: "1.0.0"
         };
 
         const result = await apiGatewaySignedFetch(CENTRAL_API_URL + "/user/exists-with-username-attributes", {

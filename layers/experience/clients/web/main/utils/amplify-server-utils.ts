@@ -1,36 +1,38 @@
-import { resourcesConfig } from '@/app/amplify.config';
-import { createServerRunner, NextServer } from '@aws-amplify/adapter-nextjs';
-import { fetchAuthSession, getCurrentUser } from 'aws-amplify/auth/server';
+import { NextServer, createServerRunner } from "@aws-amplify/adapter-nextjs";
+import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth/server";
 
 export const { runWithAmplifyServerContext } = createServerRunner({
-    config: resourcesConfig
+  config: {
+    Auth: {
+        Cognito: {
+            userPoolId: process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID!,
+            userPoolClientId: process.env.NEXT_PUBLIC_COGNITO_CLIENT_ID!,
+        }
+    },
+  },
 });
 
-export const authenticatedUser = async (context: NextServer.Context) => {
-    try {
-        return await runWithAmplifyServerContext({
-            nextServerContext: context,
-            operation: async (contextSpec) => {
-            //     try {
-            //         const session = await fetchAuthSession(contextSpec, { });
-            //         console.log('session', session);
-            //         if (!session.tokens) return null;
+export async function authenticatedUser(context: NextServer.Context) {
+  return await runWithAmplifyServerContext({
+    nextServerContext: context,
+    operation: async (contextSpec) => {
+      try {
+        const session = await fetchAuthSession(contextSpec);
+        if (!session.tokens) {
+          return;
+        }
+        const user = {
+          ...(await getCurrentUser(contextSpec)),
+          isAdmin: false,
+        };
+        const groups = session.tokens.accessToken.payload["cognito:groups"];
+        // @ts-ignore
+        user.isAdmin = Boolean(groups && groups.includes("Admins"));
 
-            //     const currentUser = await getCurrentUser(contextSpec);
-            //     console.log('currentUser', currentUser);
-            //     return {
-            //             ...currentUser,
-            //             isAdmin: false
-            //         };
-            //     } catch (error) {
-            //         console.error('OPuuuu error:', error);
-            //         return null;
-            //     }
-            // }
-            }
-        });
-    } catch (error) {
-        console.error('Authentication error:', error);
-        return null;
-    }
+        return user;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
 }

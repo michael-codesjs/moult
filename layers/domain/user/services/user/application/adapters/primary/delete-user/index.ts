@@ -1,1 +1,0 @@
-export { definition as deleteUser } from "./definition";

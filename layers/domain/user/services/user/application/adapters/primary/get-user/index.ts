@@ -1,1 +1,0 @@
-export { definition as getUser } from "./definition";

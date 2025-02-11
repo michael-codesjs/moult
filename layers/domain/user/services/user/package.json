@@ -1,16 +1,18 @@
 {
-  "name": "@moult/user",
+  "name": "@moult/user-service",
   "version": "0.9.0",
-  "description": "user service/context in the user(supporting) domain.",
+  "description": "user service",
   "main": "serverless.ts",
   "repository": "https://github.com/michael-codesjs/moult",
   "author": "Michael Phiri(github@michael-codesjs)",
   "license": "MIT",
   "scripts": {
-    "deploy": "cd infrastructure && terraform init && terraform apply -auto-approve && cd .. && sls deploy",
+    "deploy": "ts-node scripts/deploy-infrastructure.ts",
+    "deploy:application": "sls deploy",
     "destroy": "sls remove && cd infrastructure && terraform init && terraform destroy -auto-approve",
     "generate-env": "ts-node scripts/generate-env.ts",
-    "test": "jest --silent"
+    "test": "jest --silent",
+    "test:silent": "ts-node scripts/generate-env.ts && jest --silent"
   },
   "dependencies": {
     "@moult/data-infrastructure": "*",
@@ -22,7 +24,8 @@
     "@middy/input-output-logger": "^4.2.6",
     "aws-sigv4-fetch": "^1.3.0",
     "correlation-id": "^5.0.0",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "dynamodb-onetable": "^2.7.5"
   },
   "devDependencies": {
     "@aws-sdk/client-eventbridge": "^3.279.0",
@@ -33,6 +36,8 @@
     "@types/node": "^14.14.25",
     "@types/ora": "^3.2.0",
     "@types/validator": "^13.7.14",
+    "@types/minimist": "^1.2.2",
+    "@types/chance": "^1.1.3",
     "chalk": "2",
     "esbuild": "^0.14.11",
     "jest": "^29.3.1",
@@ -42,7 +47,8 @@
     "serverless-iam-roles-per-function": "^3.2.0",
     "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1",
-    "typescript": "^4.9.5"
+    "typescript": "^4.9.5",
+    "minimist": "^1.2.8"
   },
   "resolutions": {
     "uuid": "9.0.0"
