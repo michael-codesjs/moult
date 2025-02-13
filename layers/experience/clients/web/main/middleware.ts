@@ -22,7 +22,7 @@ export async function middleware(request: NextRequest) {
 
   // Public paths are accessible to everyone
   if (isPublicPath) {
-    if(user && pathname === '/') return NextResponse.redirect(new URL('/app', request.nextUrl.origin))
+    if(user) return NextResponse.redirect(new URL('/app', request.nextUrl.origin))
     return response;
   }
 

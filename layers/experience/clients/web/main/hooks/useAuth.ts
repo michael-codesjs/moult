@@ -163,7 +163,7 @@ export function useAuth(): UseAuthReturn {
         console.log('confirm_sign_in_output', confirm_sign_in_output);
         if (confirm_sign_in_output.isSignedIn) {
             toast('Account verified and signed in successfully!', { status: 'success' });
-            router.push('/');
+            router.push('/app');
         } else if(confirm_sign_in_output.nextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE') {
             toast('Invalid code. Please try again.', { status: 'error' });
         } else {
