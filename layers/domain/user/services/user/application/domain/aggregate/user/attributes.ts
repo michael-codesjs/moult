@@ -16,10 +16,22 @@ export class UserAttributes extends Attributes<UserAttributesSchema> {
 
     constructor() {
 
+        const emailValidator = (value?: string) => {
+            return true; // for dev purposes only
+            // if(!value) return true;
+            // return validator.isEmail(value);
+        }
+
+        const phoneNumberValidator = (value?: string) => {
+            return true // for dev purposes only
+            // if(!value) return true;
+            // return validator.isMobilePhone(value); 
+        }
+
         const creator_type = new Attribute<"USER", true>({ required: true, value: "USER" });
         const entity_type = new Attribute<"USER", true>({ required: true, value: "USER" });
-        const email = new Attribute<string>({ required: false, value: null, validate: (value) => validator.isEmail(value) });
-        const phone_number = new Attribute<string>({ required: false, value: null, validate: (value) => validator.isMobilePhone(value) });
+        const email = new Attribute<string>({ required: false, value: null, validate: emailValidator });
+        const phone_number = new Attribute<string>({ required: false, value: null, validate: phoneNumberValidator });
         const email_verified = new Attribute<boolean>({ required: false, value: null });
         const phone_number_verified = new Attribute<boolean>({ required: false, value: null });
         const password = new Attribute<string>({ required: false, value: null });

@@ -17,7 +17,12 @@ const serverlessConfiguration: AWS.Service = {
     apiGateway: {
       restApiId: "${ssm:/moult/${self:custom.stage}/infrastructure/io/central/api/id}",
       restApiRootResourceId: "${ssm:/moult/${self:custom.stage}/infrastructure/io/central/api/root-resource-id}"
-    }
+    },
+
+    environment: {
+      CENTRAL_EVENT_BUS_ARN: "${ssm:/moult/${self:custom.stage}/infrastructure/io/event-bus/central/arn}",
+      CENTRAL_EVENT_BUS_NAME: "${ssm:/moult/${self:custom.stage}/infrastructure/io/event-bus/central/name}"
+    },
 
   },
 

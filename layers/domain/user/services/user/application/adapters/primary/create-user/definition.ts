@@ -21,6 +21,11 @@ export const definition: AWS.ServerlessLambdaFunction = {
       Action: ["dynamodb:PutItem"],
       Resource: "${ssm:/moult/${self:custom.stage}/domain/authentication/service/user/infrastructure/storage/moult-user-event-store-table/arn}"
     },
+    {
+      Effect: "Allow",
+      Action: ["events:PutEvents"],
+      Resource: "${ssm:/moult/${self:custom.stage}/infrastructure/io/event-bus/central/arn}"
+    }
   ],
   environment: {
     USER_EVENTS_STORE_DYNAMODB_TABLE_NAME: "${ssm:/moult/${self:custom.stage}/domain/authentication/service/user/infrastructure/storage/moult-user-event-store-table/name}"

@@ -27,7 +27,7 @@ export class Attribute<T = any, I = false> {
 
 	/** checks if an attribute can be written to the table */
 	isPutable(): boolean {
-		const canPut = (this.required ? this.nullish() : true) && this.validate(this.value);
+		const canPut = (this.required ? !this.nullish() : true) && this.validate(this.value);
 		return canPut;
 	}
 

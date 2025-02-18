@@ -4,7 +4,7 @@ import { Dynamo } from 'dynamodb-onetable/Dynamo';
 import { configureEnviromentVariables } from "@shared";
 
 const {
-  USER_DYNAMODB_TABLE_NAME,
+  USER_EVENTS_STORE_DYNAMODB_TABLE_NAME,
   REGION
 } = configureEnviromentVariables();
 
@@ -15,7 +15,7 @@ const client = new Dynamo({
 });
 
 export const table = new Table({
-  name: USER_DYNAMODB_TABLE_NAME,
+  name: USER_EVENTS_STORE_DYNAMODB_TABLE_NAME,
   client,
   schema: {
     format: 'onetable:1.1.0',

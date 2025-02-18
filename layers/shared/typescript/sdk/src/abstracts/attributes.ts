@@ -20,9 +20,9 @@ export class Attributes<T extends CommonAttributesPlusOthers> extends Publisher 
 	/** Instaciates common attributes -> new Attributes */
 	protected defineICommon() {
 
-		this.Attributes.entityType = new Attribute<T["entityType"]["type"], true>({
+		this.Attributes.entity_type = new Attribute<T["entity_type"]["type"], true>({
 			required: true,
-			value: null as T["entityType"]["type"],
+			value: null as T["entity_type"]["type"],
 			immutable: true
 		});
 
@@ -40,7 +40,7 @@ export class Attributes<T extends CommonAttributesPlusOthers> extends Publisher 
 			immutable: true
 		});
 
-		this.Attributes.creatorType = new Attribute<T["creatorType"]["type"], true>({
+		this.Attributes.creator_type = new Attribute<T["creator_type"]["type"], true>({
 			required: true,
 			value: null,
 			immutable: true
@@ -76,25 +76,25 @@ export class Attributes<T extends CommonAttributesPlusOthers> extends Publisher 
 	/** set values of attributes including immutable values. */
 	parse(attributes: Partial<EntriesFromAttributesSchema<T>>) {
 
-		const { entityType, discontinued, created, id, creator, modified, creatorType, ...rest } = attributes;
+		const { entity_type, discontinued, created, id, creator, modified, creator_type, ...rest } = attributes;
 
 		const _created = created || new Date();
 		const _modified = modified ? new Date(modified) : null;
 
 		// some special cases were we set things manually
-		this.Attributes.entityType.set(entityType, _modified);
+		this.Attributes.entity_type.set(entity_type, _modified);
 		this.Attributes.id.set(id || ulid(), _modified); // genereate new ulid if none was specified.
 
 		this.Attributes.discontinued.set(typeof discontinued !== "boolean" ? false : discontinued, _modified);
 		this.Attributes.created.set(_created, _modified);
 		this.Attributes.modified.set(_modified, _modified);
 		
-		if (creator && creatorType) {
+		if (creator && creator_type) {
 			this.Attributes.creator.set(creator, _modified);
-			this.Attributes.creatorType.set(creatorType, _modified);
+			this.Attributes.creator_type.set(creator_type, _modified);
 		} else { // if an entity's creator is not specified, it's its own creator
 			this.Attributes.creator.set(this.Attributes.id.get(), _modified);
-			this.Attributes.creatorType.set(this.Attributes.entityType.get());
+			this.Attributes.creator_type.set(this.Attributes.entity_type.get());
 		}
 
 		for (const key in rest) {

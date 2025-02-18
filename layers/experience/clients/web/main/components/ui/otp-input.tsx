@@ -47,7 +47,7 @@ export function OTPInput({ length = 6, value, onChange, label }: OTPInputProps) 
 
   return (
     <div className="flex flex-col space-y-4 w-full">
-      {label && <Label className="text-md">{label}</Label>}
+      {label && <Label className="text-md text-gray-300">{label}</Label>}
       <div className="flex items-center gap-3 justify-center w-full">
         {value.map((digit, index) => (
           <>
@@ -62,13 +62,13 @@ export function OTPInput({ length = 6, value, onChange, label }: OTPInputProps) 
               onChange={(e) => handleChange(index, e)}
               onKeyDown={(e) => handleKeyDown(index, e)}
               onPaste={handlePaste}
-              className="w-[15%] h-12 text-center border-2 rounded-lg text-lg font-semibold
+              className="w-[15%] h-12 text-center text-white bg-gray-800/50 border-2 border-gray-700 rounded-lg text-lg font-semibold
                        focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 focus:outline-none
-                       transition-all backdrop-blur-sm"
+                       transition-all backdrop-blur-sm placeholder-gray-500"
               aria-label={`Digit ${index + 1}`}
             />
             {index < value.length - 1 && index % 2 === 1 && (
-              <span key={`dash-${index}`} className="text-slate-300 text-2xl font-light">-</span>
+              <span key={`dash-${index}`} className="text-gray-600 text-2xl font-light">-</span>
             )}
           </>
         ))}

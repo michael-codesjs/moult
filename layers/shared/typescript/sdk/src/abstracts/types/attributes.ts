@@ -11,10 +11,10 @@ export type AttributeSchema<T = any, I extends boolean = false> = {
 };
 
 export type CommonAttributes = {
-  entityType: AttributeSchema<string, true>
+  entity_type: AttributeSchema<string, true>
   id: AttributeSchema<string, true>,
   creator: AttributeSchema<string, true>,
-  creatorType: AttributeSchema<string, true>,
+  creator_type: AttributeSchema<string, true>,
   created: AttributeSchema<Date, true>,
   modified: AttributeSchema<Date, true>,
   discontinued: AttributeSchema<boolean, true>

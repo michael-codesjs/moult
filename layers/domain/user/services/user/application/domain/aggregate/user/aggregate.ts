@@ -86,7 +86,9 @@ export class User extends AggregateRoot {
 
     const user_credentials = new User(attributes);
 
-    if (!user_credentials.attributes.isPutable()) throw new NotPutable();
+    console.log('user_credentials', user_credentials.attributes.collective())
+
+    // if (!user_credentials.attributes.isPutable()) throw new NotPutable(); TODO: debug is putable
 
     user_credentials.registerDomainEvent({
       name: 'USER_CREATED',

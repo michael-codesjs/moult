@@ -6,6 +6,9 @@ import { container, dependencies } from "@dependencies";
 import { UserUseCase } from "@interfaces";
 
 const inputMapper = async (input: CREATE_USER_DOMAIN_COMMAND): Promise<UserDTO> => {
+
+  console.log('input', input)
+
   const userCredentials: UserUseCase = container.get(dependencies.UserUseCase);
   return await userCredentials.createUser(input.payload);
 }

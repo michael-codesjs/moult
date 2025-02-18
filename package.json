@@ -47,6 +47,7 @@
     "@react-three/drei": "^9.121.4",
     "@react-three/fiber": "^8.17.14",
     "@types/three": "^0.173.0",
+    "framer-motion": "^12.4.3",
     "three": "^0.173.0"
   }
 }
