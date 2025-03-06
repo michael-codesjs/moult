@@ -66,7 +66,7 @@ export default function CreateAccount() {
     <div className="flex flex-col items-center justify-center w-full">
       <div className="mb-6">
         <Logo 
-          variant="minimal"
+          variant="default"
           size="xl"
           shape="square"
           className="hover:scale-95 transition-transform text-white"

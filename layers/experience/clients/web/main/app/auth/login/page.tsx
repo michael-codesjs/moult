@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { CountrySelector } from "@/components/ui/country-selector"
-import { countries } from "@/components/ui/country-selector/countries.json"
+import countriesData from "@/components/ui/country-selector/countries.json"
+const { countries } = countriesData;
 import { useAuth } from "@/hooks/useAuth"
 import { EyeIcon, EyeOffIcon } from "@/components/ui/icons"
 import { Banner } from "@/components/ui/banner"
@@ -57,7 +58,7 @@ export default function Login() {
     <div className="flex flex-col items-center justify-center w-full">
       <div className="mb-6">
         <Logo 
-          variant="minimal"
+          variant="default"
           size="xl"
           shape="square"
           className="hover:scale-95 transition-transform text-white"

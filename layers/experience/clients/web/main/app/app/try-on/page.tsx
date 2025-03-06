@@ -24,10 +24,10 @@ export default function TryOnPage() {
   // Scene references
   const scene = useRef<THREE.Scene>(new THREE.Scene())
   const camera = useRef<THREE.PerspectiveCamera>(new THREE.PerspectiveCamera(45, 1, 0.1, 1000))
-  const renderer = useRef<THREE.WebGLRenderer>()
-  const controls = useRef<OrbitControls>()
-  const figure = useRef<THREE.Group>()
-  const clothing = useRef<THREE.Mesh>()
+  const renderer = useRef<THREE.WebGLRenderer>({} as any)
+  const controls = useRef<OrbitControls>({} as any)
+  const figure = useRef<THREE.Group>({} as any)
+  const clothing = useRef<THREE.Mesh>({} as any)
 
   useEffect(() => {
     if (!containerRef.current) return

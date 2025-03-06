@@ -9,6 +9,7 @@ import { FlipCounter } from "@/components/ui/flip-counter"
 import { CountdownCounter } from "@/components/ui/countdown-counter"
 import { MinimalBanner } from "@/components/ui/minimal-banner"
 import { LandingNavigation } from "@/components/ui/landing-navigation"
+import { Logo } from "@/components/ui/logo"
 
 const features = [
   {
@@ -18,8 +19,8 @@ const features = [
     gradient: "from-purple-900/20 to-pink-900/20"
   },
   {
-    title: "Digital Collections",
-    description: "Explore exclusive digital fashion collections from leading brands. Experience fashion in stunning 3D detail.",
+    title: "The Moulti-verse",
+    description: "Step into our digital showrooms where physical stores come to life in stunning 3D, AR, and VR experiences. Shop across dimensions.",
     icon: <Box className="w-8 h-8 text-blue-400" />,
     gradient: "from-blue-900/20 to-cyan-900/20"
   },
@@ -75,7 +76,7 @@ export default function Home() {
       <LandingNavigation />
       {/* Fashion Week Banner */}
       <div className="relative flex items-center justify-center gap-x-6 overflow-hidden bg-gradient-to-r from-purple-600/30 to-pink-600/30 backdrop-blur-sm px-6 py-3 sm:px-3.5">
-        <div className="flex items-center justify-center gap-x-4 gap-y-2 max-w-7xl mx-auto">
+        <div className="flex items-center justify-center space-x-4 gap-y-2 max-w-7xl mx-auto">
           <p className="text-sm leading-6 text-white">
             <strong className="font-semibold">Fashion Week {new Date().getFullYear()}</strong>
             <svg viewBox="0 0 2 2" className="mx-2 inline h-0.5 w-0.5 fill-current" aria-hidden="true"><circle cx="1" cy="1" r="1" /></svg>
@@ -96,18 +97,18 @@ export default function Home() {
             {/* Hero Content */}
             <div className="relative z-10 text-center">
               <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl lg:text-7xl">
-                Welcome to the
+                The Future of
                 <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 animate-gradient">
-                  Moulti-verse
+                  Digital Fashion
                 </span>
               </h1>
               <p className="mt-6 text-lg leading-8 text-gray-300 max-w-2xl mx-auto">
-                Step into a world where AI meets style, where fashion transcends the ordinary, and where your digital identity comes to life.
+                Experience fashion like never before with AI-powered styling, immersive shopping, and virtual try-ons that blur the line between digital and physical.
               </p>
               <div className="mt-8 flex items-center justify-center gap-6">
                 <Link href="/auth/register">
                   <Button size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 h-12 px-6 text-base group text-white border-0">
-                    Enter the Moulti-verse
+                    Get Started
                     <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                   </Button>
                 </Link>
@@ -185,10 +186,10 @@ export default function Home() {
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="mx-auto max-w-2xl text-center mb-16">
               <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-                Experience the Moulti-verse
+                Redefining Fashion Experiences
               </h2>
               <p className="mt-6 text-lg leading-8 text-gray-300">
-                Discover a new dimension of fashion where digital innovation meets personal expression. Welcome to your fashion multiverse.
+                Discover a new era of fashion where cutting-edge technology creates immersive, personalized experiences for every shopper.
               </p>
             </div>
             <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-6 sm:gap-8 lg:mt-20 lg:max-w-none lg:grid-cols-4">
