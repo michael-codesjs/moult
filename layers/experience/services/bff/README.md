@@ -1,62 +1,49 @@
-# User Service
+# Backend for Frontend (BFF) Service
 
-This service handles user-related operations in the Moult application, including maintaining a materialized view of user data in PostgreSQL.
+This service acts as an intermediary layer between the frontend clients and backend services. It's designed to handle user-related operations and events.
 
-## Features
+## Structure
 
-- Listens for Cognito user events (creation and username updates)
-- Maintains a materialized view of user data in PostgreSQL
-- Uses Prisma for database operations
+- **Prisma**: Database ORM for PostgreSQL connectivity
+  - Located at `application/prisma`
+  - Includes User model with fields for id, name, email, phone_number, and username
+- **Adapters**: Handle incoming events and requests
+  - Primary adapters: Handle user creation and username updates
+  - Secondary adapters: Connect to external systems
 
-## Setup
-
-1. Install dependencies:
+## Deployment
 
 ```bash
+# Install dependencies
 npm install
-```
 
-2. Generate Prisma client:
-
-```bash
+# Generate Prisma client
 npm run prisma:generate
-```
 
-3. Generate environment variables:
-
-```bash
-npm run generate-env
-```
-
-4. Deploy the service:
-
-```bash
+# Deploy to AWS
 npm run deploy
+
+# Push schema changes to the database
+npm run prisma:push
 ```
 
-## Database Schema
+## Infrastructure
 
-The service maintains a `user_view` table with the following structure:
+- **Database**: PostgreSQL instance in AWS RDS
+- **Authentication**: AWS Cognito User Pool with support for email and phone_number as username
+  - Non-case sensitive usernames
+  - Minimum password length: 7 characters
+  - Admin-only account recovery
 
-- `id`: String (Primary Key)
-- `name`: String
-- `email`: String? (Unique)
-- `phone_number`: String? (Unique)
-- `preferred_username`: String? (Unique)
-- `created_at`: DateTime
-- `updated_at`: DateTime
+## Event Handling
 
-## Lambda Functions
+The service processes the following events:
 
-### handleUserCreated
+- `USER_CREATED`: Creates a user record in the database when a user signs up
+- `USERNAME_UPDATED`: Updates a user's username in the database
 
-Triggered by Cognito's PostConfirmation event. Creates a new record in the user_view table when a user completes registration.
+## Environment Setup
 
-### handleUsernameUpdated
+The service requires the following environment variables:
 
-Triggered by Cognito's PreTokenGeneration event. Updates the preferred_username in the user_view table when a user changes their username.
-
-## Environment Variables
-
-- `DATABASE_URL`: PostgreSQL connection string (retrieved from SSM)
-- `NODE_ENV`: Current stage (dev/prod)
+- `DATABASE_URL`: PostgreSQL connection string
