@@ -1,2 +1,2 @@
-export * from "./attributes";
-export * from "./utility";
+export * from './attributes'
+export * from './utility'

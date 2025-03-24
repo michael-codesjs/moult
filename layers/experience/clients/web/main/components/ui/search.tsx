@@ -1,12 +1,19 @@
-"use client"
+'use client'
 
-import { useState, useEffect, useRef } from "react"
-import { Search as SearchIcon, SlidersHorizontal, Clock, TrendingUp, User, LogOut } from "lucide-react"
-import { useAuth } from "@/hooks/useAuth"
-import Image from "next/image"
-import Link from "next/link"
-import { Button } from "./button"
-import { Popover } from "./popover"
+import { useState, useEffect, useRef } from 'react'
+import {
+  Search as SearchIcon,
+  SlidersHorizontal,
+  Clock,
+  TrendingUp,
+  User,
+  LogOut,
+} from 'lucide-react'
+import { useAuth } from '@/hooks/useAuth'
+import Image from 'next/image'
+import Link from 'next/link'
+import { Button } from './button'
+import { Popover } from './popover'
 
 interface SearchProps {
   placeholder?: string
@@ -14,9 +21,9 @@ interface SearchProps {
   className?: string
 }
 
-export function Search({ placeholder = "Search...", onSearch, className = "" }: SearchProps) {
+export function Search({ placeholder = 'Search...', onSearch, className = '' }: SearchProps) {
   const [isActive, setIsActive] = useState(false)
-  const [query, setQuery] = useState("")
+  const [query, setQuery] = useState('')
   const [isProfileOpen, setIsProfileOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const { user, handleSignOut, loading } = useAuth()
@@ -28,8 +35,8 @@ export function Search({ placeholder = "Search...", onSearch, className = "" }: 
       }
     }
 
-    document.addEventListener("mousedown", handleClickOutside)
-    return () => document.removeEventListener("mousedown", handleClickOutside)
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
   const handleSearch = (value: string) => {
@@ -45,7 +52,7 @@ export function Search({ placeholder = "Search...", onSearch, className = "" }: 
             {user?.attributes?.picture ? (
               <Image
                 src={user.attributes.picture}
-                alt={user.attributes.name || "Profile picture"}
+                alt={user.attributes.name || 'Profile picture'}
                 width={40}
                 height={40}
                 className="w-full h-full object-cover"
@@ -55,11 +62,11 @@ export function Search({ placeholder = "Search...", onSearch, className = "" }: 
             )}
           </div>
           <div>
-            <h2 className="font-semibold">{user?.attributes?.name || "Guest User"}</h2>
+            <h2 className="font-semibold">{user?.attributes?.name || 'Guest User'}</h2>
             <p className="text-sm text-gray-500">{user?.username}</p>
           </div>
         </div>
-        <Link 
+        <Link
           href="/app/profile"
           className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-purple-600 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors"
         >
@@ -82,7 +89,9 @@ export function Search({ placeholder = "Search...", onSearch, className = "" }: 
         {/* Search Input and Suggestions Container */}
         <div className="relative" style={{ zIndex: 9999 }}>
           {/* Search Input */}
-          <div className={`${isActive ? 'bg-white shadow-lg' : 'bg-gray-100/80'} rounded-full transition-all duration-200`}>
+          <div
+            className={`${isActive ? 'bg-white shadow-lg' : 'bg-gray-100/80'} rounded-full transition-all duration-200`}
+          >
             <div className="relative flex items-center">
               <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
                 <SearchIcon className="h-5 w-5 text-gray-600" />
@@ -91,7 +100,7 @@ export function Search({ placeholder = "Search...", onSearch, className = "" }: 
                 type="text"
                 placeholder={placeholder}
                 value={query}
-                onChange={(e) => handleSearch(e.target.value)}
+                onChange={e => handleSearch(e.target.value)}
                 onFocus={() => setIsActive(true)}
                 className="w-full pl-11 pr-12 h-11 text-sm bg-transparent rounded-full focus:outline-none focus:ring-1 focus:ring-purple-500 transition-all"
               />
@@ -156,13 +165,11 @@ export function Search({ placeholder = "Search...", onSearch, className = "" }: 
           align="end"
           sideOffset={8}
         >
-          <button 
-            className="lg:hidden w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center overflow-hidden"
-          >
+          <button className="lg:hidden w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center overflow-hidden">
             {user?.attributes?.picture ? (
               <Image
                 src={user.attributes.picture}
-                alt={user.attributes.name || "Profile picture"}
+                alt={user.attributes.name || 'Profile picture'}
                 width={32}
                 height={32}
                 className="w-full h-full object-cover"
@@ -175,4 +182,4 @@ export function Search({ placeholder = "Search...", onSearch, className = "" }: 
       </div>
     </div>
   )
-} 
+}

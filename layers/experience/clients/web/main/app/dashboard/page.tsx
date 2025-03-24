@@ -1,68 +1,81 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { MinimalBanner } from "@/components/ui/minimal-banner"
-import { FlipCounter } from "@/components/ui/flip-counter"
-import { ArrowRight, Box, Brain, Glasses, ShoppingBag, Sparkles, Bell, Settings, User, Menu, LogOut, Home } from "lucide-react"
-import Link from "next/link"
+import { useState } from 'react'
+import { MinimalBanner } from '@/components/ui/minimal-banner'
+import { FlipCounter } from '@/components/ui/flip-counter'
+import {
+  ArrowRight,
+  Box,
+  Brain,
+  Glasses,
+  ShoppingBag,
+  Sparkles,
+  Bell,
+  Settings,
+  User,
+  Menu,
+  LogOut,
+  Home,
+} from 'lucide-react'
+import Link from 'next/link'
 import { signOut } from 'aws-amplify/auth'
 import { useRouter } from 'next/navigation'
 
 const quickActions = [
   {
-    title: "Try On Items",
-    description: "Use AI to virtually try on new items",
+    title: 'Try On Items',
+    description: 'Use AI to virtually try on new items',
     icon: <Glasses className="w-6 h-6 text-purple-600" />,
-    href: "/try-on",
-    color: "bg-purple-50"
+    href: '/try-on',
+    color: 'bg-purple-50',
   },
   {
-    title: "Browse Collections",
-    description: "Explore digital fashion collections",
+    title: 'Browse Collections',
+    description: 'Explore digital fashion collections',
     icon: <ShoppingBag className="w-6 h-6 text-pink-600" />,
-    href: "/collections",
-    color: "bg-pink-50"
+    href: '/collections',
+    color: 'bg-pink-50',
   },
   {
-    title: "AI Style Match",
-    description: "Get personalized style recommendations",
+    title: 'AI Style Match',
+    description: 'Get personalized style recommendations',
     icon: <Brain className="w-6 h-6 text-blue-600" />,
-    href: "/style-match",
-    color: "bg-blue-50"
+    href: '/style-match',
+    color: 'bg-blue-50',
   },
   {
-    title: "Live Events",
-    description: "Join virtual fashion shows and events",
+    title: 'Live Events',
+    description: 'Join virtual fashion shows and events',
     icon: <Sparkles className="w-6 h-6 text-cyan-600" />,
-    href: "/events",
-    color: "bg-cyan-50"
-  }
+    href: '/events',
+    color: 'bg-cyan-50',
+  },
 ]
 
 const recentActivity = [
   {
-    action: "Tried on Neon Cyber Jacket",
-    timestamp: "2 hours ago",
+    action: 'Tried on Neon Cyber Jacket',
+    timestamp: '2 hours ago',
     icon: <Glasses className="w-4 h-4" />,
   },
   {
-    action: "Attended Virtual Fashion Show",
-    timestamp: "Yesterday",
+    action: 'Attended Virtual Fashion Show',
+    timestamp: 'Yesterday',
     icon: <Sparkles className="w-4 h-4" />,
   },
   {
-    action: "Received Style Recommendations",
-    timestamp: "2 days ago",
+    action: 'Received Style Recommendations',
+    timestamp: '2 days ago',
     icon: <Brain className="w-4 h-4" />,
-  }
+  },
 ]
 
 const sidebarLinks = [
-  { icon: <Home className="w-5 h-5" />, label: "Overview", href: "/dashboard" },
-  { icon: <Glasses className="w-5 h-5" />, label: "Try On", href: "/try-on" },
-  { icon: <ShoppingBag className="w-5 h-5" />, label: "Collections", href: "/collections" },
-  { icon: <Sparkles className="w-5 h-5" />, label: "Events", href: "/events" },
-  { icon: <Settings className="w-5 h-5" />, label: "Settings", href: "/settings" },
+  { icon: <Home className="w-5 h-5" />, label: 'Overview', href: '/dashboard' },
+  { icon: <Glasses className="w-5 h-5" />, label: 'Try On', href: '/try-on' },
+  { icon: <ShoppingBag className="w-5 h-5" />, label: 'Collections', href: '/collections' },
+  { icon: <Sparkles className="w-5 h-5" />, label: 'Events', href: '/events' },
+  { icon: <Settings className="w-5 h-5" />, label: 'Settings', href: '/settings' },
 ]
 
 export default function Dashboard() {
@@ -70,7 +83,7 @@ export default function Dashboard() {
     itemsTried: 24,
     eventsAttended: 3,
     savedItems: 12,
-    styleMatches: 48
+    styleMatches: 48,
   })
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const router = useRouter()
@@ -87,9 +100,11 @@ export default function Dashboard() {
   return (
     <div className="relative min-h-screen bg-gray-50">
       <MinimalBanner />
-      
+
       {/* Sidebar */}
-      <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-white transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 transition-transform duration-200 ease-in-out shadow-lg`}>
+      <div
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-white transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 transition-transform duration-200 ease-in-out shadow-lg`}
+      >
         <div className="flex flex-col h-full">
           <div className="p-4 border-b">
             <div className="flex items-center gap-3">
@@ -102,9 +117,9 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-          
+
           <nav className="flex-1 p-4 space-y-1">
-            {sidebarLinks.map((link) => (
+            {sidebarLinks.map(link => (
               <Link
                 key={link.label}
                 href={link.href}
@@ -161,19 +176,19 @@ export default function Dashboard() {
                 itemsTried: <Glasses className="w-full h-full" />,
                 eventsAttended: <Sparkles className="w-full h-full" />,
                 savedItems: <Box className="w-full h-full" />,
-                styleMatches: <Brain className="w-full h-full" />
+                styleMatches: <Brain className="w-full h-full" />,
               }
               const colors = {
                 itemsTried: 'purple',
                 eventsAttended: 'pink',
                 savedItems: 'blue',
-                styleMatches: 'cyan'
+                styleMatches: 'cyan',
               }
               const titles = {
                 itemsTried: 'Items Tried On',
                 eventsAttended: 'Events Attended',
                 savedItems: 'Saved Items',
-                styleMatches: 'Style Matches'
+                styleMatches: 'Style Matches',
               }
               return (
                 <div
@@ -184,8 +199,12 @@ export default function Dashboard() {
                     {icons[key as keyof typeof icons]}
                   </div>
                   <div className="p-6">
-                    <dt className="text-sm font-medium text-gray-500">{titles[key as keyof typeof titles]}</dt>
-                    <dd className={`mt-2 text-3xl font-bold text-${colors[key as keyof typeof colors]}-600`}>
+                    <dt className="text-sm font-medium text-gray-500">
+                      {titles[key as keyof typeof titles]}
+                    </dt>
+                    <dd
+                      className={`mt-2 text-3xl font-bold text-${colors[key as keyof typeof colors]}-600`}
+                    >
                       <FlipCounter value={value} />
                     </dd>
                   </div>
@@ -198,13 +217,15 @@ export default function Dashboard() {
           <div className="mb-8">
             <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {quickActions.map((action) => (
-                <Link 
+              {quickActions.map(action => (
+                <Link
                   key={action.title}
                   href={action.href}
                   className="group relative overflow-hidden rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/[0.05] hover:shadow-md transition-all hover:-translate-y-1"
                 >
-                  <div className={`absolute top-6 right-6 w-12 h-12 ${action.color} rounded-xl flex items-center justify-center`}>
+                  <div
+                    className={`absolute top-6 right-6 w-12 h-12 ${action.color} rounded-xl flex items-center justify-center`}
+                  >
                     {action.icon}
                   </div>
                   <div className="pr-12">
@@ -222,10 +243,11 @@ export default function Dashboard() {
             <h2 className="text-lg font-semibold mb-4">Recent Activity</h2>
             <div className="rounded-2xl bg-white shadow-sm ring-1 ring-black/[0.05] divide-y">
               {recentActivity.map((activity, i) => (
-                <div key={i} className="flex items-center gap-4 p-4 hover:bg-gray-50 transition-colors">
-                  <div className="p-2 rounded-full bg-gray-100">
-                    {activity.icon}
-                  </div>
+                <div
+                  key={i}
+                  className="flex items-center gap-4 p-4 hover:bg-gray-50 transition-colors"
+                >
+                  <div className="p-2 rounded-full bg-gray-100">{activity.icon}</div>
                   <div className="flex-1">
                     <p className="font-medium">{activity.action}</p>
                     <p className="text-sm text-gray-500">{activity.timestamp}</p>
@@ -247,4 +269,4 @@ export default function Dashboard() {
       )}
     </div>
   )
-} 
+}

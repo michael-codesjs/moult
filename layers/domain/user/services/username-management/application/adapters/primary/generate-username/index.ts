@@ -1,1 +1,1 @@
-export { definition as generateUsername } from "./definition";
+export { definition } from './definition'

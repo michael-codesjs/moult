@@ -1,43 +1,47 @@
-import { DomainEventsRepository } from "@repositories";
-import { USER_AUTHENTICATED_DOMAIN_EVENT } from "@typings/domain-events";
-import Chance from "chance";
-import { postAuthentication } from "..";
+import { DomainEventsRepository } from '@repositories'
+import { USER_AUTHENTICATED_DOMAIN_EVENT } from '@typings/domain-events'
+import Chance from 'chance'
+import { postAuthentication } from '..'
 
-jest.mock("../../repositories");
+jest.mock('../../repositories')
 
-const chance = new Chance();
+const chance = new Chance()
 
-describe("Post Authentication", () => {
+describe('Post Authentication', () => {
+  beforeAll(() => {
+    jest.useFakeTimers()
+  })
 
-    beforeAll(() => {
-        jest.useFakeTimers()
-    });
+  let mockedUserDomainCommandsRepositoryClass: jest.MockedObjectDeep<
+    typeof DomainEventsRepository
+  > = jest.mocked(DomainEventsRepository)
 
-    let mockedUserDomainCommandsRepositoryClass: jest.MockedObjectDeep<typeof DomainEventsRepository> = jest.mocked(DomainEventsRepository);
+  it(".publishes 'USER_AUTHENTICATED' domain event.", async () => {
+    mockedUserDomainCommandsRepositoryClass.prototype.publish.mockImplementationOnce(
+      () => Promise.resolve(),
+    )
 
-    it(".publishes 'USER_AUTHENTICATED' domain event.", async () => {
+    const id = chance.guid()
+    const isNewDevice = chance.bool()
 
-        mockedUserDomainCommandsRepositoryClass.prototype.publish.mockImplementationOnce(() => Promise.resolve());
+    await postAuthentication({ id, isNewDevice })
 
-        const id = chance.guid();
-        const isNewDevice = chance.bool();
+    const instance: jest.Mocked<DomainEventsRepository> = jest.mocked(
+      mockedUserDomainCommandsRepositoryClass.mock.instances[0],
+    )
 
-        await postAuthentication({ id, isNewDevice });
+    const UserAuthenticatedDomainEvent: USER_AUTHENTICATED_DOMAIN_EVENT = {
+      name: 'USER_AUTHENTICATED',
+      source: 'postAuthentication',
+      payload: { id, isNewDevice },
+      date: new Date(),
+      version: '1.0.0',
+    }
 
-        const instance: jest.Mocked<DomainEventsRepository> = jest.mocked(mockedUserDomainCommandsRepositoryClass.mock.instances[0]);
-
-        const UserAuthenticatedDomainEvent: USER_AUTHENTICATED_DOMAIN_EVENT = {
-            name: "USER_AUTHENTICATED",
-            source: "postAuthentication",
-            payload: { id, isNewDevice },
-            date: new Date(),
-            version: "1.0.0"
-        };
-
-        expect(mockedUserDomainCommandsRepositoryClass).toHaveBeenCalled();
-        expect(instance.publish).toHaveBeenCalled();
-        expect(instance.publish).toHaveBeenCalledWith([UserAuthenticatedDomainEvent]);
-
-    });
-
-});
+    expect(mockedUserDomainCommandsRepositoryClass).toHaveBeenCalled()
+    expect(instance.publish).toHaveBeenCalled()
+    expect(instance.publish).toHaveBeenCalledWith([
+      UserAuthenticatedDomainEvent,
+    ])
+  })
+})

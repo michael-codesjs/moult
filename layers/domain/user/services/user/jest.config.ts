@@ -1,8 +1,8 @@
-import { pathsToModuleNameMapper, JestConfigWithTsJest } from "ts-jest";
-import { compilerOptions } from "./tsconfig.json";
+import { pathsToModuleNameMapper, JestConfigWithTsJest } from 'ts-jest'
+import { compilerOptions } from './tsconfig.json'
 
 const jestConfig: JestConfigWithTsJest = {
-  preset: "ts-jest",
+  preset: 'ts-jest',
   verbose: true,
   maxConcurrency: 10,
   testTimeout: 2000000,
@@ -11,15 +11,19 @@ const jestConfig: JestConfigWithTsJest = {
   modulePaths: [compilerOptions.baseUrl],
   moduleNameMapper: {
     ...pathsToModuleNameMapper(compilerOptions.paths),
-    "^@shared$": "<rootDir>/../../../../../layers/shared/typescript/sdk/src/index.ts"
+    '^@shared$':
+      '<rootDir>/../../../../../layers/shared/typescript/sdk/src/index.ts',
   },
   transform: {
-    '^.+\\.ts?$': ['ts-jest', {
-      tsconfig: "./tsconfig.json",
-      isolatedModules: true
-    }]
+    '^.+\\.ts?$': [
+      'ts-jest',
+      {
+        tsconfig: './tsconfig.json',
+        isolatedModules: true,
+      },
+    ],
   },
   moduleDirectories: ['node_modules'],
-};
+}
 
-export default jestConfig;
+export default jestConfig

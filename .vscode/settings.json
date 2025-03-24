@@ -2,7 +2,7 @@
   "typescript.tsdk": "./node_modules/typescript/lib",
   "dart.lineLength": 120,
   "[dart]": {
-    "editor.rulers": [120],
+    "editor.rulers": [120]
   },
   "workbench.colorCustomizations": {
     "activityBar.activeBackground": "#222222",
@@ -12,7 +12,7 @@
     "activityBar.inactiveForeground": "#555",
     "activityBarBadge.background": "#00aa00",
     "activityBarBadge.foreground": "#000000",
-    "sash.hoverBorder":  "#6be134",
+    "sash.hoverBorder": "#6be134",
     "statusBar.background": "#6be134",
     "statusBar.foreground": "#000000",
     "statusBarItem.hoverBackground": "#6be134",
@@ -24,5 +24,11 @@
     "titleBar.inactiveForeground": "#333",
     "commandCenter.border": "#333"
   },
-  "files.exclude": {}
+  "files.exclude": {},
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/.hg/store/**": true
+  },
+  "editor.formatOnSave": true
 }

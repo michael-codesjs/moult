@@ -1,1 +1,1 @@
-export * from "./api-gw-signed-fetcher";
+export * from './api-gw-signed-fetcher'

@@ -1,6 +1,6 @@
-import { Attributes } from "./attributes";
-import { CommonAttributes } from "./types";
-import { ValueObject } from "./value-object";
+import { Attributes } from './attributes'
+import { CommonAttributes } from './types'
+import { ValueObject } from './value-object'
 
 /**
  * Base abstract class to be extends by most if not all of our domain entities.
@@ -8,10 +8,10 @@ import { ValueObject } from "./value-object";
  */
 
 export abstract class Entity {
+  protected abstract readonly attributes:
+    | Attributes<CommonAttributes>
+    | ValueObject<any, boolean>
 
-  protected abstract readonly attributes: Attributes<CommonAttributes> | ValueObject<any, boolean>;
-
-  constructor({ }: {} = {}) { } // {}: {} = {} is for constructor signature purposes only
+  constructor({}: {} = {}) {} // {}: {} = {} is for constructor signature purposes only
   /*eslint no-empty-pattern: "off"*/
-
 }

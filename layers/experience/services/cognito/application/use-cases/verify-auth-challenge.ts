@@ -1,4 +1,10 @@
-export type VerifyAuthChallengeUseCaseParams = { challenge: string, challengeAnswer: string };
-export type VerifyAuthChallengeUseCase = (params: VerifyAuthChallengeUseCaseParams) => boolean;
+export type VerifyAuthChallengeUseCaseParams = {
+  challenge: string
+  challengeAnswer: string
+}
+export type VerifyAuthChallengeUseCase = (
+  params: VerifyAuthChallengeUseCaseParams,
+) => boolean
 
-export const verifyAuthChallenge: VerifyAuthChallengeUseCase = (params) => params.challenge === params.challengeAnswer;
+export const verifyAuthChallenge: VerifyAuthChallengeUseCase = (params) =>
+  params.challenge === params.challengeAnswer

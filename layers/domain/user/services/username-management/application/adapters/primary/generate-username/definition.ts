@@ -1,31 +1,37 @@
-import { AWS } from "@shared";
+import { AWS, handlerPath } from '@shared'
 
 /** Function definition for the generate-username Lambda function */
 export const definition: AWS.ServerlessLambdaFunction = {
-  handler: "adapters/primary/generate-username/handler.handler",
+  handler: `${handlerPath(__dirname)}/handler.main`,
   events: [
     {
       eventBridge: {
         pattern: {
-          source: ["moult.user"],
-          "detail-type": ["USER_CREATED"]
-        }
-      }
-    }
+          source: ['User'],
+          'detail-type': ['USER_CREATED'],
+        },
+        eventBus:
+          '${ssm:/moult/${self:custom.stage}/infrastructure/io/event-bus/central/arn}',
+      },
+    },
   ],
   iamRoleStatements: [
     {
-      Effect: "Allow",
-      Action: ["dynamodb:UpdateItem", "dynamodb:GetItem", "dynamodb:PutItem"],
+      Effect: 'Allow',
+      Action: ['dynamodb:*'],
       Resource: [
-        "${ssm:/moult/${self:custom.stage}/domain/user/username-assignments/table/arn}",
-        "${ssm:/moult/${self:custom.stage}/domain/user/username-counts/table/arn}"
-      ]
+        '${ssm:/moult/${self:custom.stage}/domain/user/username-assignments/table/arn}',
+        '${ssm:/moult/${self:custom.stage}/domain/user/username-assignments/table/arn}/index/*',
+        '${ssm:/moult/${self:custom.stage}/domain/user/username-counts/table/arn}',
+        '${ssm:/moult/${self:custom.stage}/domain/user/username-counts/table/arn}/index/*',
+      ],
     },
     {
-      Effect: "Allow",
-      Action: ["events:PutEvents"],
-      Resource: ["${ssm:/moult/${self:custom.stage}/infrastructure/io/event-bus/arn}"]
-    }
-  ]
-}; 
+      Effect: 'Allow',
+      Action: ['events:PutEvents'],
+      Resource: [
+        '${ssm:/moult/${self:custom.stage}/infrastructure/io/event-bus/central/arn}',
+      ],
+    },
+  ],
+}

@@ -1,28 +1,30 @@
-import Chance from "chance";
-import { createUser } from "..";
-import { UserDomainCommandsRepositroy } from "@repositories";
+import Chance from 'chance'
+import { createUser } from '..'
+import { UserDomainCommandsRepositroy } from '@repositories'
 
-jest.mock("../../repositories");
+jest.mock('../../repositories')
 
-const chance = new Chance();
+const chance = new Chance()
 
-describe("Create User", () => {
+describe('Create User', () => {
+  let mockedUserDomainCommandsRepositoryClass: jest.MockedObjectDeep<
+    typeof UserDomainCommandsRepositroy
+  > = jest.mocked(UserDomainCommandsRepositroy)
 
-    let mockedUserDomainCommandsRepositoryClass: jest.MockedObjectDeep<typeof UserDomainCommandsRepositroy> = jest.mocked(UserDomainCommandsRepositroy);
+  it(".sends 'CREATE_USER' domain command to the user domain.", async () => {
+    mockedUserDomainCommandsRepositoryClass.prototype.sendCreateUserCommand.mockImplementationOnce(
+      () => Promise.resolve(),
+    )
+    const id = chance.guid()
 
-    it(".sends 'CREATE_USER' domain command to the user domain.", async () => {
+    await createUser({ id })
 
-        mockedUserDomainCommandsRepositoryClass.prototype.sendCreateUserCommand.mockImplementationOnce(() => Promise.resolve());
-        const id = chance.guid();
+    const instance: jest.Mocked<UserDomainCommandsRepositroy> = jest.mocked(
+      mockedUserDomainCommandsRepositoryClass.mock.instances[0],
+    )
 
-        await createUser({ id });
-
-        const instance: jest.Mocked<UserDomainCommandsRepositroy> = jest.mocked(mockedUserDomainCommandsRepositoryClass.mock.instances[0]);
-
-        expect(mockedUserDomainCommandsRepositoryClass).toHaveBeenCalled();
-        expect(instance.sendCreateUserCommand).toHaveBeenCalled();
-        expect(instance.sendCreateUserCommand).toHaveBeenCalledWith({ id });
-
-    });
-
-});
+    expect(mockedUserDomainCommandsRepositoryClass).toHaveBeenCalled()
+    expect(instance.sendCreateUserCommand).toHaveBeenCalled()
+    expect(instance.sendCreateUserCommand).toHaveBeenCalledWith({ id })
+  })
+})

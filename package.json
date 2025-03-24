@@ -14,13 +14,16 @@
     "destroy": "ts-node scripts/destroy.ts",
     "prep:test": "lerna run generate-env",
     "test": "lerna run test --stream",
-    "clients:web": "lerna run dev --scope='@moult/experience-web-*' --stream",
-    "clients:web:live": "lerna run start:live --scope='@moult/experience-web-*' --stream",
+    "clients:web": "lerna run start --scope='@moult/experience-web-*' --stream",
+    "clients:web:live": "lerna run dev --scope='@moult/experience-web-*' --stream",
     "shared": "lerna run build --scope='@shared/sdk'",
     "shared:live": "lerna run build:watch --scope='@shared/sdk' --stream",
     "actions": "lerna run build --scope='@moult/deploy-deployables-action'",
     "actions:live": "lerna run build:watch --scope='@moult/deploy-deployables-action' --stream",
     "docs": "typedoc"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.706.0"
   },
   "repository": {
     "type": "git",
@@ -40,14 +43,9 @@
     "ora": "4.0",
     "ts-node": "^10.9.1",
     "typedoc": "^0.23.27",
-    "typescript": "^4.9.5"
+    "typescript": "^4.9.5",
+    "prettier": "^3.5.3",
+    "@types/prettier": "^2.7.2"
   },
-  "packageManager": "yarn@1.22.22",
-  "dependencies": {
-    "@react-three/drei": "^9.121.4",
-    "@react-three/fiber": "^8.17.14",
-    "@types/three": "^0.173.0",
-    "framer-motion": "^12.4.3",
-    "three": "^0.173.0"
-  }
+  "packageManager": "yarn@1.22.22"
 }

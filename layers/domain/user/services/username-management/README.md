@@ -30,6 +30,7 @@ POST /username/generate
 ```
 
 Request body:
+
 ```json
 {
   "fullName": "string",
@@ -38,6 +39,7 @@ Request body:
 ```
 
 Response:
+
 ```json
 {
   "username": "string",
@@ -55,6 +57,7 @@ GET /username/assignments/{userId}
 ```
 
 Response:
+
 ```json
 {
   "assignments": [
@@ -87,6 +90,7 @@ Response:
 - `status` (String)
 
 Indexes:
+
 - UserIdIndex (GSI) - Query by userId
 - BaseUsernameIndex (GSI) - Query by baseUsername
 
@@ -101,12 +105,14 @@ Indexes:
 ### Setup
 
 1. Install dependencies:
+
 ```bash
 cd application
 npm install
 ```
 
 2. Deploy infrastructure:
+
 ```bash
 cd infrastructure
 terraform init
@@ -114,6 +120,7 @@ terraform apply
 ```
 
 3. Deploy application:
+
 ```bash
 cd application
 npm run deploy
@@ -122,7 +129,8 @@ npm run deploy
 ## Testing
 
 Run the test suite:
+
 ```bash
 cd application
 npm test
-``` 
+```

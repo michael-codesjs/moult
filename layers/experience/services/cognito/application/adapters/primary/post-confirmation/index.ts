@@ -1,1 +1,1 @@
-export { definition as postConfirmation } from "./definition";
+export { definition as postConfirmation } from './definition'

@@ -1,22 +1,42 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Sparkles, TrendingUp, Star, Brain, Clock, Heart, MessageCircle, Share2, Bookmark, Play, Users, Zap, ShoppingBag, Plus, ChevronRight, Box, Glasses, X, SlidersHorizontal } from "lucide-react"
-import Link from "next/link"
-import Image from "next/image"
-import { Drawer } from "@/components/ui/drawer"
-import { Search } from "@/components/ui/search"
+import { useState } from 'react'
+import {
+  Sparkles,
+  TrendingUp,
+  Star,
+  Brain,
+  Clock,
+  Heart,
+  MessageCircle,
+  Share2,
+  Bookmark,
+  Play,
+  Users,
+  Zap,
+  ShoppingBag,
+  Plus,
+  ChevronRight,
+  Box,
+  Glasses,
+  X,
+  SlidersHorizontal,
+} from 'lucide-react'
+import Link from 'next/link'
+import Image from 'next/image'
+import { Drawer } from '@/components/ui/drawer'
+import { Search } from '@/components/ui/search'
 
 // Custom Hanger Icon SVG Component
-function HangerIcon({ className = "" }: { className?: string }) {
+function HangerIcon({ className = '' }: { className?: string }) {
   return (
-    <svg 
-      viewBox="0 0 24 24" 
-      fill="none" 
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
       className={className}
-      stroke="currentColor" 
-      strokeWidth="1.5" 
-      strokeLinecap="round" 
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
       strokeLinejoin="round"
     >
       <path d="M12 3c1.1 0 2 .9 2 2 0 .7-.4 1.3-.9 1.7L13 7l-1 8-1-8-.1-.3C10.4 6.3 10 5.7 10 5c0-1.1.9-2 2-2z" />
@@ -30,279 +50,280 @@ const stories = [
   {
     id: 1,
     user: {
-      name: "Nike",
-      image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff",
-      isVerified: true
+      name: 'Nike',
+      image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff',
+      isVerified: true,
     },
-    title: "Air Max"
+    title: 'Air Max',
   },
   {
     id: 2,
     user: {
-      name: "Gucci",
-      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
-      isVerified: true
+      name: 'Gucci',
+      image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330',
+      isVerified: true,
     },
-    title: "New Collection"
+    title: 'New Collection',
   },
   {
     id: 3,
     user: {
-      name: "Balenciaga",
-      image: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b",
-      isVerified: true
+      name: 'Balenciaga',
+      image: 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b',
+      isVerified: true,
     },
-    title: "Runway"
+    title: 'Runway',
   },
   {
     id: 4,
     user: {
-      name: "Prada",
-      image: "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3",
-      isVerified: true
+      name: 'Prada',
+      image: 'https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3',
+      isVerified: true,
     },
-    title: "Fall 2024"
+    title: 'Fall 2024',
   },
   {
     id: 5,
     user: {
-      name: "Zara",
-      image: "https://images.unsplash.com/photo-1445205170230-053b83016050",
-      isVerified: true
+      name: 'Zara',
+      image: 'https://images.unsplash.com/photo-1445205170230-053b83016050',
+      isVerified: true,
     },
-    title: "Summer Edit"
+    title: 'Summer Edit',
   },
   {
     id: 6,
     user: {
-      name: "Dior",
-      image: "https://images.unsplash.com/photo-1537832816519-689ad163238b",
-      isVerified: true
+      name: 'Dior',
+      image: 'https://images.unsplash.com/photo-1537832816519-689ad163238b',
+      isVerified: true,
     },
-    title: "Haute Couture"
+    title: 'Haute Couture',
   },
   {
     id: 7,
     user: {
-      name: "Fendi",
-      image: "https://images.unsplash.com/photo-1549298916-b41d501d3772",
-      isVerified: true
+      name: 'Fendi',
+      image: 'https://images.unsplash.com/photo-1549298916-b41d501d3772',
+      isVerified: true,
     },
-    title: "Latest Drop"
+    title: 'Latest Drop',
   },
   {
     id: 8,
     user: {
-      name: "YSL",
-      image: "https://images.unsplash.com/photo-1525507119028-ed4c629a60a3",
-      isVerified: true
+      name: 'YSL',
+      image: 'https://images.unsplash.com/photo-1525507119028-ed4c629a60a3',
+      isVerified: true,
     },
-    title: "Accessories"
+    title: 'Accessories',
   },
   {
     id: 9,
     user: {
-      name: "Versace",
-      image: "https://images.unsplash.com/photo-1541123356219-284ebe98ae3b",
-      isVerified: true
+      name: 'Versace',
+      image: 'https://images.unsplash.com/photo-1541123356219-284ebe98ae3b',
+      isVerified: true,
     },
-    title: "Spring '24"
+    title: "Spring '24",
   },
   {
     id: 10,
     user: {
-      name: "Chanel",
-      image: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f",
-      isVerified: true
+      name: 'Chanel',
+      image: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f',
+      isVerified: true,
     },
-    title: "Paris Show"
+    title: 'Paris Show',
   },
   {
     id: 11,
     user: {
-      name: "Hermès",
-      image: "https://images.unsplash.com/photo-1550246140-5119ae4790b8",
-      isVerified: true
+      name: 'Hermès',
+      image: 'https://images.unsplash.com/photo-1550246140-5119ae4790b8',
+      isVerified: true,
     },
-    title: "Leather Edit"
+    title: 'Leather Edit',
   },
   {
     id: 12,
     user: {
-      name: "Burberry",
-      image: "https://images.unsplash.com/photo-1548126032-079a0fb0099d",
-      isVerified: true
+      name: 'Burberry',
+      image: 'https://images.unsplash.com/photo-1548126032-079a0fb0099d',
+      isVerified: true,
     },
-    title: "Heritage"
+    title: 'Heritage',
   },
   {
     id: 13,
     user: {
-      name: "Bottega",
-      image: "https://images.unsplash.com/photo-1550014797-40c5daf7c6b1",
-      isVerified: true
+      name: 'Bottega',
+      image: 'https://images.unsplash.com/photo-1550014797-40c5daf7c6b1',
+      isVerified: true,
     },
-    title: "New Season"
+    title: 'New Season',
   },
   {
     id: 14,
     user: {
-      name: "Loewe",
-      image: "https://images.unsplash.com/photo-1543076447-215ad9ba6923",
-      isVerified: true
+      name: 'Loewe',
+      image: 'https://images.unsplash.com/photo-1543076447-215ad9ba6923',
+      isVerified: true,
     },
-    title: "Artisan"
+    title: 'Artisan',
   },
   {
     id: 15,
     user: {
-      name: "Celine",
-      image: "https://images.unsplash.com/photo-1544441893-675973e31985",
-      isVerified: true
+      name: 'Celine',
+      image: 'https://images.unsplash.com/photo-1544441893-675973e31985',
+      isVerified: true,
     },
-    title: "Modern Prep"
+    title: 'Modern Prep',
   },
   {
     id: 16,
     user: {
-      name: "Valentino",
-      image: "https://images.unsplash.com/photo-1549298916-f52d724204b4",
-      isVerified: true
+      name: 'Valentino',
+      image: 'https://images.unsplash.com/photo-1549298916-f52d724204b4',
+      isVerified: true,
     },
-    title: "Red Magic"
-  }
+    title: 'Red Magic',
+  },
 ]
 
 const forYouProducts = [
   {
-    name: "Cyber Neon Jacket",
-    type: "Digital Wearable",
-    price: "$299",
-    image: "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3",
-    match: "98% Match",
-    isNew: true
+    name: 'Cyber Neon Jacket',
+    type: 'Digital Wearable',
+    price: '$299',
+    image: 'https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3',
+    match: '98% Match',
+    isNew: true,
   },
   {
-    name: "HoloShift Boots",
-    type: "AR Footwear",
-    price: "$199",
-    image: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b",
-    match: "95% Match"
+    name: 'HoloShift Boots',
+    type: 'AR Footwear',
+    price: '$199',
+    image: 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b',
+    match: '95% Match',
   },
   {
-    name: "Digital Denim",
-    type: "Smart Fabric",
-    price: "$249",
-    image: "https://images.unsplash.com/photo-1542272604-787c3835535d",
-    match: "92% Match"
+    name: 'Digital Denim',
+    type: 'Smart Fabric',
+    price: '$249',
+    image: 'https://images.unsplash.com/photo-1542272604-787c3835535d',
+    match: '92% Match',
   },
   {
-    name: "Meta Shades",
-    type: "AR Accessory",
-    price: "$159",
-    image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083",
-    match: "89% Match",
-    isNew: true
+    name: 'Meta Shades',
+    type: 'AR Accessory',
+    price: '$159',
+    image: 'https://images.unsplash.com/photo-1511499767150-a48a237f0083',
+    match: '89% Match',
+    isNew: true,
   },
   {
-    name: "Quantum Dress",
-    type: "Digital Couture",
-    price: "$399",
-    image: "https://images.unsplash.com/photo-1539008835657-9e8e9680c956",
-    match: "87% Match"
+    name: 'Quantum Dress',
+    type: 'Digital Couture',
+    price: '$399',
+    image: 'https://images.unsplash.com/photo-1539008835657-9e8e9680c956',
+    match: '87% Match',
   },
   {
-    name: "Neural Sneakers",
-    type: "Smart Footwear",
-    price: "$279",
-    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff",
-    match: "85% Match"
-  }
+    name: 'Neural Sneakers',
+    type: 'Smart Footwear',
+    price: '$279',
+    image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff',
+    match: '85% Match',
+  },
 ]
 
 const trendingPosts = [
   {
     user: {
-      name: "Sarah Chen",
-      handle: "@sarahchen",
-      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
-      isVerified: true
+      name: 'Sarah Chen',
+      handle: '@sarahchen',
+      image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330',
+      isVerified: true,
     },
-    content: "Just tried the new AR mirror feature - mind blown! 🤯",
-    image: "https://images.unsplash.com/photo-1558769132-cb1aea458c5e",
+    content: 'Just tried the new AR mirror feature - mind blown! 🤯',
+    image: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e',
     likes: 234,
     comments: 45,
     products: [
       {
-        name: "AR Mirror",
-        price: "$399",
-        image: "https://images.unsplash.com/photo-1558769132-cb1aea458c5e"
-      }
-    ]
+        name: 'AR Mirror',
+        price: '$399',
+        image: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e',
+      },
+    ],
   },
   {
     user: {
-      name: "Alex Rivera",
-      handle: "@alexstyle",
-      image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6",
-      isVerified: true
+      name: 'Alex Rivera',
+      handle: '@alexstyle',
+      image: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6',
+      isVerified: true,
     },
-    content: "New drop alert! 🔥 Rocking the Quantum collection at Milan Digital Fashion Week",
-    image: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b",
+    content: 'New drop alert! 🔥 Rocking the Quantum collection at Milan Digital Fashion Week',
+    image: 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b',
     likes: 567,
     comments: 89,
-    products: []
+    products: [],
   },
   {
     user: {
-      name: "Emma Watson",
-      handle: "@emmafashion",
-      image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb",
-      isVerified: true
+      name: 'Emma Watson',
+      handle: '@emmafashion',
+      image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb',
+      isVerified: true,
     },
-    content: "Sustainable fashion meets digital innovation. These new eco-friendly materials in the metaverse are incredible! 🌱✨",
-    image: "https://images.unsplash.com/photo-1542272604-787c3835535d",
+    content:
+      'Sustainable fashion meets digital innovation. These new eco-friendly materials in the metaverse are incredible! 🌱✨',
+    image: 'https://images.unsplash.com/photo-1542272604-787c3835535d',
     likes: 892,
     comments: 156,
-    products: []
+    products: [],
   },
   {
     user: {
-      name: "Marcus Chen",
-      handle: "@marcusdesign",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d",
-      isVerified: true
+      name: 'Marcus Chen',
+      handle: '@marcusdesign',
+      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d',
+      isVerified: true,
     },
-    content: "Behind the scenes at our latest holographic fashion show. The future is here! 🌟",
-    image: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b",
+    content: 'Behind the scenes at our latest holographic fashion show. The future is here! 🌟',
+    image: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b',
     likes: 445,
     comments: 67,
-    products: []
-  }
+    products: [],
+  },
 ]
 
 const liveEvents = [
   {
-    title: "Paris Digital Fashion Week",
-    viewers: "2.5K watching",
-    image: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b",
-    startTime: "Live Now"
+    title: 'Paris Digital Fashion Week',
+    viewers: '2.5K watching',
+    image: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b',
+    startTime: 'Live Now',
   },
   {
-    title: "Metaverse Fashion Show",
-    viewers: "Starting in 2h",
-    image: "https://images.unsplash.com/photo-1558769132-cb1aea458c5e",
-    startTime: "2:00 PM"
-  }
+    title: 'Metaverse Fashion Show',
+    viewers: 'Starting in 2h',
+    image: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e',
+    startTime: '2:00 PM',
+  },
 ]
 
 export default function AppPage() {
-  const [activeTab, setActiveTab] = useState("tailored")
+  const [activeTab, setActiveTab] = useState('tailored')
   const [activePopover, setActivePopover] = useState<string | null>(null)
   const [isHoveringPopover, setIsHoveringPopover] = useState(false)
   const [activeDrawer, setActiveDrawer] = useState<string | null>(null)
   const [isSearchFocused, setIsSearchFocused] = useState(false)
-  const [searchQuery, setSearchQuery] = useState("")
+  const [searchQuery, setSearchQuery] = useState('')
 
   const handlePopoverOpen = (productName: string) => {
     setActivePopover(productName)
@@ -337,11 +358,8 @@ export default function AppPage() {
       <div className="bg-white">
         <div className="max-w-3xl mx-auto px-4 py-4">
           <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide p-[4px]">
-            {stories.map((story) => (
-              <button
-                key={story.id}
-                className="flex flex-col items-center gap-1 min-w-[72px]"
-              >
+            {stories.map(story => (
+              <button key={story.id} className="flex flex-col items-center gap-1 min-w-[72px]">
                 <div className="relative">
                   <div className="w-16 h-16 rounded-full ring-2 ring-red-600 p-[2px]">
                     <div className="relative w-full h-full rounded-full overflow-hidden">
@@ -368,28 +386,24 @@ export default function AppPage() {
         <div className="max-w-3xl mx-auto px-4">
           <div className="flex gap-8">
             <button
-              onClick={() => setActiveTab("tailored")}
+              onClick={() => setActiveTab('tailored')}
               className={`py-4 text-sm font-medium relative ${
-                activeTab === "tailored"
-                  ? "text-purple-600"
-                  : "text-gray-600"
+                activeTab === 'tailored' ? 'text-purple-600' : 'text-gray-600'
               }`}
             >
               Tailored
-              {activeTab === "tailored" && (
+              {activeTab === 'tailored' && (
                 <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-purple-600" />
               )}
             </button>
             <button
-              onClick={() => setActiveTab("following")}
+              onClick={() => setActiveTab('following')}
               className={`py-4 text-sm font-medium relative ${
-                activeTab === "following"
-                  ? "text-purple-600"
-                  : "text-gray-600"
+                activeTab === 'following' ? 'text-purple-600' : 'text-gray-600'
               }`}
             >
               Following
-              {activeTab === "following" && (
+              {activeTab === 'following' && (
                 <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-purple-600" />
               )}
             </button>
@@ -493,7 +507,7 @@ export default function AppPage() {
             </Link>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {forYouProducts.map((product) => (
+            {forYouProducts.map(product => (
               <div
                 key={product.name}
                 className="group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
@@ -506,7 +520,7 @@ export default function AppPage() {
                     fill
                     className="object-cover transition-transform group-hover:scale-105"
                   />
-                  
+
                   {/* Try-on Options Button - Adapts between mobile/desktop */}
                   <div className="absolute top-3 right-3">
                     <button
@@ -517,10 +531,10 @@ export default function AppPage() {
                     >
                       <HangerIcon className="w-4 h-4 text-purple-600 group-hover:animate-hanger-hover" />
                     </button>
-                    
+
                     {/* Desktop Popover - Only shown on lg screens */}
                     {activePopover === product.name && (
-                      <div 
+                      <div
                         className="absolute top-full right-0 mt-2 w-40 bg-white rounded-lg shadow-lg py-1 z-30 hidden lg:block"
                         onMouseEnter={() => setIsHoveringPopover(true)}
                         onMouseLeave={() => {
@@ -553,24 +567,17 @@ export default function AppPage() {
         </div>
 
         {/* Social Posts */}
-        {trendingPosts.map((post) => (
+        {trendingPosts.map(post => (
           <div key={post.user.handle} className="bg-white rounded-2xl overflow-hidden">
             {/* Post Header */}
             <div className="p-4 flex items-center gap-3">
               <div className="relative w-10 h-10 rounded-full overflow-hidden">
-                <Image
-                  src={post.user.image}
-                  alt={post.user.name}
-                  fill
-                  className="object-cover"
-                />
+                <Image src={post.user.image} alt={post.user.name} fill className="object-cover" />
               </div>
               <div>
                 <div className="flex items-center gap-1">
                   <h3 className="font-medium">{post.user.name}</h3>
-                  {post.user.isVerified && (
-                    <Sparkles className="w-4 h-4 text-purple-600" />
-                  )}
+                  {post.user.isVerified && <Sparkles className="w-4 h-4 text-purple-600" />}
                 </div>
                 <p className="text-sm text-gray-500">{post.user.handle}</p>
               </div>
@@ -581,12 +588,7 @@ export default function AppPage() {
 
             {/* Post Image */}
             <div className="relative aspect-square">
-              <Image
-                src={post.image}
-                alt="Post"
-                fill
-                className="object-cover"
-              />
+              <Image src={post.image} alt="Post" fill className="object-cover" />
             </div>
 
             {/* Post Actions */}
@@ -616,9 +618,7 @@ export default function AppPage() {
                 <span className="font-medium">{post.user.name}</span> {post.content}
               </p>
 
-              <button className="text-gray-500 text-sm">
-                View all {post.comments} comments
-              </button>
+              <button className="text-gray-500 text-sm">View all {post.comments} comments</button>
             </div>
           </div>
         ))}
@@ -653,4 +653,4 @@ export default function AppPage() {
       </div>
     </div>
   )
-} 
+}

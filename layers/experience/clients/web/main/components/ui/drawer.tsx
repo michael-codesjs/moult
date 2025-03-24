@@ -1,5 +1,5 @@
-import { X } from "lucide-react"
-import { ReactNode } from "react"
+import { X } from 'lucide-react'
+import { ReactNode } from 'react'
 
 interface DrawerProps {
   isOpen: boolean
@@ -18,32 +18,32 @@ export function Drawer({
   children,
   showHandle = true,
   showCloseButton = true,
-  overlayBottomNav = false
+  overlayBottomNav = false,
 }: DrawerProps) {
   if (!isOpen) return null
 
   return (
     <>
       {/* Backdrop */}
-      <div 
+      <div
         className="fixed inset-0 bg-black/40 z-[9999] lg:hidden animate-drawer-fade-in"
         onClick={onClose}
       />
-      
+
       {/* Drawer */}
-      <div 
+      <div
         className="fixed inset-x-0 bottom-0 z-[9999] bg-white rounded-t-2xl lg:hidden animate-drawer-in"
-        style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 80px)" }}
+        style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 80px)' }}
       >
         <div className="p-4">
           {/* Handle bar */}
           {showHandle && (
             <div className="absolute top-2 left-1/2 -translate-x-1/2 w-12 h-1 rounded-full bg-gray-300" />
           )}
-          
+
           {/* Close button */}
           {showCloseButton && (
-            <button 
+            <button
               onClick={onClose}
               className="absolute top-2 right-2 p-2 text-gray-500 hover:text-gray-700"
             >
@@ -64,4 +64,4 @@ export function Drawer({
       </div>
     </>
   )
-} 
+}

@@ -1,1 +1,1 @@
-export { definition as postAuthentication } from "./definition";
+export { definition as postAuthentication } from './definition'

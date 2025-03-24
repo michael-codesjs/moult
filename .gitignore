@@ -31,3 +31,7 @@ terraform.tfstate.backup
 .esbuild
 *.env
 *.env.json
+
+# prisma client
+.prisma
+prisma/client/runtime

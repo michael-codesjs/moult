@@ -12,6 +12,8 @@
     "sourceMap": true,
     "outDir": "dist",
     "baseUrl": "application",
+    "allowSyntheticDefaultImports": true,
+    "module": "commonjs",
     "paths": {
       "@shared": ["../../../../../shared/typescript/sdk/src/index.ts"],
       "@adapters/*": ["adapters/*"],
@@ -30,13 +32,8 @@
       "@utilities/*": ["utilities/*"]
     }
   },
-  "references": [
-    { "path": "../../../../shared/typescript/sdk" }
-  ],
-  "include": [
-    "serverless.ts",
-    "application/**/*.ts"
-  ],
+  "references": [{ "path": "../../../../shared/typescript/sdk" }],
+  "include": ["serverless.ts", "application/**/*.ts"],
   "ts-node": {
     "require": ["tsconfig-paths/register"]
   },

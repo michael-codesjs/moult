@@ -1,16 +1,15 @@
-import { Chance } from "chance";
-import { UserDTO } from "@domain/models";
+import { Chance } from 'chance'
+import { UserDTO } from '@domain/models'
 
-const chance = new Chance();
+const chance = new Chance()
 
 export const getRandomUserAttributes = (): UserDTO => {
-
-  const id = chance.guid();
+  const id = chance.guid()
 
   return {
-    entity_type: "USER",
+    entity_type: 'USER',
     id: id,
-    creator_type: "USER",
+    creator_type: 'USER',
     creator: id,
     created: chance.date(),
     modified: chance.date(),
@@ -18,7 +17,11 @@ export const getRandomUserAttributes = (): UserDTO => {
     username: chance.first().toLowerCase(),
     email: chance.email(),
     phone_number: chance.phone({ formatted: false }),
-    password: chance.string({ length: 20, numeric: true, alpha: true, symbols: true })
-  };
-
-};
+    password: chance.string({
+      length: 20,
+      numeric: true,
+      alpha: true,
+      symbols: true,
+    }),
+  }
+}

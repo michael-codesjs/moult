@@ -1,1 +1,1 @@
-export * from "./get-random-user-attributes";
+export * from './get-random-user-attributes'

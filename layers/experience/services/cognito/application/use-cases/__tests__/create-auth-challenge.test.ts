@@ -1,49 +1,43 @@
-import { DEFAULT_AUTH_CHALLENGE } from "@shared";
-import Chance from "chance";
-import * as digitGenerator from "crypto-secure-random-digit";
-import { createAuthChallenge } from "..";
+import { DEFAULT_AUTH_CHALLENGE } from '@shared'
+import Chance from 'chance'
+import * as digitGenerator from 'crypto-secure-random-digit'
+import { createAuthChallenge } from '..'
 
-jest.mock("crypto-secure-random-digit");
+jest.mock('crypto-secure-random-digit')
 
-const chance = new Chance();
+const chance = new Chance()
 
-describe("Create Auth Challenge", () => {
+describe('Create Auth Challenge', () => {
+  afterAll(() => {
+    jest.clearAllMocks()
+  })
 
-    afterAll(() => {
-        jest.clearAllMocks();
-    });
+  it(".generates random challenge in 'prod'", async () => {
+    const phoneNumber = chance.phone()
+    const email = chance.email()
 
-    it(".generates random challenge in 'prod'", async () => {
+    process.env.STAGE = 'prod'
 
-        const phoneNumber = chance.phone();
-        const email = chance.email();
+    const randomDigits = [1, 2, 3, 4, 5, 6]
 
-        process.env.STAGE = "prod";
+    let mockedRandomDigits = jest.spyOn(digitGenerator, 'randomDigits')
+    mockedRandomDigits.mockImplementationOnce(() => randomDigits)
 
-        const randomDigits = [1, 2, 3, 4, 5, 6];
+    const challenge = await createAuthChallenge({ phoneNumber, email })
 
-        let mockedRandomDigits = jest.spyOn(digitGenerator, "randomDigits");
-        mockedRandomDigits.mockImplementationOnce(() => randomDigits);
+    expect(mockedRandomDigits).toHaveBeenCalled()
+    expect(mockedRandomDigits).toHaveBeenCalledWith(6)
+    expect(challenge).toBe(randomDigits.join(''))
+  })
 
-        const challenge = await createAuthChallenge({ phoneNumber, email });
+  it(".generates DEFAULT_AUTH_CHALLENGE in stages other than 'prod'", async () => {
+    const phoneNumber = chance.phone()
+    const email = chance.email()
 
-        expect(mockedRandomDigits).toHaveBeenCalled();
-        expect(mockedRandomDigits).toHaveBeenCalledWith(6);
-        expect(challenge).toBe(randomDigits.join(""));
+    process.env.STAGE = 'dev'
 
-    });
+    const challenge = await createAuthChallenge({ phoneNumber, email })
 
-    it(".generates DEFAULT_AUTH_CHALLENGE in stages other than 'prod'", async () => {
-
-        const phoneNumber = chance.phone();
-        const email = chance.email();
-
-        process.env.STAGE = "dev";
-
-        const challenge = await createAuthChallenge({ phoneNumber, email });
-
-        expect(challenge).toBe(DEFAULT_AUTH_CHALLENGE);
-
-    });
-
+    expect(challenge).toBe(DEFAULT_AUTH_CHALLENGE)
+  })
 })

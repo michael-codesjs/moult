@@ -2,7 +2,6 @@
   "name": "@shared/sdk",
   "version": "1.0.0",
   "description": "moult shared sdk.",
-  
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {

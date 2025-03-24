@@ -1,5 +1,5 @@
-import { useRef, type KeyboardEvent, type ClipboardEvent, type ChangeEvent } from "react"
-import { Label } from "./label"
+import { useRef, type KeyboardEvent, type ClipboardEvent, type ChangeEvent } from 'react'
+import { Label } from './label'
 
 interface OTPInputProps {
   length?: number
@@ -26,7 +26,7 @@ export function OTPInput({ length = 6, value, onChange, label }: OTPInputProps) 
   }
 
   const handleKeyDown = (index: number, e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Backspace" && !value[index] && index > 0) {
+    if (e.key === 'Backspace' && !value[index] && index > 0) {
       // Move to previous input on backspace if current input is empty
       inputRefs.current[index - 1]?.focus()
     }
@@ -34,10 +34,10 @@ export function OTPInput({ length = 6, value, onChange, label }: OTPInputProps) 
 
   const handlePaste = (e: ClipboardEvent<HTMLInputElement>) => {
     e.preventDefault()
-    const pastedData = e.clipboardData.getData("text").slice(0, length)
+    const pastedData = e.clipboardData.getData('text').slice(0, length)
     const newOtp = [...value]
 
-    pastedData.split("").forEach((char, index) => {
+    pastedData.split('').forEach((char, index) => {
       if (index < length) newOtp[index] = char
     })
 
@@ -53,14 +53,16 @@ export function OTPInput({ length = 6, value, onChange, label }: OTPInputProps) 
           <>
             <input
               key={`input-${index}`}
-              ref={el => { inputRefs.current[index] = el }}
+              ref={el => {
+                inputRefs.current[index] = el
+              }}
               type="text"
               inputMode="numeric"
               pattern="\d*"
               maxLength={1}
               value={digit}
-              onChange={(e) => handleChange(index, e)}
-              onKeyDown={(e) => handleKeyDown(index, e)}
+              onChange={e => handleChange(index, e)}
+              onKeyDown={e => handleKeyDown(index, e)}
               onPaste={handlePaste}
               className="w-[15%] h-12 text-center text-white bg-gray-800/50 border-2 border-gray-700 rounded-lg text-lg font-semibold
                        focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 focus:outline-none
@@ -68,11 +70,13 @@ export function OTPInput({ length = 6, value, onChange, label }: OTPInputProps) 
               aria-label={`Digit ${index + 1}`}
             />
             {index < value.length - 1 && index % 2 === 1 && (
-              <span key={`dash-${index}`} className="text-gray-600 text-2xl font-light">-</span>
+              <span key={`dash-${index}`} className="text-gray-600 text-2xl font-light">
+                -
+              </span>
             )}
           </>
         ))}
       </div>
     </div>
   )
-} 
+}

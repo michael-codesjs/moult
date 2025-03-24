@@ -1,14 +1,14 @@
-"use client"
+'use client'
 
-import { useState, useEffect, Suspense } from "react"
-import { Button } from "@/components/ui/button"
-import { Banner } from "@/components/ui/banner"
-import Image from "next/image"
-import { OTPInput } from "@/components/ui/otp-input"
-import { useAuth } from "@/hooks/useAuth"
-import { useSearchParams, useRouter } from "next/navigation"
-import { useToast } from "@/components/ui/toast/toast-provider"
-import { Logo } from "@/components/ui/logo"
+import { useState, useEffect, Suspense } from 'react'
+import { Button } from '@/components/ui/button'
+import { Banner } from '@/components/ui/banner'
+import Image from 'next/image'
+import { OTPInput } from '@/components/ui/otp-input'
+import { useAuth } from '@/hooks/useAuth'
+import { useSearchParams, useRouter } from 'next/navigation'
+import { useToast } from '@/components/ui/toast/toast-provider'
+import { Logo } from '@/components/ui/logo'
 
 interface ResendButtonProps {
   onResend: () => void
@@ -22,7 +22,7 @@ function ResendButton({ onResend, isLoading }: ResendButtonProps) {
   useEffect(() => {
     if (countdown > 0) {
       const timer = setInterval(() => {
-        setCountdown((prev) => prev - 1)
+        setCountdown(prev => prev - 1)
       }, 1000)
       return () => clearInterval(timer)
     } else {
@@ -42,11 +42,9 @@ function ResendButton({ onResend, isLoading }: ResendButtonProps) {
       disabled={isResendDisabled || isLoading}
       className="text-gray-400 text-md font-medium transition-colors"
     >
-      Didn't receive a code?{" "}
+      Didn't receive a code?{' '}
       {countdown > 0 ? (
-        <span className="text-gray-500">
-          Resend in {countdown}s
-        </span>
+        <span className="text-gray-500">Resend in {countdown}s</span>
       ) : (
         <span className="text-purple-400 hover:text-purple-300 transition-colors cursor-pointer">
           Send again
@@ -57,29 +55,29 @@ function ResendButton({ onResend, isLoading }: ResendButtonProps) {
 }
 
 function VerificationContent() {
-  const [otp, setOtp] = useState<string[]>(Array(6).fill(""))
+  const [otp, setOtp] = useState<string[]>(Array(6).fill(''))
   const [loading, setLoading] = useState(false)
   const searchParams = useSearchParams()
-  const username = searchParams.get("username")
-  const mode = searchParams.get("mode") as "signin" | "signup" | "signup_auto_confirmed"
+  const username = searchParams.get('username')
+  const mode = searchParams.get('mode') as 'signin' | 'signup' | 'signup_auto_confirmed'
   const { answerAuthenticationChallange, loading: verificationLoading } = useAuth()
   const { toast } = useToast()
 
-  const isSignInMode = mode === "signin"
-  const pageTitle = isSignInMode ? "Verify your identity" : "Check your inbox"
-  const pageDescription = isSignInMode 
+  const isSignInMode = mode === 'signin'
+  const pageTitle = isSignInMode ? 'Verify your identity' : 'Check your inbox'
+  const pageDescription = isSignInMode
     ? "We've sent you a verification code to confirm it's really you."
-    : "Enter the 6-digit code we sent you to continue."
+    : 'Enter the 6-digit code we sent you to continue.'
 
   const handleVerify = async () => {
     if (!username) {
-      toast("Missing username. Please try again.", { status: "error" })
+      toast('Missing username. Please try again.', { status: 'error' })
       return
     }
 
-    const code = otp.join("")
+    const code = otp.join('')
     if (code.length !== 6) {
-      toast("Please enter the complete verification code.", { status: "error" })
+      toast('Please enter the complete verification code.', { status: 'error' })
       return
     }
 
@@ -87,9 +85,10 @@ function VerificationContent() {
     try {
       await answerAuthenticationChallange(username, code)
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Verification failed. Please try again."
-      toast(errorMessage, { status: "error" })
-      console.error("Verification error:", err)
+      const errorMessage =
+        err instanceof Error ? err.message : 'Verification failed. Please try again.'
+      toast(errorMessage, { status: 'error' })
+      console.error('Verification error:', err)
     } finally {
       setLoading(false)
     }
@@ -97,19 +96,19 @@ function VerificationContent() {
 
   const handleResend = async () => {
     if (!username) {
-      toast("Missing username. Please try again.", { status: "error" })
+      toast('Missing username. Please try again.', { status: 'error' })
       return
     }
 
     // TODO: Implement resend for both sign-up and sign-in modes
-    toast("Verification code resent.", { status: "success" })
+    toast('Verification code resent.', { status: 'success' })
   }
 
   if (!username) {
     return (
       <div className="flex flex-col items-center justify-center w-full">
         <div className="mb-6">
-          <Logo 
+          <Logo
             variant="minimal"
             size="xl"
             shape="square"
@@ -117,10 +116,10 @@ function VerificationContent() {
           />
         </div>
         <div className="text-center space-y-4">
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-white">Invalid Request</h1>
-          <p className="text-base sm:text-md md:text-lg text-gray-400">
-            Please try again.
-          </p>
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-white">
+            Invalid Request
+          </h1>
+          <p className="text-base sm:text-md md:text-lg text-gray-400">Please try again.</p>
         </div>
       </div>
     )
@@ -129,7 +128,7 @@ function VerificationContent() {
   return (
     <div className="flex flex-col items-center justify-center w-full">
       <div className="mb-6">
-        <Logo 
+        <Logo
           variant="minimal"
           size="xl"
           shape="square"
@@ -150,11 +149,7 @@ function VerificationContent() {
 
       <div className="w-full max-w-md bg-gray-900/50 backdrop-blur-sm rounded-2xl shadow-xl ring-1 ring-white/[0.05] p-8">
         <div className="flex flex-col space-y-8">
-          <OTPInput
-            value={otp}
-            onChange={setOtp}
-            label="Verification code"
-          />
+          <OTPInput value={otp} onChange={setOtp} label="Verification code" />
 
           <Button
             className="w-full h-14 text-lg bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white border-0 rounded-full shadow-lg shadow-purple-900/20 hover:shadow-purple-900/40"
@@ -173,13 +168,15 @@ function VerificationContent() {
 
 export default function VerificationScreen() {
   return (
-    <Suspense fallback={
-      <div className="flex flex-col items-center justify-center w-full">
-        <div className="text-center space-y-4">
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-white">Loading...</h1>
+    <Suspense
+      fallback={
+        <div className="flex flex-col items-center justify-center w-full">
+          <div className="text-center space-y-4">
+            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-white">Loading...</h1>
+          </div>
         </div>
-      </div>
-    }>
+      }
+    >
       <VerificationContent />
     </Suspense>
   )

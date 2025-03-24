@@ -1,5 +1,5 @@
-import * as React from "react"
-import { cn } from "@/lib/utils"
+import * as React from 'react'
+import { cn } from '@/lib/utils'
 
 interface PopoverProps {
   children: React.ReactNode
@@ -7,20 +7,20 @@ interface PopoverProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   className?: string
-  side?: "top" | "right" | "bottom" | "left"
-  align?: "start" | "center" | "end"
+  side?: 'top' | 'right' | 'bottom' | 'left'
+  align?: 'start' | 'center' | 'end'
   sideOffset?: number
 }
 
-export function Popover({ 
-  children, 
-  content, 
-  open, 
-  onOpenChange, 
+export function Popover({
+  children,
+  content,
+  open,
+  onOpenChange,
   className,
-  side = "bottom",
-  align = "center",
-  sideOffset = 4
+  side = 'bottom',
+  align = 'center',
+  sideOffset = 4,
 }: PopoverProps) {
   const popoverRef = React.useRef<HTMLDivElement>(null)
 
@@ -34,22 +34,25 @@ export function Popover({
       }
     }
 
-    document.addEventListener("mousedown", handleClickOutside)
-    return () => document.removeEventListener("mousedown", handleClickOutside)
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [onOpenChange, open])
 
   const getPositionClasses = () => {
     const positions = {
-      top: "bottom-full mb-2",
-      right: "left-full ml-2",
-      bottom: "top-full mt-2",
-      left: "right-full mr-2"
+      top: 'bottom-full mb-2',
+      right: 'left-full ml-2',
+      bottom: 'top-full mt-2',
+      left: 'right-full mr-2',
     }
 
     const alignments = {
-      start: "start-0",
-      center: side === "top" || side === "bottom" ? "start-1/2 -translate-x-1/2" : "top-1/2 -translate-y-1/2",
-      end: "end-0"
+      start: 'start-0',
+      center:
+        side === 'top' || side === 'bottom'
+          ? 'start-1/2 -translate-x-1/2'
+          : 'top-1/2 -translate-y-1/2',
+      end: 'end-0',
     }
 
     return `${positions[side]} ${alignments[align]}`
@@ -57,14 +60,12 @@ export function Popover({
 
   return (
     <div ref={popoverRef} className="inline-block relative">
-      <div onClick={() => onOpenChange(!open)}>
-        {children}
-      </div>
+      <div onClick={() => onOpenChange(!open)}>{children}</div>
 
       {open && (
-        <div 
+        <div
           className={cn(
-            "absolute z-50 min-w-[8rem] bg-white border rounded-lg shadow-lg",
+            'absolute z-50 min-w-[8rem] bg-white border rounded-lg shadow-lg',
             getPositionClasses(),
             className
           )}
@@ -74,4 +75,4 @@ export function Popover({
       )}
     </div>
   )
-} 
+}

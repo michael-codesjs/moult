@@ -1,20 +1,21 @@
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { Table } from 'dynamodb-onetable';
-import { Dynamo } from 'dynamodb-onetable/Dynamo';
-import { configureEnviromentVariables } from "@shared";
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
+import { Table } from 'dynamodb-onetable'
+import { Dynamo } from 'dynamodb-onetable/Dynamo'
+import { configureEnviromentVariables } from '@shared'
 
 const {
   USER_EVENTS_STORE_DYNAMODB_TABLE_NAME,
-  REGION
-} = configureEnviromentVariables();
+  EVENT_COUNT_DYNAMODB_TABLE_NAME,
+  REGION,
+} = configureEnviromentVariables()
 
 const client = new Dynamo({
   client: new DynamoDBClient({
-    region: REGION || "eu-central-1",
-  })
-});
+    region: REGION || 'eu-central-1',
+  }),
+})
 
-export const table = new Table({
+export const event_store_table = new Table({
   name: USER_EVENTS_STORE_DYNAMODB_TABLE_NAME,
   client,
   schema: {
@@ -23,7 +24,21 @@ export const table = new Table({
     indexes: {
       primary: { hash: 'id', sort: 'version' },
     },
-    models: {}
+    models: {},
   },
-  partial: true
-});
+  partial: true,
+})
+
+export const event_count_table = new Table({
+  name: EVENT_COUNT_DYNAMODB_TABLE_NAME,
+  client,
+  schema: {
+    format: 'onetable:1.1.0',
+    version: '0.0.1',
+    indexes: {
+      primary: { hash: 'aggregate_id' },
+    },
+    models: {},
+  },
+  partial: true,
+})

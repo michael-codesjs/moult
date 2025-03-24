@@ -1,59 +1,59 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { FlipCounter } from "@/components/ui/flip-counter"
-import { ArrowRight, Box, Brain, Glasses, ShoppingBag, Sparkles, LogOut } from "lucide-react"
-import Link from "next/link"
-import { useAuth } from "@/hooks/useAuth"
-import { Button } from "@/components/ui/button"
+import { useState } from 'react'
+import { FlipCounter } from '@/components/ui/flip-counter'
+import { ArrowRight, Box, Brain, Glasses, ShoppingBag, Sparkles, LogOut } from 'lucide-react'
+import Link from 'next/link'
+import { useAuth } from '@/hooks/useAuth'
+import { Button } from '@/components/ui/button'
 
 const quickActions = [
   {
-    title: "Try On Items",
-    description: "Use AI to virtually try on new items",
+    title: 'Try On Items',
+    description: 'Use AI to virtually try on new items',
     icon: <Glasses className="w-6 h-6 text-purple-600" />,
-    href: "/app/try-on",
-    color: "bg-purple-50"
+    href: '/app/try-on',
+    color: 'bg-purple-50',
   },
   {
-    title: "Browse Collections",
-    description: "Explore digital fashion collections",
+    title: 'Browse Collections',
+    description: 'Explore digital fashion collections',
     icon: <ShoppingBag className="w-6 h-6 text-pink-600" />,
-    href: "/app/collections",
-    color: "bg-pink-50"
+    href: '/app/collections',
+    color: 'bg-pink-50',
   },
   {
-    title: "AI Style Match",
-    description: "Get personalized style recommendations",
+    title: 'AI Style Match',
+    description: 'Get personalized style recommendations',
     icon: <Brain className="w-6 h-6 text-blue-600" />,
-    href: "/app/style-match",
-    color: "bg-blue-50"
+    href: '/app/style-match',
+    color: 'bg-blue-50',
   },
   {
-    title: "Live Events",
-    description: "Join virtual fashion shows and events",
+    title: 'Live Events',
+    description: 'Join virtual fashion shows and events',
     icon: <Sparkles className="w-6 h-6 text-cyan-600" />,
-    href: "/app/events",
-    color: "bg-cyan-50"
-  }
+    href: '/app/events',
+    color: 'bg-cyan-50',
+  },
 ]
 
 const recentActivity = [
   {
-    action: "Tried on Neon Cyber Jacket",
-    timestamp: "2 hours ago",
+    action: 'Tried on Neon Cyber Jacket',
+    timestamp: '2 hours ago',
     icon: <Glasses className="w-4 h-4" />,
   },
   {
-    action: "Attended Virtual Fashion Show",
-    timestamp: "Yesterday",
+    action: 'Attended Virtual Fashion Show',
+    timestamp: 'Yesterday',
     icon: <Sparkles className="w-4 h-4" />,
   },
   {
-    action: "Received Style Recommendations",
-    timestamp: "2 days ago",
+    action: 'Received Style Recommendations',
+    timestamp: '2 days ago',
     icon: <Brain className="w-4 h-4" />,
-  }
+  },
 ]
 
 export default function ProfilePage() {
@@ -62,7 +62,7 @@ export default function ProfilePage() {
     itemsTried: 24,
     eventsAttended: 3,
     savedItems: 12,
-    styleMatches: 48
+    styleMatches: 48,
   })
 
   return (
@@ -80,19 +80,19 @@ export default function ProfilePage() {
             itemsTried: <Glasses className="w-full h-full" />,
             eventsAttended: <Sparkles className="w-full h-full" />,
             savedItems: <Box className="w-full h-full" />,
-            styleMatches: <Brain className="w-full h-full" />
+            styleMatches: <Brain className="w-full h-full" />,
           }
           const colors = {
             itemsTried: 'purple',
             eventsAttended: 'pink',
             savedItems: 'blue',
-            styleMatches: 'cyan'
+            styleMatches: 'cyan',
           }
           const titles = {
             itemsTried: 'Items Tried On',
             eventsAttended: 'Events Attended',
             savedItems: 'Saved Items',
-            styleMatches: 'Style Matches'
+            styleMatches: 'Style Matches',
           }
           return (
             <div
@@ -103,8 +103,12 @@ export default function ProfilePage() {
                 {icons[key as keyof typeof icons]}
               </div>
               <div className="p-6">
-                <dt className="text-sm font-medium text-gray-500">{titles[key as keyof typeof titles]}</dt>
-                <dd className={`mt-2 text-3xl font-bold text-${colors[key as keyof typeof colors]}-600`}>
+                <dt className="text-sm font-medium text-gray-500">
+                  {titles[key as keyof typeof titles]}
+                </dt>
+                <dd
+                  className={`mt-2 text-3xl font-bold text-${colors[key as keyof typeof colors]}-600`}
+                >
                   <FlipCounter value={value} />
                 </dd>
               </div>
@@ -117,13 +121,15 @@ export default function ProfilePage() {
       <div className="mb-8">
         <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {quickActions.map((action) => (
-            <Link 
+          {quickActions.map(action => (
+            <Link
               key={action.title}
               href={action.href}
               className="group relative overflow-hidden rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/[0.05] hover:shadow-md transition-all hover:-translate-y-1"
             >
-              <div className={`absolute top-6 right-6 w-12 h-12 ${action.color} rounded-xl flex items-center justify-center`}>
+              <div
+                className={`absolute top-6 right-6 w-12 h-12 ${action.color} rounded-xl flex items-center justify-center`}
+              >
                 {action.icon}
               </div>
               <div className="pr-12">
@@ -142,9 +148,7 @@ export default function ProfilePage() {
         <div className="rounded-2xl bg-white shadow-sm ring-1 ring-black/[0.05] divide-y">
           {recentActivity.map((activity, i) => (
             <div key={i} className="flex items-center gap-4 p-4 hover:bg-gray-50 transition-colors">
-              <div className="p-2 rounded-full bg-gray-100">
-                {activity.icon}
-              </div>
+              <div className="p-2 rounded-full bg-gray-100">{activity.icon}</div>
               <div className="flex-1">
                 <p className="font-medium">{activity.action}</p>
                 <p className="text-sm text-gray-500">{activity.timestamp}</p>
@@ -161,7 +165,9 @@ export default function ProfilePage() {
         <div className="bg-white rounded-2xl shadow-sm ring-1 ring-black/[0.05] p-6">
           <form className="space-y-6">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700">Full Name</label>
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                Full Name
+              </label>
               <input
                 type="text"
                 id="name"
@@ -170,7 +176,9 @@ export default function ProfilePage() {
               />
             </div>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                Email
+              </label>
               <input
                 type="email"
                 id="email"
@@ -179,7 +187,9 @@ export default function ProfilePage() {
               />
             </div>
             <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Phone Number</label>
+              <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+                Phone Number
+              </label>
               <input
                 type="tel"
                 id="phone"
@@ -220,18 +230,14 @@ export default function ProfilePage() {
                     <p className="font-medium text-gray-900">Chrome on MacOS</p>
                     <p className="text-gray-500">Last active: 2 minutes ago</p>
                   </div>
-                  <button className="text-sm text-red-600 hover:text-red-700">
-                    End Session
-                  </button>
+                  <button className="text-sm text-red-600 hover:text-red-700">End Session</button>
                 </div>
                 <div className="flex items-center justify-between py-3 border-b">
                   <div className="text-sm">
                     <p className="font-medium text-gray-900">Safari on iPhone</p>
                     <p className="text-gray-500">Last active: 1 hour ago</p>
                   </div>
-                  <button className="text-sm text-red-600 hover:text-red-700">
-                    End Session
-                  </button>
+                  <button className="text-sm text-red-600 hover:text-red-700">End Session</button>
                 </div>
               </div>
             </div>
@@ -267,4 +273,4 @@ export default function ProfilePage() {
       </div>
     </div>
   )
-} 
+}

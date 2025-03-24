@@ -1,1 +1,1 @@
-export { definition as verifyAuthChallenge } from "./definition";
+export { definition as verifyAuthChallenge } from './definition'

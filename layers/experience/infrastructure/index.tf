@@ -24,9 +24,9 @@ variable "region" {
 }
 
 module "api" {
-  source               = "./api"
-  stage                = var.stage
-  region               = var.region
+  source = "./api"
+  stage  = var.stage
+  region = var.region
 }
 
 module "authentication" {
@@ -36,13 +36,8 @@ module "authentication" {
 }
 
 
-module "client_deployments" {
-  source = "./client-deployments"
+module "storage" {
+  source = "./storage"
   stage  = var.stage
   region = var.region
-  graphql_api_id = module.api.graphal_api_id
-  graphql_api_endpoint = module.api.graphal_api_endpoint
-  cognito_user_pool_arn = module.authentication.cognito_user_pool_arn
-  cognito_user_pool_id = module.authentication.cognito_user_pool_id
-  cognito_user_pool_name = module.authentication.cognito_user_pool_name
 }

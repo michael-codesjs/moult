@@ -70,7 +70,8 @@
 }
 
 @keyframes bounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
@@ -79,15 +80,35 @@
 }
 
 /* Add different animation delays */
-.delay1 { animation-delay: 0s; }
-.delay2 { animation-delay: 0.5s; }
-.delay3 { animation-delay: 1s; }
-.delay4 { animation-delay: 1.5s; }
-.delay5 { animation-delay: 2s; }
-.delay6 { animation-delay: 2.5s; }
+.delay1 {
+  animation-delay: 0s;
+}
+.delay2 {
+  animation-delay: 0.5s;
+}
+.delay3 {
+  animation-delay: 1s;
+}
+.delay4 {
+  animation-delay: 1.5s;
+}
+.delay5 {
+  animation-delay: 2s;
+}
+.delay6 {
+  animation-delay: 2.5s;
+}
 
 /* Add different animation durations */
-.duration1 { animation-duration: 4s; }
-.duration2 { animation-duration: 5s; }
-.duration3 { animation-duration: 6s; }
-.duration4 { animation-duration: 7s; } 
+.duration1 {
+  animation-duration: 4s;
+}
+.duration2 {
+  animation-duration: 5s;
+}
+.duration3 {
+  animation-duration: 6s;
+}
+.duration4 {
+  animation-duration: 7s;
+}

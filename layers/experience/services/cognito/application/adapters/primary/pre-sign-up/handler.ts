@@ -1,24 +1,25 @@
-import { withLambdaStandard } from "@shared";
-import { preSignUp } from "@use-cases/pre-sign-up";
-import { PreSignUpTriggerHandler } from "aws-lambda";
+import { withLambdaStandard } from '@shared'
+import { preSignUp } from '@use-cases/pre-sign-up'
+import { PreSignUpTriggerHandler } from 'aws-lambda'
 
 /** 'preSignUp' lambda function handler. */
-const handler: PreSignUpTriggerHandler = async event => {
-    const { email, phone_number } = event.request.userAttributes;
-    
-    const preSignUpParams: { email?: string, phoneNumber?: string } = {};
+const handler: PreSignUpTriggerHandler = async (event) => {
+  const { email, phone_number } = event.request.userAttributes
 
-    if(email) preSignUpParams.email = email;
-    if(phone_number) preSignUpParams.phoneNumber = phone_number;
+  const preSignUpParams: { email?: string; phoneNumber?: string } = {}
 
-    const { confirmed, emailVerified, phoneNumberVerified } = await preSignUp(preSignUpParams);
+  if (email) preSignUpParams.email = email
+  if (phone_number) preSignUpParams.phoneNumber = phone_number
 
-    event.response.autoConfirmUser = true;
-    event.response.autoVerifyEmail = emailVerified;
-    event.response.autoVerifyPhone = phoneNumberVerified;
+  const { confirmed, emailVerified, phoneNumberVerified } =
+    await preSignUp(preSignUpParams)
 
-    return event;
-};
+  event.response.autoConfirmUser = true
+  event.response.autoVerifyEmail = emailVerified
+  event.response.autoVerifyPhone = phoneNumberVerified
+
+  return event
+}
 
 /** 'preSignUp' handler wrapped in required middleware. */
-export const main = withLambdaStandard(handler);
+export const main = withLambdaStandard(handler)

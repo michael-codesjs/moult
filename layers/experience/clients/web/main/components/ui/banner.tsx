@@ -1,67 +1,72 @@
-import styles from './banner.module.css';
-import { useMemo } from 'react';
+import styles from './banner.module.css'
+import { useMemo } from 'react'
 
 export function Banner() {
-  const birdIcons = useMemo(() => 
-    Array.from({ length: 16 }).map((_, i) => {
-      const gridX = i % 4;
-      const gridY = Math.floor(i / 4);
-      const baseX = (gridX * 480) + 160;
-      const baseY = (gridY * 270) + 90;
-      const rotation = Math.random() * 40 - 20;
-      return { baseX, baseY, rotation };
-    }), 
+  const birdIcons = useMemo(
+    () =>
+      Array.from({ length: 16 }).map((_, i) => {
+        const gridX = i % 4
+        const gridY = Math.floor(i / 4)
+        const baseX = gridX * 480 + 160
+        const baseY = gridY * 270 + 90
+        const rotation = Math.random() * 40 - 20
+        return { baseX, baseY, rotation }
+      }),
     []
-  );
+  )
 
-  const shoeIcons = useMemo(() => 
-    Array.from({ length: 16 }).map((_, i) => {
-      const gridX = i % 4;
-      const gridY = Math.floor(i / 4);
-      const baseX = (gridX * 480) + 320;
-      const baseY = (gridY * 270) + 180;
-      const rotation = Math.random() * 40 - 20;
-      return { baseX, baseY, rotation };
-    }), 
+  const shoeIcons = useMemo(
+    () =>
+      Array.from({ length: 16 }).map((_, i) => {
+        const gridX = i % 4
+        const gridY = Math.floor(i / 4)
+        const baseX = gridX * 480 + 320
+        const baseY = gridY * 270 + 180
+        const rotation = Math.random() * 40 - 20
+        return { baseX, baseY, rotation }
+      }),
     []
-  );
+  )
 
-  const glassesIcons = useMemo(() => 
-    Array.from({ length: 16 }).map((_, i) => {
-      const gridX = i % 4;
-      const gridY = Math.floor(i / 4);
-      const baseX = (gridX * 480) + 240;
-      const baseY = (gridY * 270) + 135;
-      const rotation = Math.random() * 40 - 20;
-      return { baseX, baseY, rotation };
-    }), 
+  const glassesIcons = useMemo(
+    () =>
+      Array.from({ length: 16 }).map((_, i) => {
+        const gridX = i % 4
+        const gridY = Math.floor(i / 4)
+        const baseX = gridX * 480 + 240
+        const baseY = gridY * 270 + 135
+        const rotation = Math.random() * 40 - 20
+        return { baseX, baseY, rotation }
+      }),
     []
-  );
+  )
 
-  const hatIcons = useMemo(() => 
-    Array.from({ length: 16 }).map((_, i) => {
-      const gridX = i % 4;
-      const gridY = Math.floor(i / 4);
-      const baseX = (gridX * 480) + 400;
-      const baseY = (gridY * 270) + 225;
-      const rotation = Math.random() * 40 - 20;
-      return { baseX, baseY, rotation };
-    }), 
+  const hatIcons = useMemo(
+    () =>
+      Array.from({ length: 16 }).map((_, i) => {
+        const gridX = i % 4
+        const gridY = Math.floor(i / 4)
+        const baseX = gridX * 480 + 400
+        const baseY = gridY * 270 + 225
+        const rotation = Math.random() * 40 - 20
+        return { baseX, baseY, rotation }
+      }),
     []
-  );
+  )
 
-  const floatingParticles = useMemo(() => 
-    Array.from({ length: 20 }).map((_, i) => {
-      const section = i % 20;
-      const gridX = (section % 5) * 384;
-      const gridY = Math.floor(section / 5) * 270;
-      const offsetX = Math.random() * 384;
-      const offsetY = Math.random() * 270;
-      const opacity = 0.2 + Math.random() * 0.3;
-      return { gridX, gridY, offsetX, offsetY, opacity };
-    }), 
+  const floatingParticles = useMemo(
+    () =>
+      Array.from({ length: 20 }).map((_, i) => {
+        const section = i % 20
+        const gridX = (section % 5) * 384
+        const gridY = Math.floor(section / 5) * 270
+        const offsetX = Math.random() * 384
+        const offsetY = Math.random() * 270
+        const opacity = 0.2 + Math.random() * 0.3
+        return { gridX, gridY, offsetX, offsetY, opacity }
+      }),
     []
-  );
+  )
 
   return (
     <div className="absolute inset-0 -z-10 overflow-hidden">
@@ -76,8 +81,8 @@ export function Banner() {
         {/* Background with radial gradient */}
         <defs>
           <radialGradient id="grad1" cx="50%" cy="50%" r="70%">
-            <stop offset="0%" style={{ stopColor: "#9333EA", stopOpacity: 0.05 }} />
-            <stop offset="100%" style={{ stopColor: "#7928CA", stopOpacity: 0.15 }} />
+            <stop offset="0%" style={{ stopColor: '#9333EA', stopOpacity: 0.05 }} />
+            <stop offset="100%" style={{ stopColor: '#7928CA', stopOpacity: 0.15 }} />
           </radialGradient>
         </defs>
         <rect width="100%" height="100%" fill="url(#grad1)" />
@@ -192,15 +197,26 @@ export function Banner() {
 
         {/* Bird Icons */}
         {birdIcons.map((icon, i) => (
-          <g key={`bird-${i}`} 
+          <g
+            key={`bird-${i}`}
             transform={`translate(${icon.baseX}, ${icon.baseY}) rotate(${icon.rotation}) scale(0.628)`}
           >
             <svg height="64" width="64" version="1.1" viewBox="0 0 64 64">
               <g>
-                <circle cx="32" cy="32" r="32" fill="none" stroke="#9333EA" strokeWidth="0.67"/>
-                <path d="M16,16c0,0-4,4-4,8s4,10,4,22h4V32c0,0,4,0,8,8s8,8,12,8s12-0.2,12-1.7c0-1.7,0.4-3.3-1.8-4.9
-                  c-2-1.5-8.4-4.2-8.4-4.2s-7,5.4-14-6C19.7,18,16,16,16,16z" fill="none" stroke="#9333EA" strokeWidth="0.67"/>
-                <path d="M20,46c0,1.1-0.9,2-2,2l0,0c-1.1,0-2-0.9-2-2l0,0c0-1.1,0.9-2,2-2l0,0C19.1,44,20,44.9,20,46L20,46z" fill="none" stroke="#9333EA" strokeWidth="0.67"/>
+                <circle cx="32" cy="32" r="32" fill="none" stroke="#9333EA" strokeWidth="0.67" />
+                <path
+                  d="M16,16c0,0-4,4-4,8s4,10,4,22h4V32c0,0,4,0,8,8s8,8,12,8s12-0.2,12-1.7c0-1.7,0.4-3.3-1.8-4.9
+                  c-2-1.5-8.4-4.2-8.4-4.2s-7,5.4-14-6C19.7,18,16,16,16,16z"
+                  fill="none"
+                  stroke="#9333EA"
+                  strokeWidth="0.67"
+                />
+                <path
+                  d="M20,46c0,1.1-0.9,2-2,2l0,0c-1.1,0-2-0.9-2-2l0,0c0-1.1,0.9-2,2-2l0,0C19.1,44,20,44.9,20,46L20,46z"
+                  fill="none"
+                  stroke="#9333EA"
+                  strokeWidth="0.67"
+                />
               </g>
             </svg>
           </g>
@@ -208,7 +224,8 @@ export function Banner() {
 
         {/* Shoe Icons */}
         {shoeIcons.map((icon, i) => (
-          <g key={`shoe-${i}`} 
+          <g
+            key={`shoe-${i}`}
             transform={`translate(${icon.baseX}, ${icon.baseY}) rotate(${icon.rotation}) scale(0.06)`}
           >
             <svg viewBox="0 0 511.903 511.903">
@@ -235,7 +252,8 @@ export function Banner() {
 
         {/* Glasses Icons */}
         {glassesIcons.map((icon, i) => (
-          <g key={`glasses-${i}`} 
+          <g
+            key={`glasses-${i}`}
             transform={`translate(${icon.baseX}, ${icon.baseY}) rotate(${icon.rotation}) scale(0.054)`}
           >
             <svg viewBox="0 0 32 32">
@@ -274,7 +292,8 @@ export function Banner() {
 
         {/* Hat Icons */}
         {hatIcons.map((icon, i) => (
-          <g key={`hat-${i}`} 
+          <g
+            key={`hat-${i}`}
             transform={`translate(${icon.baseX}, ${icon.baseY}) rotate(${icon.rotation}) scale(0.05)`}
           >
             <svg viewBox="0 0 512 512">
@@ -311,5 +330,5 @@ export function Banner() {
         ))}
       </svg>
     </div>
-  );
-} 
+  )
+}

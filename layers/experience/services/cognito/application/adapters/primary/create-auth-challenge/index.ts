@@ -1,1 +1,1 @@
-export { definition as createAuthChallenge } from "./definition";
+export { definition as createAuthChallenge } from './definition'

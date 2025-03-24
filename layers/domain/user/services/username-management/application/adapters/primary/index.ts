@@ -1,2 +1,1 @@
-export * from "./generate-username";
-export * from "./get-user-assignments";
+export { definition as generateUsername } from './generate-username'

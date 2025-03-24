@@ -1,4 +1,4 @@
-import styles from './banner.module.css';
+import styles from './banner.module.css'
 
 export function MinimalBanner() {
   return (
@@ -16,8 +16,8 @@ export function MinimalBanner() {
           {/* Background with radial gradient */}
           <defs>
             <radialGradient id="grad1" cx="50%" cy="50%" r="70%">
-              <stop offset="0%" style={{ stopColor: "#9333EA", stopOpacity: 0.15 }} />
-              <stop offset="100%" style={{ stopColor: "#0F172A", stopOpacity: 0.3 }} />
+              <stop offset="0%" style={{ stopColor: '#9333EA', stopOpacity: 0.15 }} />
+              <stop offset="100%" style={{ stopColor: '#0F172A', stopOpacity: 0.3 }} />
             </radialGradient>
           </defs>
           <rect width="100%" height="100%" fill="url(#grad1)" />
@@ -172,13 +172,13 @@ export function MinimalBanner() {
 
           {/* Floating particles */}
           {Array.from({ length: 40 }).map((_, i) => {
-            const section = i % 20;
-            const gridX = (section % 5) * 384;
-            const gridY = Math.floor(section / 5) * 270;
-            const offsetX = Math.random() * 384;
-            const offsetY = Math.random() * 270;
-            const opacity = 0.3 + Math.random() * 0.4;
-            const extraOffset = i >= 20 ? 192 : 0;
+            const section = i % 20
+            const gridX = (section % 5) * 384
+            const gridY = Math.floor(section / 5) * 270
+            const offsetX = Math.random() * 384
+            const offsetY = Math.random() * 270
+            const opacity = 0.3 + Math.random() * 0.4
+            const extraOffset = i >= 20 ? 192 : 0
             return (
               <circle
                 key={i}
@@ -188,10 +188,10 @@ export function MinimalBanner() {
                 fill="#9333EA"
                 opacity={opacity}
               />
-            );
+            )
           })}
         </svg>
       </div>
     </>
-  );
+  )
 }

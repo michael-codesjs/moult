@@ -1,4 +1,4 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -9,14 +9,14 @@ const nextConfig: NextConfig = {
     AWS_COGNITO_REGION: process.env.AWS_COGNITO_REGION,
     NEXT_PUBLIC_COGNITO_USER_POOL_ID: process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID,
     NEXT_PUBLIC_COGNITO_CLIENT_ID: process.env.NEXT_PUBLIC_COGNITO_CLIENT_ID,
-    APP_CLIENT_URL: process.env.APP_CLIENT_URL
+    APP_CLIENT_URL: process.env.APP_CLIENT_URL,
   },
   transpilePackages: [
     'three',
     '@aws-amplify/adapter-nextjs',
     '@aws-amplify/core',
     'aws-amplify',
-    '@aws-amplify/core/internals'
+    '@aws-amplify/core/internals',
   ],
   images: {
     dangerouslyAllowSVG: true,
@@ -25,11 +25,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'flagcdn.com'
+        hostname: 'flagcdn.com',
       },
       {
         protocol: 'https',
-        hostname: 'hebbkx1anhila5yf.public.blob.vercel-storage.com'
+        hostname: 'hebbkx1anhila5yf.public.blob.vercel-storage.com',
       },
       {
         protocol: 'https',
@@ -77,10 +77,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'plus.unsplash.com',
         pathname: '/**',
-      }
+      },
     ],
-    domains: ['images.unsplash.com']
-  }
-};
+    domains: ['images.unsplash.com'],
+  },
+}
 
-export default nextConfig;
+export default nextConfig

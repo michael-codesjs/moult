@@ -1,65 +1,74 @@
-import { EventBridgeEvent } from 'aws-lambda';
-import { 
-  UsernameGenerationError,
-  UsernameAssignment,
-  UsernameAssignmentStatus
-} from '../../../domain/types';
-import { normalizeFullName, generateUniqueUsername, validateUsername } from '../../../domain/utils';
-import { incrementUsernameCounter } from '../../secondary/dynamodb/username-counter';
-import { createUsernameAssignment } from '../../secondary/dynamodb/username-assignment';
-import { publishUserUsernameGenerated } from '../../secondary/events/event-bridge/adapter';
+import { withLambdaIOStandard } from '@shared'
+import { GENERATE_USERNAME_DOMAIN_COMMAND } from '@domain/events/types'
+import { CommonInputHandler, withCommonInput } from '@shared'
+import { UsernameAssignmentDTO } from '@domain/models'
+import { generateUsername } from '@use-cases/username'
 
-interface UserCreatedEvent {
-  userId: string;
-  fullName: string;
-  email: string;
+/**
+ * Maps the incoming event to the domain model and processes the username generation
+ *
+ * This function extracts the necessary data from the incoming event,
+ * calls the username generation use case, and returns the result.
+ *
+ * @param input - The incoming event containing user data
+ * @returns Promise resolving to the username assignment
+ */
+export const inputMapper = async (
+  input: GENERATE_USERNAME_DOMAIN_COMMAND,
+): Promise<UsernameAssignmentDTO> => {
+  try {
+    console.log('Processing USER_CREATED event', input)
+
+    // Extract required fields from the event payload
+    const { name, id } = input.payload
+
+    if (!name || !id) {
+      throw new Error('Missing required fields: name and id must be provided')
+    }
+
+    // Call the username generation use case
+    const result = await generateUsername({
+      user_id: id,
+      full_name: name,
+    })
+
+    // Log success (minimal information for tracing)
+    console.log('Username generation completed successfully', {
+      userId: id,
+      username: result.username,
+    })
+
+    return result
+  } catch (error) {
+    // Log detailed error information
+    console.error('Username generation failed in handler', {
+      errorMessage: error.message,
+      errorName: error.name,
+      errorStack: error.stack,
+      source: input?.source,
+      userId: input?.payload?.id,
+    })
+
+    // Rethrow the error to be handled by the Lambda middleware
+    throw new Error(`Username generation failed: ${error.message}`)
+  }
 }
 
 /**
- * Lambda handler for generating unique usernames when users are created
- * @param event EventBridge event containing USER_CREATED event
+ * Lambda handler for the generate-username function
+ *
+ * This handler processes USER_CREATED events from EventBridge
+ * and generates unique usernames for new users.
  */
-export const handler = async (event: EventBridgeEvent<'USER_CREATED', UserCreatedEvent>): Promise<void> => {
-  try {
-    const { userId, fullName } = event.detail;
-    
-    // Normalize the full name to create base username
-    const baseUsername = normalizeFullName(fullName);
-    
-    // Get and increment the counter for this base username
-    const counter = await incrementUsernameCounter(baseUsername);
-    
-    // Generate the unique username
-    const username = generateUniqueUsername(baseUsername, counter);
-    
-    // Validate the generated username
-    validateUsername(username);
+export const handler: CommonInputHandler<
+  GENERATE_USERNAME_DOMAIN_COMMAND,
+  UsernameAssignmentDTO
+> = withCommonInput(inputMapper, { singular: true as true })
 
-    const generatedAt = new Date().toISOString();
-
-    // Create username assignment
-    const assignment: UsernameAssignment = {
-      username,
-      baseUsername,
-      counter,
-      userId,
-      generatedAt,
-      status: UsernameAssignmentStatus.ACTIVE
-    };
-
-    await createUsernameAssignment(assignment);
-
-    // Publish username generated event
-    await publishUserUsernameGenerated({
-      userId,
-      username,
-      baseUsername,
-      counter,
-      generatedAt
-    });
-
-  } catch (error) {
-    console.error('Error generating username:', error);
-    throw error;
-  }
-}; 
+/**
+ * Main Lambda function handler with standard IO middleware
+ *
+ * This is the entry point for the Lambda function, wrapped with
+ * middleware for standardized input/output handling and logging.
+ */
+export const main = withLambdaIOStandard(handler)

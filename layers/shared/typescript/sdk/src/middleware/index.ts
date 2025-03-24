@@ -1,2 +1,2 @@
-export * from "./common-lambda-input";
-export * from "./apigw-input-transformer";
+export * from './common-lambda-input'
+export * from './apigw-input-transformer'

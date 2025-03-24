@@ -24,12 +24,12 @@ provider "aws" {
 
 # DynamoDB table for username counts
 resource "aws_dynamodb_table" "username_counts" {
-  name           = "${var.environment}-moult-username-counts"
-  billing_mode   = "PAY_PER_REQUEST"
-  hash_key       = "baseUsername"
+  name         = "${var.environment}-moult-username-counts"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "base_username"
 
   attribute {
-    name = "baseUsername"
+    name = "base_username"
     type = "S"
   }
 
@@ -40,10 +40,10 @@ resource "aws_dynamodb_table" "username_counts" {
 
 # DynamoDB table for username assignments
 resource "aws_dynamodb_table" "username_assignments" {
-  name           = "${var.environment}-moult-username-assignments"
-  billing_mode   = "PAY_PER_REQUEST"
-  hash_key       = "username"
-  range_key      = "userId"
+  name         = "${var.environment}-moult-username-assignments"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "username"
+  range_key    = "user_id"
 
   attribute {
     name = "username"
@@ -51,31 +51,31 @@ resource "aws_dynamodb_table" "username_assignments" {
   }
 
   attribute {
-    name = "userId"
+    name = "user_id"
     type = "S"
   }
 
   attribute {
-    name = "baseUsername"
+    name = "base_username"
     type = "S"
   }
 
   # GSI for querying by userId
   global_secondary_index {
-    name               = "UserIdIndex"
-    hash_key           = "userId"
-    projection_type    = "ALL"
-    write_capacity     = 0
-    read_capacity      = 0
+    name            = "UserIdIndex"
+    hash_key        = "user_id"
+    projection_type = "ALL"
+    write_capacity  = 0
+    read_capacity   = 0
   }
 
   # GSI for querying by baseUsername
   global_secondary_index {
-    name               = "BaseUsernameIndex"
-    hash_key           = "baseUsername"
-    projection_type    = "ALL"
-    write_capacity     = 0
-    read_capacity      = 0
+    name            = "BaseUsernameIndex"
+    hash_key        = "base_username"
+    projection_type = "ALL"
+    write_capacity  = 0
+    read_capacity   = 0
   }
 
   point_in_time_recovery {
@@ -106,4 +106,4 @@ resource "aws_ssm_parameter" "username_assignments_table_arn" {
   name  = "/moult/${var.environment}/domain/user/username-assignments/table/arn"
   type  = "String"
   value = aws_dynamodb_table.username_assignments.arn
-} 
+}

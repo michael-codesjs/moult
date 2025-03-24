@@ -1,11 +1,9 @@
 {
-    "name": "@client/native",
-    "version": "1.0.0",
-    "description": "moult native client.",
-    "repository": "https://github.com/michael-codesjs/moult",
-    "author": "Michael Phiri",
-    "license": "MIT",
-    
-    "packageManager": "yarn@1.22.22"
-  }
-  
+  "name": "@client/native",
+  "version": "1.0.0",
+  "description": "moult native client.",
+  "repository": "https://github.com/michael-codesjs/moult",
+  "author": "Michael Phiri",
+  "license": "MIT",
+  "packageManager": "yarn@1.22.22"
+}

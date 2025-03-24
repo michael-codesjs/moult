@@ -1,0 +1,57 @@
+{
+  "name": "@moult/experience-user",
+  "version": "0.9.0",
+  "description": "user service in the experience layer.",
+  "main": "serverless.ts",
+  "repository": "https://github.com/michael-codesjs/moult",
+  "author": "Michael Phiri(github@michael-codesjs)",
+  "license": "MIT",
+  "scripts": {
+    "deploy": "prisma generate --schema=./application/prisma/schema.prisma && sls deploy",
+    "destroy": "sls remove",
+    "generate-env": "ts-node scripts/generate-env.ts",
+    "test": "jest --silent",
+    "prisma:generate": "prisma generate --schema=./application/prisma/schema.prisma",
+    "prisma:push": "prisma db push --schema=./application/prisma/schema.prisma",
+    "build": "prisma generate --schema=./application/prisma/schema.prisma && sls package",
+    "postinstall": "prisma generate --schema=./application/prisma/schema.prisma"
+  },
+  "dependencies": {
+    "@aws-sdk/client-cognito-identity-provider": "^3.290.0",
+    "@middy/core": "^4.2.6",
+    "@middy/input-output-logger": "^4.2.6",
+    "@moult/data-infrastructure": "*",
+    "@moult/platform-infrastructure": "*",
+    "@prisma/client": "^5.22.0",
+    "aws-sigv4-fetch": "^1.3.0",
+    "chance": "1.1.9",
+    "correlation-id": "^5.0.0",
+    "crypto-secure-random-digit": "^1.0.10",
+    "dotenv": "^16.0.3"
+  },
+  "devDependencies": {
+    "@aws-sdk/client-eventbridge": "^3.279.0",
+    "@aws-sdk/client-ssm": "^3.282.0",
+    "@serverless/typescript": "^3.3.0",
+    "@types/aws-lambda": "^8.10.71",
+    "@types/jest": "^29.4.0",
+    "@types/node": "^14.14.25",
+    "@types/ora": "^3.2.0",
+    "aws-amplify": "^6.0.27",
+    "chalk": "2",
+    "chance": "1.1.9",
+    "esbuild": "^0.14.11",
+    "jest": "^29.3.1",
+    "ora": "2",
+    "prisma": "^5.11.0",
+    "serverless": "^3.2.0",
+    "serverless-esbuild": "^1.23.3",
+    "serverless-iam-roles-per-function": "^3.2.0",
+    "ts-jest": "^29.0.3",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.5"
+  },
+  "resolutions": {
+    "uuid": "9.0.0"
+  }
+}

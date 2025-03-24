@@ -1,1 +1,1 @@
-export { definition as preSignUp } from "./definition";
+export { definition as preSignUp } from './definition'

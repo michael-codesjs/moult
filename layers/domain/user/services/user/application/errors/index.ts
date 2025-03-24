@@ -1,1 +1,1 @@
-export * from "./username-attributes-in-use";
+export * from './username-attributes-in-use'

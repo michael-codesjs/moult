@@ -3,7 +3,6 @@
   "version": "0.9.0",
   "description": "cognito service in the authentication domain.",
   "main": "serverless.ts",
-  
   "repository": "https://github.com/michael-codesjs/moult",
   "author": "Michael Phiri(github@michael-codesjs)",
   "license": "MIT",

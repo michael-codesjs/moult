@@ -25,11 +25,12 @@
     "aws-sigv4-fetch": "^1.3.0",
     "correlation-id": "^5.0.0",
     "dotenv": "^16.0.3",
-    "dynamodb-onetable": "^2.7.5"
+    "dynamodb-onetable": "^2.7.5",
+    "@aws-sdk/client-eventbridge": "3.701.0"
   },
   "devDependencies": {
-    "@aws-sdk/client-eventbridge": "^3.279.0",
-    "@aws-sdk/client-ssm": "^3.282.0",
+    "@aws-sdk/client-dynamodb": "^3.287.0",
+    "@aws-sdk/client-ssm": "^3.569.0",
     "@serverless/typescript": "^3.3.0",
     "@types/aws-lambda": "^8.10.71",
     "@types/jest": "^29.4.0",

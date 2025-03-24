@@ -1,2 +1,2 @@
-export * from "./event-bridge";
+export * from './event-bridge'
 export * from './dynamoDb'
