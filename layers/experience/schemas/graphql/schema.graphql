@@ -4,64 +4,43 @@ schema {
 }
 
 enum EntityType {
-  ESTATE
   USER
 }
 
 interface Common {
   id: ID!
-  entityType: EntityType!
+  entity_type: EntityType!
   creator: ID!
-  creatorType: EntityType!
-  created: AWSDateTime!
-  modified: AWSDateTime
+  creator_type: EntityType!
+  created_at: AWSDateTime!
+  modified_at: AWSDateTime
   discontinued: Boolean!
 }
 
-type Coordinates {
-  x: String!
-  y: String!
-}
-
-input CoordinatesInput {
-  x: String!
-  y: String!
-}
-
-input CreateEstateInput {
-  name: String!
-  coorindates: CoordinatesInput
-}
-
-type Estate implements Common {
-  id: ID!
-  entityType: EntityType!
-  creator: ID!
-  creatorType: EntityType!
-  created: AWSDateTime!
-  modified: AWSDateTime
-  discontinued: Boolean!
-  name: String!
-  coorindates: Coordinates
+input UpdateUserInput {
+  name: String
+  phone_number: String
+  email: String
 }
 
 type User implements Common {
   id: ID!
-  entityType: EntityType!
+  entity_type: EntityType!
   creator: ID!
-  creatorType: EntityType!
-  created: AWSDateTime!
-  modified: AWSDateTime
+  creator_type: EntityType!
+  created_at: AWSDateTime!
+  modified_at: AWSDateTime
   discontinued: Boolean!
-  name: AWSEmail!
-  phoneNumber: AWSPhone!
-  email: AWSEmail
+  name: String!
+  phone_number: String
+  email: String
 }
 
 type Query {
-  getEstate(id: String!): Estate! @aws_cognito_user_pools
+  getUser(id: String!): User!
+  checkUsernameAvailability(username: String!): Boolean!
 }
 
 type Mutation {
-  createEstate(input: CreateEstateInput!): Estate! @aws_cognito_user_pools
+  updateUser(input: UpdateUserInput!): User!
 }

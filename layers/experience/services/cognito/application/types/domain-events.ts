@@ -6,9 +6,9 @@ export type USER_AUTHENTICATED_DOMAIN_EVENT = DomainEvent<
   { id: string; isNewDevice: boolean }
 >
 
-export type USERNAME_GENERATED_DOMAIN_EVENT = DomainEvent<
+export type SIGNATURE_GENERATED_DOMAIN_EVENT = DomainEvent<
   'moult.user.username-management',
-  'USERNAME_GENERATED',
+  'SIGNATURE_GENERATED',
   {
     entity_type: string
     id: string
@@ -17,11 +17,24 @@ export type USERNAME_GENERATED_DOMAIN_EVENT = DomainEvent<
     created: Date
     modified: Date
     discontinued: boolean
-    username: string
-    basename: string
+    signature: string
+    base_signature: string
     counter: number
     user_id: string
     generated_at: string
     status: string
+  }
+>
+
+export type USER_UPDATED_DOMAIN_EVENT = DomainEvent<
+  'moult.domain.users.services.user',
+  'USER_UPDATED',
+  {
+    id: string
+    name?: string
+    email?: string
+    phone_number?: string
+    bio?: string
+    profile_picture?: string
   }
 >

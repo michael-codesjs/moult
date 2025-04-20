@@ -3,7 +3,7 @@ import {
   CommonInputHandler,
   withCommonInput,
 } from '@shared'
-import { USERNAME_GENERATED_DOMAIN_EVENT } from '../../../types/domain-events'
+import { SIGNATURE_GENERATED_DOMAIN_EVENT } from '../../../types/domain-events'
 import { assignUsername } from '@use-cases/assign-username'
 
 /**
@@ -16,47 +16,33 @@ import { assignUsername } from '@use-cases/assign-username'
  * @returns Promise resolving when the username is assigned
  */
 export const inputMapper = async (
-  input: USERNAME_GENERATED_DOMAIN_EVENT,
+  input: SIGNATURE_GENERATED_DOMAIN_EVENT,
 ): Promise<void> => {
   try {
-    // Log the incoming event (sanitized for security)
-    console.log('Processing USERNAME_GENERATED event', {
-      source: input.source,
-      name: input.name,
-      userId: input.payload?.user_id,
-      username: input.payload?.username,
-    })
+    console.log('SIGNATURE_GENERATED input', JSON.stringify(input, null, 2))
 
     // Extract required fields from the event payload
-    const { user_id, username } = input.payload
+    const { user_id, signature } = input.payload
 
-    if (!user_id || !username) {
+    if (!user_id || !signature) {
       throw new Error(
-        'Missing required fields: user_id and username must be provided',
+        'Missing required fields: user_id and signature must be provided',
       )
     }
 
     // Call the username assignment use case
     await assignUsername({
       user_id,
-      username,
+      username: signature,
     })
 
     // Log success (minimal information for tracing)
     console.log('Username assignment completed successfully', {
       user_id,
-      username,
+      signature,
     })
   } catch (error) {
-    // Log detailed error information
-    console.error('Username assignment failed in handler', {
-      error_message: error.message,
-      error_name: error.name,
-      error_stack: error.stack,
-      source: input?.source,
-      user_id: input?.payload?.user_id,
-    })
-
+    console.error('Username assignment failed in handler', { error })
     // Rethrow the error to be handled by the Lambda middleware
     throw new Error(`Username assignment failed: ${error.message}`)
   }
@@ -69,7 +55,7 @@ export const inputMapper = async (
  * and assigns the generated username to the corresponding Cognito user.
  */
 export const handler: CommonInputHandler<
-  USERNAME_GENERATED_DOMAIN_EVENT,
+  SIGNATURE_GENERATED_DOMAIN_EVENT,
   void
 > = withCommonInput(inputMapper, { singular: true as true })
 

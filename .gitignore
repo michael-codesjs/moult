@@ -8,6 +8,7 @@ tsconfig.tsbuildinfo
 
 # package directories
 node_modules
+.webpack
 jspm_packages
 
 *.yarn-error.log
@@ -26,12 +27,10 @@ terraform.tfstate.backup
 
 # Serverless directories
 .serverless
+lambda-layers
+
 
 # esbuild directories
 .esbuild
 *.env
 *.env.json
-
-# prisma client
-.prisma
-prisma/client/runtime

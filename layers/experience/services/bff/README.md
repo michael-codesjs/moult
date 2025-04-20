@@ -1,49 +1,97 @@
-# Backend for Frontend (BFF) Service
+# Moult BFF Service with AppSync GraphQL API
 
-This service acts as an intermediary layer between the frontend clients and backend services. It's designed to handle user-related operations and events.
+This service provides a Backend for Frontend (BFF) layer with an AWS AppSync GraphQL API, powered by Prisma.
 
-## Structure
+## Architecture
 
-- **Prisma**: Database ORM for PostgreSQL connectivity
-  - Located at `application/prisma`
-  - Includes User model with fields for id, name, email, phone_number, and username
-- **Adapters**: Handle incoming events and requests
-  - Primary adapters: Handle user creation and username updates
-  - Secondary adapters: Connect to external systems
+The architecture uses:
+
+- AWS AppSync for the GraphQL API
+- AWS Lambda for resolvers via Prisma
+- Prisma ORM for database access
 
 ## Deployment
 
+To deploy the service and GraphQL API:
+
 ```bash
-# Install dependencies
-npm install
+# Deploy to dev environment
+npm run deploy:dev
 
-# Generate Prisma client
-npm run prisma:generate
-
-# Deploy to AWS
-npm run deploy
-
-# Push schema changes to the database
-npm run prisma:push
+# Or deploy to a specific stage
+serverless deploy --stage <stage-name>
 ```
 
-## Infrastructure
+## GraphQL Schema
 
-- **Database**: PostgreSQL instance in AWS RDS
-- **Authentication**: AWS Cognito User Pool with support for email and phone_number as username
-  - Non-case sensitive usernames
-  - Minimum password length: 7 characters
-  - Admin-only account recovery
+The GraphQL schema is located at `application/prisma/appsync/schema.gql`. The resolvers are generated from Prisma and configured in `application/prisma/appsync/resolvers.yaml`.
 
-## Event Handling
+## AppSync API Usage
 
-The service processes the following events:
+After deployment, you can interact with the GraphQL API:
 
-- `USER_CREATED`: Creates a user record in the database when a user signs up
-- `USERNAME_UPDATED`: Updates a user's username in the database
+1. Find your API endpoint and API key in the AWS AppSync Console
+2. Use the AppSync Console to run queries and mutations
+3. Or connect from your client application using the API key for authentication
 
-## Environment Setup
+### Example Query
 
-The service requires the following environment variables:
+```graphql
+query GetUser {
+  getUser(where: { id: "user-id" }) {
+    id
+    name
+    email
+  }
+}
+```
 
-- `DATABASE_URL`: PostgreSQL connection string
+### Example Mutation
+
+```graphql
+mutation CreateUser {
+  createUser(
+    data: {
+      name: "John Doe"
+      email: "john@example.com"
+      phone_number: "+1234567890"
+    }
+  ) {
+    id
+    name
+    email
+  }
+}
+```
+
+## Useful Commands
+
+```bash
+# Validate GraphQL schema
+serverless appsync validate-schema
+
+# Get introspection schema
+serverless appsync get-introspection --format SDL --output schema.graphql
+
+# Open the AWS AppSync console
+serverless appsync console
+
+# View logs
+serverless appsync logs
+
+# Flush cache if enabled
+serverless appsync flush-cache
+```
+
+## Development
+
+To extend the GraphQL API:
+
+1. Update the Prisma schema if needed
+2. Update the GraphQL schema in `application/prisma/appsync/schema.gql`
+3. Add additional resolvers in `application/prisma/appsync/resolvers.yaml`
+4. Implement any custom resolver logic in Lambda handlers
+
+## License
+
+Private

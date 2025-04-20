@@ -1,0 +1,5 @@
+{
+  "type": "service",
+  "layer": "experience",
+  "name": "bff"
+}

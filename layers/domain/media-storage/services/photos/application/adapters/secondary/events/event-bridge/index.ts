@@ -1,0 +1,1 @@
+export { EventBridgeEventsAdapter } from './adapter'

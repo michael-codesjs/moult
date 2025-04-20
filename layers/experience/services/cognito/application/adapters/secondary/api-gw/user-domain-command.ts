@@ -18,10 +18,13 @@ export class ApiGwDomainCommandAdapter implements UserDomainCommandAdapter {
       payload: params,
     }
 
-    const result = await apiGatewaySignedFetch(CENTRAL_API_URL + '/user/user', {
-      method: 'POST',
-      body: JSON.stringify(createUserDomainCommand),
-    })
+    const result = await apiGatewaySignedFetch(
+      CENTRAL_API_URL + '/user/users',
+      {
+        method: 'POST',
+        body: JSON.stringify(createUserDomainCommand),
+      },
+    )
 
     console.log('result', result)
   }

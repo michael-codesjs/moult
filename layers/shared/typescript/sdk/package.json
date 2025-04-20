@@ -1,5 +1,5 @@
 {
-  "name": "@shared/sdk",
+  "name": "@moult/shared-sdk",
   "version": "1.0.0",
   "description": "moult shared sdk.",
   "main": "./dist/index.js",

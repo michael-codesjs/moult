@@ -30,5 +30,8 @@
     "**/.git/subtree-cache/**": true,
     "**/.hg/store/**": true
   },
+  "files.associations": {
+    "*.mlt": "json"
+  },
   "editor.formatOnSave": true
 }

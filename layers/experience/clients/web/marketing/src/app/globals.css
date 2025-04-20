@@ -1,0 +1,208 @@
+@import "tailwindcss";
+
+/* Animation classes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+.animate-fade-in-delay {
+  opacity: 0;
+  animation: fadeIn 0.8s ease-out forwards;
+  animation-delay: 0.3s;
+}
+
+.animate-fade-in-delay-2 {
+  opacity: 0;
+  animation: fadeIn 0.8s ease-out forwards;
+  animation-delay: 0.6s;
+}
+
+.hero-container {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.hero-gradient-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(ellipse 80% 60% at 60% 40%, #a18fff 0%, #6ec3f4 60%, #fff 100%);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 2rem;
+  padding: 3rem 1.5rem;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: #18181b;
+  background: linear-gradient(90deg, #a18fff 30%, #6ec3f4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  color: #444;
+  max-width: 32rem;
+  margin: 0 auto;
+  font-weight: 500;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1.25rem;
+  justify-content: center;
+}
+
+.hero-btn-primary {
+  background: linear-gradient(90deg, #a18fff 30%, #6ec3f4 100%);
+  color: #fff;
+  font-weight: 600;
+  padding: 0.85rem 2.2rem;
+  border-radius: 999px;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 24px 0 rgba(161,143,255,0.12);
+  transition: background 0.2s, box-shadow 0.2s;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+.hero-btn-primary:hover {
+  background: linear-gradient(90deg, #6ec3f4 30%, #a18fff 100%);
+  box-shadow: 0 6px 32px 0 rgba(161,143,255,0.18);
+}
+
+.hero-btn-secondary {
+  background: rgba(255,255,255,0.7);
+  color: #6c63ff;
+  font-weight: 600;
+  padding: 0.85rem 2.2rem;
+  border-radius: 999px;
+  font-size: 1.1rem;
+  border: 2px solid #a18fff;
+  transition: background 0.2s, border 0.2s;
+  outline: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+.hero-btn-secondary:hover {
+  background: #f3f0ff;
+  border-color: #6ec3f4;
+}
+
+:root {
+  --foreground-rgb: 15, 15, 15;
+  --background-start-rgb: 252, 252, 252;
+  --background-end-rgb: 255, 255, 255;
+  --accent-color-1: 219, 39, 119; /* Pink */
+  --accent-color-2: 79, 70, 229; /* Indigo */
+  --accent-color-3: 245, 158, 11; /* Amber */
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      rgb(var(--background-start-rgb)),
+      rgb(var(--background-end-rgb))
+    );
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.background-decoration {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.mesh-gradient {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(var(--accent-color-2), 0.08) 0%,
+    transparent 50%
+  );
+}
+
+.mesh-gradient::before {
+  content: "";
+  position: absolute;
+  width: 150%;
+  height: 150%;
+  top: -25%;
+  left: -25%;
+  background: radial-gradient(
+    circle at 25% 25%,
+    rgba(var(--accent-color-1), 0.12) 0%,
+    transparent 50%
+  );
+}
+
+.mesh-gradient::after {
+  content: "";
+  position: absolute;
+  width: 150%;
+  height: 150%;
+  top: -25%;
+  left: -25%;
+  background: radial-gradient(
+    circle at 75% 75%,
+    rgba(var(--accent-color-3), 0.08) 0%,
+    transparent 60%
+  );
+}
+
+.noise-texture {
+  position: absolute;
+  inset: 0;
+  opacity: 0.02;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  mix-blend-mode: overlay;
+}
+
+.grid-lines {
+  position: absolute;
+  inset: 0;
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(var(--foreground-rgb), 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(var(--foreground-rgb), 0.03) 1px, transparent 1px);
+  opacity: 0.5;
+}

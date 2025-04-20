@@ -1,0 +1,1 @@
+export { DynamoDbEventStoreAdapter } from './adapter'

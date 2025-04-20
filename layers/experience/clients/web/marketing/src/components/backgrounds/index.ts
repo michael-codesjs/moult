@@ -1,0 +1,1 @@
+export { MinimalBackground } from './Minimal'

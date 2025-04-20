@@ -1,0 +1,33 @@
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+generator client_bff {
+    provider      = "prisma-client-js"
+    binaryTargets = ["native", "rhel-openssl-1.0.x"]
+}
+
+generator client_fe_main {
+    provider      = "prisma-client-js"
+    binaryTargets = ["native", "rhel-openssl-1.0.x"]
+    output        = "./../../clients/web/main/node_modules/@prisma/client"
+}
+
+generator client_fe_marketing {
+    provider      = "prisma-client-js"
+    binaryTargets = ["native", "rhel-openssl-1.0.x"]
+    output        = "./../../clients/web/marketing/node_modules/@prisma/client"
+}
+
+model User {
+    id            String   @id
+    name          String
+    email         String? // ideally should be @unique but let's handle that in the domain layer
+    phone_number  String? // ideally should be @unique but let's handle that in the domain layer
+    signature     String? // ideally should be @unique but let's handle that in the domain layer
+    bio           String?
+    profile_image String?
+    created_at    DateTime @default(now())
+    updated_at    DateTime @updatedAt
+}

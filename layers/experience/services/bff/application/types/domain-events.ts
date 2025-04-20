@@ -45,3 +45,23 @@ export type USER_CREATED_DOMAIN_EVENT = DomainEvent<
     status: string
   }
 >
+
+export type USER_UPDATED_EVENT = DomainEvent<
+  'moult.user.users',
+  'USER_UPDATED',
+  {
+    id: string
+    name?: string
+    email?: string
+    phone_number?: string
+    bio?: string
+    profile_picture?: string
+    updated_at?: string
+    created_at?: string
+    creator_type?: string
+    creator?: string
+    entity_type?: string
+    modified?: string
+    discontinued?: boolean
+  }
+>

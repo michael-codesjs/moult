@@ -13,4 +13,5 @@ export const definition: AWS.ServerlessLambdaFunction = {
       },
     },
   ],
+  layers: [{ Ref: 'PrismaLayerLambdaLayer' }],
 }

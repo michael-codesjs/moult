@@ -3,7 +3,7 @@ import {
   withLambdaIOStandard,
   CommonInputHandler,
 } from '@shared'
-import { prisma } from '../../../../lib/prisma'
+import { prisma } from '@prisma-client'
 
 /**
  * Type definition for the USER_CREATED event

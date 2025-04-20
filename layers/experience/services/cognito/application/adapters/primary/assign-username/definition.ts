@@ -9,8 +9,7 @@ export const definition: AWS.ServerlessLambdaFunction = {
         eventBus:
           '${ssm:/moult/${self:custom.stage}/infrastructure/io/event-bus/central/arn}',
         pattern: {
-          source: ['moult.user.username-management'],
-          'detail-type': ['USERNAME_GENERATED'],
+          'detail-type': ['SIGNATURE_GENERATED'],
         },
       },
     },
