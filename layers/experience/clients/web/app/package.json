@@ -11,7 +11,9 @@
   "dependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "next": "15.3.1"
+    "next": "15.3.1",
+    "class-variance-authority": "^0.7.0",
+    "@aws-amplify/adapter-nextjs": "^1.6.0 "
   },
   "devDependencies": {
     "typescript": "^5",

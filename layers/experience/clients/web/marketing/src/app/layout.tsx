@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { MinimalBackground } from "../components/backgrounds";
 import ConfigureAmplifyClientSide from "./amplify.config";
+import { Suspense } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,7 +32,9 @@ export default function RootLayout({
       >
         <ConfigureAmplifyClientSide />
         <MinimalBackground />
-        {children}
+        <Suspense>
+          {children}
+        </Suspense>
       </body>
     </html>
   );
