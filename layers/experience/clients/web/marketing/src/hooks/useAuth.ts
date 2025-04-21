@@ -10,6 +10,8 @@ import {
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 
+const APP_CLIENT_URL = process.env.NEXT_PUBLIC_APP_CLIENT_URL
+
 // Input Types
 interface SignInInput {
   username: string
@@ -165,7 +167,7 @@ export function useAuth(): Omit<UseAuthReturn, 'loading' | 'error'> {
       console.log('confirm_sign_in_output', confirm_sign_in_output)
       if (confirm_sign_in_output.isSignedIn) {
         toast.success('Account verified and signed in successfully!')
-        router.push('/app')
+        router.push('/')
       } else if (
         confirm_sign_in_output.nextStep.signInStep ===
         'CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE'
