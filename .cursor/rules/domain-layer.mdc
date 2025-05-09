@@ -1,0 +1,415 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Domain Layer Guide
+
+This rule provides guidance for working with the domain layer in the Moult project, focusing on DDD principles and event sourcing.
+
+## Domain Layer Structure
+
+The domain layer is organized by bounded contexts under `/layers/domain/`:
+
+```
+/layers/domain/
+├── user/          # User domain bounded context
+├── commerce/      # Commerce domain bounded context
+└── media-storage/ # Media storage domain bounded context
+```
+
+## Domain Model Components
+
+### Entities
+
+Domain entities should follow these principles:
+- Represent domain concepts with unique identity
+- Encapsulate state and behavior
+- Implement business rules
+- Use value objects for attribute values
+
+```typescript
+// Example entity
+export class User {
+  private readonly id: UUID;
+  private username: Username;
+  private email: Email;
+  private status: UserStatus;
+  
+  // Constructor and methods
+  constructor(props: UserProps) {
+    this.id = props.id || new UUID();
+    this.username = props.username;
+    this.email = props.email;
+    this.status = props.status || UserStatus.PENDING;
+  }
+  
+  // Business methods that enforce invariants
+  public changeUsername(newUsername: Username): Result<void, Error> {
+    // Business rules and validation
+    this.username = newUsername;
+    this.recordEvent(new UserUsernameChangedEvent({
+      userId: this.id,
+      newUsername: this.username
+    }));
+    return Result.ok();
+  }
+  
+  // Event sourcing methods
+  private recordEvent(event: DomainEvent): void {
+    this.events.push(event);
+  }
+  
+  public getUncommittedEvents(): DomainEvent[] {
+    return [...this.events];
+  }
+  
+  public clearEvents(): void {
+    this.events = [];
+  }
+}
+```
+
+### Value Objects
+
+Value objects represent concepts without identity, defined by their attributes:
+
+```typescript
+// Example value object
+export class Email {
+  private readonly value: string;
+  
+  private constructor(value: string) {
+    this.value = value;
+  }
+  
+  public static create(email: string): Result<Email, Error> {
+    // Validation logic
+    if (!this.isValid(email)) {
+      return Result.fail(new InvalidEmailError(email));
+    }
+    
+    return Result.ok(new Email(email));
+  }
+  
+  private static isValid(email: string): boolean {
+    // Email validation logic
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+  
+  public equals(other: Email): boolean {
+    return this.value === other.value;
+  }
+  
+  public getValue(): string {
+    return this.value;
+  }
+}
+```
+
+### Aggregates
+
+Aggregates are clusters of entities and value objects with a root entity:
+
+```typescript
+// Example aggregate root
+export class UserAccount implements AggregateRoot {
+  private readonly id: UUID;
+  private user: User;
+  private preferences: UserPreferences;
+  private events: DomainEvent[] = [];
+  
+  // Constructor and methods
+  
+  // Apply domain event
+  public apply(event: DomainEvent): void {
+    this.when(event);
+    this.version++;
+  }
+  
+  // Event handlers
+  private when(event: DomainEvent): void {
+    switch (event.name) {
+      case 'USER_CREATED':
+        // Apply event data
+        break;
+      case 'USER_USERNAME_UPDATED':
+        // Apply event data
+        break;
+      // Other event handlers
+    }
+  }
+}
+```
+
+### Domain Events
+
+Domain events represent something significant that happened in the domain:
+
+```typescript
+// Example domain event
+export class UserUsernameChangedEvent implements DomainEvent {
+  public readonly name = 'USER_USERNAME_CHANGED';
+  public readonly version = 1;
+  public readonly occurredAt: Date;
+  
+  public readonly userId: UUID;
+  public readonly newUsername: Username;
+  
+  constructor(props: UserUsernameChangedEventProps) {
+    this.occurredAt = new Date();
+    this.userId = props.userId;
+    this.newUsername = props.newUsername;
+  }
+  
+  public toDTO(): Record<string, any> {
+    return {
+      name: this.name,
+      version: this.version,
+      occurredAt: this.occurredAt,
+      userId: this.userId.getValue(),
+      newUsername: this.newUsername.getValue()
+    };
+  }
+}
+```
+
+## Domain Services
+
+Domain services implement operations that don't naturally belong to a single entity:
+
+```typescript
+// Example domain service
+export class UsernameGenerationService {
+  constructor(private readonly userRepository: UserRepository) {}
+  
+  public async generateUsername(userId: UUID): Promise<Result<Username, Error>> {
+    const user = await this.userRepository.findById(userId);
+    if (!user) {
+      return Result.fail(new UserNotFoundError(userId));
+    }
+    
+    // Complex username generation logic
+    const newUsername = this.createUniqueUsername(user);
+    
+    // Return the result
+    return Result.ok(newUsername);
+  }
+  
+  private createUniqueUsername(user: User): Username {
+    // Username generation implementation
+  }
+}
+```
+
+## Repositories
+
+Repositories provide an abstraction for storing and retrieving domain objects:
+
+```typescript
+// Repository interface
+export interface UserRepository {
+  findById(id: UUID): Promise<User | null>;
+  findByUsername(username: Username): Promise<User | null>;
+  save(user: User): Promise<void>;
+  delete(user: User): Promise<void>;
+}
+
+// Implementation example for DynamoDB
+export class DynamoDBUserRepository implements UserRepository {
+  constructor(private readonly dynamoDBClient: DynamoDBClient) {}
+  
+  public async findById(id: UUID): Promise<User | null> {
+    // Implementation using DynamoDB
+  }
+  
+  // Other methods
+}
+```
+
+## Event Sourcing
+
+The project uses event sourcing as the primary pattern for state management:
+
+```typescript
+// Event store repository interface
+export interface EventStoreRepository {
+  saveEvents(
+    aggregateId: string,
+    events: DomainEvent[],
+    expectedVersion: number
+  ): Promise<void>;
+  
+  getEvents(aggregateId: string): Promise<DomainEvent[]>;
+}
+
+// Event sourced repository implementation
+export class EventSourcedUserRepository implements UserRepository {
+  constructor(private readonly eventStore: EventStoreRepository) {}
+  
+  public async findById(id: UUID): Promise<User | null> {
+    const events = await this.eventStore.getEvents(id.getValue());
+    if (events.length === 0) {
+      return null;
+    }
+    
+    // Reconstitute the aggregate from events
+    return User.fromEvents(events);
+  }
+  
+  public async save(user: User): Promise<void> {
+    const uncommittedEvents = user.getUncommittedEvents();
+    await this.eventStore.saveEvents(
+      user.getId().getValue(),
+      uncommittedEvents,
+      user.getVersion()
+    );
+    user.clearEvents();
+  }
+}
+```
+
+## Command Handlers
+
+Command handlers orchestrate domain operations:
+
+```typescript
+// Example command
+export interface ChangeUsernameCommand {
+  userId: string;
+  newUsername: string;
+}
+
+// Example command handler
+export class ChangeUsernameCommandHandler implements CommandHandler<ChangeUsernameCommand> {
+  constructor(private readonly userRepository: UserRepository) {}
+  
+  public async execute(command: ChangeUsernameCommand): Promise<Result<void, Error>> {
+    // Convert primitives to domain objects
+    const userId = UUID.create(command.userId);
+    const newUsernameResult = Username.create(command.newUsername);
+    
+    if (newUsernameResult.isFailure()) {
+      return Result.fail(newUsernameResult.error);
+    }
+    
+    // Retrieve the aggregate
+    const user = await this.userRepository.findById(userId);
+    if (!user) {
+      return Result.fail(new UserNotFoundError(userId));
+    }
+    
+    // Execute domain logic
+    const result = user.changeUsername(newUsernameResult.getValue());
+    if (result.isFailure()) {
+      return result;
+    }
+    
+    // Persist changes
+    await this.userRepository.save(user);
+    
+    return Result.ok();
+  }
+}
+```
+
+## CQRS Pattern
+
+The project uses Command Query Responsibility Segregation (CQRS):
+
+```typescript
+// Query model (read model)
+export interface UserProfileQueryModel {
+  id: string;
+  username: string;
+  displayName: string;
+  profilePictureUrl: string;
+  // Other fields for reading
+}
+
+// Query handler
+export class GetUserProfileQueryHandler implements QueryHandler<GetUserProfileQuery, UserProfileQueryModel> {
+  constructor(private readonly userProfileRepository: UserProfileRepository) {}
+  
+  public async execute(query: GetUserProfileQuery): Promise<Result<UserProfileQueryModel, Error>> {
+    const userProfile = await this.userProfileRepository.findById(query.userId);
+    
+    if (!userProfile) {
+      return Result.fail(new UserProfileNotFoundError(query.userId));
+    }
+    
+    return Result.ok(userProfile);
+  }
+}
+```
+
+## Domain Types vs DTOs
+
+Distinguish between domain types and Data Transfer Objects (DTOs):
+
+```typescript
+// Domain type (used within the domain)
+export class User {
+  // Internal domain representation with behavior
+}
+
+// DTO (used for external communications)
+export type UserDTO = {
+  id: string;
+  username: string;
+  email: string;
+  status: string;
+  // Other properties for data transfer
+}
+
+// Mapper between domain and DTO
+export class UserMapper {
+  public static toDomain(dto: UserDTO): User {
+    // Convert DTO to domain object
+  }
+  
+  public static toDTO(domain: User): UserDTO {
+    // Convert domain object to DTO
+  }
+}
+```
+
+## Testing Domain Logic
+
+Follow these testing patterns for domain logic:
+
+```typescript
+// Example test for domain logic
+describe('User', () => {
+  describe('changeUsername', () => {
+    it('should change the username when valid', () => {
+      // Arrange
+      const user = UserBuilder.aUser().build();
+      const newUsername = Username.create('new-username').getValue();
+      
+      // Act
+      const result = user.changeUsername(newUsername);
+      
+      // Assert
+      expect(result.isSuccess()).toBe(true);
+      expect(user.getUsername().getValue()).toBe('new-username');
+      
+      // Check events
+      const events = user.getUncommittedEvents();
+      expect(events).toHaveLength(1);
+      expect(events[0].name).toBe('USER_USERNAME_CHANGED');
+    });
+    
+    it('should reject invalid usernames', () => {
+      // Test invalid cases
+    });
+  });
+});
+```
+
+## Reference Files
+
+Key files to reference:
+- User domain entities: [layers/domain/user/src/domain/entities/User.ts](mdc:layers/domain/user/src/domain/entities/User.ts)
+- Domain events: [layers/domain/user/src/domain/events/UserEvents.ts](mdc:layers/domain/user/src/domain/events/UserEvents.ts)
+- Repository implementations: [layers/domain/user/src/infrastructure/repositories/UserRepository.ts](mdc:layers/domain/user/src/infrastructure/repositories/UserRepository.ts)

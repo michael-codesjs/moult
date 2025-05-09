@@ -218,6 +218,9 @@ async function initializeService(cwd: string) {
     // Create basic files
     await createServiceFiles(layer, domain, serviceName, servicePath)
 
+    // Generate blueprint application files
+    await generateBlueprintFiles(layer, domain, serviceName, servicePath)
+
     // Save config
     const config: ServiceConfig = {
       type: 'service',
@@ -286,6 +289,7 @@ async function createServiceFiles(
       'correlation-id': '^5.0.0',
       dotenv: '^16.0.3',
       'dynamodb-onetable': '^2.7.5',
+      uuid: '^9.0.0',
     },
     devDependencies: {
       '@aws-sdk/client-eventbridge': '^3.279.0',
@@ -298,6 +302,7 @@ async function createServiceFiles(
       '@types/validator': '^13.7.14',
       '@types/minimist': '^1.2.2',
       '@types/chance': '^1.1.3',
+      '@types/uuid': '^9.0.1',
       chalk: '2',
       esbuild: '^0.14.11',
       jest: '^29.3.1',
@@ -497,4 +502,650 @@ variable "stage" {
     path.join(servicePath, 'infrastructure', 'index.tf'),
     indexTf,
   )
+}
+
+async function generateBlueprintFiles(
+  layer: string,
+  domain: string | undefined,
+  serviceName: string,
+  servicePath: string,
+) {
+  // Generate application structure
+  const applicationPath = path.join(servicePath, 'application')
+
+  // Generate adapters directory
+  await generateAdaptersFiles(serviceName, applicationPath)
+
+  // Generate domain directory
+  await generateDomainFiles(serviceName, applicationPath)
+
+  // Generate interfaces directory
+  await generateInterfacesFiles(serviceName, applicationPath)
+
+  // Generate dependencies directory
+  await generateDependenciesFiles(serviceName, applicationPath)
+
+  // Generate repositories directory
+  await generateRepositoriesFiles(serviceName, applicationPath)
+
+  // Generate use-cases directory
+  await generateUseCasesFiles(serviceName, applicationPath)
+
+  // Generate errors directory
+  await generateErrorsFiles(serviceName, applicationPath)
+}
+
+async function generateAdaptersFiles(
+  serviceName: string,
+  applicationPath: string,
+) {
+  const adaptersPath = path.join(applicationPath, 'adapters')
+  const primaryPath = path.join(adaptersPath, 'primary')
+  const secondaryPath = path.join(adaptersPath, 'secondary')
+
+  // Create primary and secondary directories
+  await mkdirAsync(primaryPath, { recursive: true })
+  await mkdirAsync(secondaryPath, { recursive: true })
+
+  // Primary adapters index.ts
+  const primaryIndexContent = `// Export all primary adapters here
+`
+  await writeFileAsync(path.join(primaryPath, 'index.ts'), primaryIndexContent)
+
+  // Secondary adapters index.ts
+  const secondaryIndexContent = `// Export all secondary adapters here
+`
+  await writeFileAsync(
+    path.join(secondaryPath, 'index.ts'),
+    secondaryIndexContent,
+  )
+
+  // Create a sample adapter (create entity)
+  const createEntityPath = path.join(
+    primaryPath,
+    `create-${serviceName.endsWith('s') ? serviceName.slice(0, -1) : serviceName}`,
+  )
+  await mkdirAsync(createEntityPath, { recursive: true })
+
+  // Create sample adapter files
+  const createEntityIndexContent = `export { definition as create${capitalizeFirstLetter(serviceName.endsWith('s') ? serviceName.slice(0, -1) : serviceName)} } from './definition'
+`
+  await writeFileAsync(
+    path.join(createEntityPath, 'index.ts'),
+    createEntityIndexContent,
+  )
+
+  const createEntityDefinitionContent = `import { AWS, handlerPath } from '@shared'
+
+// 'create${capitalizeFirstLetter(serviceName.endsWith('s') ? serviceName.slice(0, -1) : serviceName)}' lambda function sls definition.
+export const definition: AWS.ServerlessLambdaFunction = {
+  description: 'Create ${serviceName.endsWith('s') ? serviceName.slice(0, -1) : serviceName} lambda function/adapter.',
+  handler: \`\${handlerPath(__dirname)}/handler.main\`,
+  events: [
+    {
+      http: {
+        path: '/${serviceName}',
+        method: 'POST',
+        cors: true,
+        authorizer: 'AWS_IAM',
+        private: false,
+      },
+    },
+  ],
+  iamRoleStatements: [
+    {
+      Effect: 'Allow',
+      Action: [
+        'dynamodb:GetItem',
+        'dynamodb:UpdateItem',
+        'dynamodb:Query',
+        'dynamodb:PutItem',
+      ],
+      Resource: [
+        '\${ssm:/moult/\${self:custom.stage}/domain/${serviceName}/infrastructure/storage/table/arn}',
+      ],
+    },
+    {
+      Effect: 'Allow',
+      Action: ['events:PutEvents'],
+      Resource:
+        '\${ssm:/moult/\${self:custom.stage}/infrastructure/io/event-bus/central/arn}',
+    },
+  ],
+  environment: {
+    TABLE_NAME:
+      '\${ssm:/moult/\${self:custom.stage}/domain/${serviceName}/infrastructure/storage/table/name}',
+  },
+}
+`
+  await writeFileAsync(
+    path.join(createEntityPath, 'definition.ts'),
+    createEntityDefinitionContent,
+  )
+
+  const entityName = capitalizeFirstLetter(
+    serviceName.endsWith('s') ? serviceName.slice(0, -1) : serviceName,
+  )
+  const createEntityHandlerContent = `import 'reflect-metadata'
+import { CREATE_${entityName.toUpperCase()}_DOMAIN_COMMAND } from '@domain/events'
+import {
+  withCommonInput,
+  withLambdaIOStandard,
+  CommonInputHandler,
+} from '@shared'
+import { ${entityName}DTO } from '@domain/models'
+import { container, dependencies } from '@dependencies'
+import { ${entityName}UseCase } from '@interfaces'
+
+const inputMapper = async (
+  input: CREATE_${entityName.toUpperCase()}_DOMAIN_COMMAND,
+): Promise<${entityName}DTO> => {
+  console.log('input', input)
+
+  const ${entityName.toLowerCase()}UseCase: ${entityName}UseCase = container.get(dependencies.${entityName}UseCase)
+  return await ${entityName.toLowerCase()}UseCase.create${entityName}(input.payload)
+}
+
+/** 'create${entityName}' lambda function handler. */
+export const handler: CommonInputHandler<CREATE_${entityName.toUpperCase()}_DOMAIN_COMMAND, ${entityName}DTO> =
+  withCommonInput(inputMapper, {
+    singular: true as true,
+  })
+
+/** 'create${entityName}' lambda function handler wrapped in required middleware. */
+export const main = withLambdaIOStandard(handler)
+`
+  await writeFileAsync(
+    path.join(createEntityPath, 'handler.ts'),
+    createEntityHandlerContent,
+  )
+}
+
+async function generateDomainFiles(
+  serviceName: string,
+  applicationPath: string,
+) {
+  const domainPath = path.join(applicationPath, 'domain')
+  const modelsPath = path.join(domainPath, 'models')
+  const eventsPath = path.join(domainPath, 'events')
+  const aggregatePath = path.join(domainPath, 'aggregate')
+
+  // Create domain subdirectories
+  await mkdirAsync(modelsPath, { recursive: true })
+  await mkdirAsync(eventsPath, { recursive: true })
+  await mkdirAsync(aggregatePath, { recursive: true })
+
+  // Generate entity model
+  const entityName = capitalizeFirstLetter(
+    serviceName.endsWith('s') ? serviceName.slice(0, -1) : serviceName,
+  )
+
+  // models/index.ts
+  const modelsIndexContent = `export * from './${entityName.toLowerCase()}'
+`
+  await writeFileAsync(path.join(modelsPath, 'index.ts'), modelsIndexContent)
+
+  // models/entity.ts
+  const entityModelContent = `import { Resource } from '@shared'
+
+export interface ${entityName}DTO extends Resource {
+  id: string
+  createdAt: string
+  updatedAt: string
+  // Add your entity properties here
+}
+
+export interface Create${entityName}DTO {
+  // Add properties needed to create your entity
+}
+
+export interface Update${entityName}DTO {
+  id: string
+  // Add properties that can be updated
+}
+`
+  await writeFileAsync(
+    path.join(modelsPath, `${entityName.toLowerCase()}.ts`),
+    entityModelContent,
+  )
+
+  // events/index.ts
+  const eventsIndexContent = `export * from './types'
+`
+  await writeFileAsync(path.join(eventsPath, 'index.ts'), eventsIndexContent)
+
+  // events/types.ts
+  const entityUppercase = entityName.toUpperCase()
+  const eventsTypesContent = `import { DomainCommand } from '@shared'
+import { Create${entityName}DTO, Update${entityName}DTO } from '../models'
+
+// Domain Commands
+export type CREATE_${entityUppercase}_DOMAIN_COMMAND = DomainCommand<'CREATE_${entityUppercase}', Create${entityName}DTO>
+export type UPDATE_${entityUppercase}_DOMAIN_COMMAND = DomainCommand<'UPDATE_${entityUppercase}', Update${entityName}DTO>
+
+// Domain Events
+export type ${entityUppercase}_CREATED_DOMAIN_EVENT = DomainCommand<'${entityUppercase}_CREATED', Create${entityName}DTO & { id: string }>
+export type ${entityUppercase}_UPDATED_DOMAIN_EVENT = DomainCommand<'${entityUppercase}_UPDATED', Update${entityName}DTO>
+`
+  await writeFileAsync(path.join(eventsPath, 'types.ts'), eventsTypesContent)
+
+  // aggregate/index.ts
+  const aggregateIndexContent = `import { ${entityName}DTO } from '../models'
+
+export class ${entityName}Aggregate {
+  constructor(private readonly entity: ${entityName}DTO) {}
+
+  // Add your aggregate methods here
+  
+  toDTO(): ${entityName}DTO {
+    return { ...this.entity }
+  }
+}
+`
+  await writeFileAsync(
+    path.join(aggregatePath, 'index.ts'),
+    aggregateIndexContent,
+  )
+}
+
+async function generateInterfacesFiles(
+  serviceName: string,
+  applicationPath: string,
+) {
+  const interfacesPath = path.join(applicationPath, 'interfaces')
+
+  // Create interfaces directory
+  await mkdirAsync(interfacesPath, { recursive: true })
+
+  const entityName = capitalizeFirstLetter(
+    serviceName.endsWith('s') ? serviceName.slice(0, -1) : serviceName,
+  )
+
+  // index.ts
+  const indexContent = `export * from './repositories'
+export * from './use-cases'
+export * from './adapters'
+`
+  await writeFileAsync(path.join(interfacesPath, 'index.ts'), indexContent)
+
+  // repositories.ts
+  const repositoriesContent = `import { ${entityName}DTO, Create${entityName}DTO, Update${entityName}DTO } from '@domain/models'
+
+/**
+ * Repository interface for ${entityName} entity.
+ */
+export interface ${entityName}Repository {
+  /**
+   * Create a new ${entityName.toLowerCase()}.
+   */
+  create(data: Create${entityName}DTO): Promise<${entityName}DTO>
+
+  /**
+   * Find a ${entityName.toLowerCase()} by ID.
+   */
+  findById(id: string): Promise<${entityName}DTO | null>
+
+  /**
+   * Update a ${entityName.toLowerCase()}.
+   */
+  update(data: Update${entityName}DTO): Promise<${entityName}DTO>
+
+  /**
+   * Delete a ${entityName.toLowerCase()} by ID.
+   */
+  delete(id: string): Promise<void>
+}
+`
+  await writeFileAsync(
+    path.join(interfacesPath, 'repositories.ts'),
+    repositoriesContent,
+  )
+
+  // use-cases.ts
+  const useCasesContent = `import { ${entityName}DTO, Create${entityName}DTO, Update${entityName}DTO } from '@domain/models'
+
+/**
+ * Use case interface for ${entityName} operations.
+ */
+export interface ${entityName}UseCase {
+  /**
+   * Create a new ${entityName.toLowerCase()}.
+   */
+  create${entityName}(data: Create${entityName}DTO): Promise<${entityName}DTO>
+
+  /**
+   * Get a ${entityName.toLowerCase()} by ID.
+   */
+  get${entityName}(id: string): Promise<${entityName}DTO>
+
+  /**
+   * Update a ${entityName.toLowerCase()}.
+   */
+  update${entityName}(data: Update${entityName}DTO): Promise<${entityName}DTO>
+
+  /**
+   * Delete a ${entityName.toLowerCase()} by ID.
+   */
+  delete${entityName}(id: string): Promise<void>
+}
+`
+  await writeFileAsync(
+    path.join(interfacesPath, 'use-cases.ts'),
+    useCasesContent,
+  )
+
+  // adapters.ts
+  const adaptersContent = `import { EventBridgeEvent } from 'aws-lambda'
+import { DomainCommand, DomainEvent } from '@shared'
+
+/**
+ * Interface for EventBridge adapter.
+ */
+export interface EventBridgeAdapter {
+  /**
+   * Publish a domain event to EventBridge.
+   */
+  publishEvent<T extends DomainEvent<string, any>>(event: T): Promise<void>
+}
+
+/**
+ * Interface for DynamoDB adapter.
+ */
+export interface DynamoDBAdapter<T> {
+  /**
+   * Create a new item.
+   */
+  create(item: Partial<T>): Promise<T>
+
+  /**
+   * Get an item by ID.
+   */
+  get(id: string): Promise<T | null>
+
+  /**
+   * Update an existing item.
+   */
+  update(item: Partial<T>): Promise<T>
+
+  /**
+   * Delete an item by ID.
+   */
+  delete(id: string): Promise<void>
+}
+`
+  await writeFileAsync(
+    path.join(interfacesPath, 'adapters.ts'),
+    adaptersContent,
+  )
+}
+
+async function generateDependenciesFiles(
+  serviceName: string,
+  applicationPath: string,
+) {
+  const dependenciesPath = path.join(applicationPath, 'dependencies')
+
+  // Create dependencies directory
+  await mkdirAsync(dependenciesPath, { recursive: true })
+
+  const entityName = capitalizeFirstLetter(
+    serviceName.endsWith('s') ? serviceName.slice(0, -1) : serviceName,
+  )
+
+  // index.ts
+  const indexContent = `export * from './dependencies'
+export * from './container'
+`
+  await writeFileAsync(path.join(dependenciesPath, 'index.ts'), indexContent)
+
+  // dependencies.ts
+  const dependenciesContent = `/**
+ * Service dependencies symbols. Used for IoC container bindings.
+ */
+export const dependencies = {
+  // Repositories
+  ${entityName}Repository: Symbol.for('${entityName}Repository'),
+
+  // Use cases
+  ${entityName}UseCase: Symbol.for('${entityName}UseCase'),
+
+  // Adapters
+  EventBridgeAdapter: Symbol.for('EventBridgeAdapter'),
+  DynamoDBAdapter: Symbol.for('DynamoDBAdapter'),
+}
+`
+  await writeFileAsync(
+    path.join(dependenciesPath, 'dependencies.ts'),
+    dependenciesContent,
+  )
+
+  // container.ts
+  const containerContent = `import { Container } from 'inversify'
+import { dependencies } from './dependencies'
+import { ${entityName}Repository, ${entityName}UseCase, EventBridgeAdapter, DynamoDBAdapter } from '@interfaces'
+import { ${entityName}RepositoryImpl } from '@repositories'
+import { ${entityName}UseCaseImpl } from '@use-cases'
+import { EventBridgeAdapterImpl, DynamoDBAdapterImpl } from '@adapters/secondary'
+
+// Create a new IoC container
+const container = new Container()
+
+// Register repositories
+container.bind<${entityName}Repository>(dependencies.${entityName}Repository).to(${entityName}RepositoryImpl)
+
+// Register use cases
+container.bind<${entityName}UseCase>(dependencies.${entityName}UseCase).to(${entityName}UseCaseImpl)
+
+// Register adapters
+container.bind<EventBridgeAdapter>(dependencies.EventBridgeAdapter).to(EventBridgeAdapterImpl)
+container.bind<DynamoDBAdapter<any>>(dependencies.DynamoDBAdapter).to(DynamoDBAdapterImpl)
+
+export { container }
+`
+  await writeFileAsync(
+    path.join(dependenciesPath, 'container.ts'),
+    containerContent,
+  )
+}
+
+async function generateRepositoriesFiles(
+  serviceName: string,
+  applicationPath: string,
+) {
+  const repositoriesPath = path.join(applicationPath, 'repositories')
+
+  // Create repositories directory
+  await mkdirAsync(repositoriesPath, { recursive: true })
+
+  const entityName = capitalizeFirstLetter(
+    serviceName.endsWith('s') ? serviceName.slice(0, -1) : serviceName,
+  )
+
+  // index.ts
+  const indexContent = `export * from './${entityName.toLowerCase()}-repository'
+`
+  await writeFileAsync(path.join(repositoriesPath, 'index.ts'), indexContent)
+
+  // entity-repository.ts
+  const repositoryContent = `import { injectable, inject } from 'inversify'
+import { ${entityName}Repository } from '@interfaces'
+import { ${entityName}DTO, Create${entityName}DTO, Update${entityName}DTO } from '@domain/models'
+import { DynamoDBAdapter, EventBridgeAdapter } from '@interfaces'
+import { dependencies } from '@dependencies'
+import { ${entityName}Aggregate } from '@domain/aggregate'
+import { ${entityName.toUpperCase()}_CREATED_DOMAIN_EVENT, ${entityName.toUpperCase()}_UPDATED_DOMAIN_EVENT } from '@domain/events'
+import { v4 as uuid } from 'uuid'
+
+@injectable()
+export class ${entityName}RepositoryImpl implements ${entityName}Repository {
+  constructor(
+    @inject(dependencies.DynamoDBAdapter)
+    private readonly dynamoDBAdapter: DynamoDBAdapter<${entityName}DTO>,
+    @inject(dependencies.EventBridgeAdapter)
+    private readonly eventBridge: EventBridgeAdapter
+  ) {}
+
+  async create(data: Create${entityName}DTO): Promise<${entityName}DTO> {
+    const now = new Date().toISOString()
+    const id = uuid()
+    
+    const ${entityName.toLowerCase()} = await this.dynamoDBAdapter.create({
+      id,
+      ...data,
+      createdAt: now,
+      updatedAt: now,
+    })
+    
+    // Publish event
+    await this.eventBridge.publishEvent<${entityName.toUpperCase()}_CREATED_DOMAIN_EVENT>({
+      type: '${entityName.toUpperCase()}_CREATED',
+      payload: {
+        id,
+        ...data,
+      },
+    })
+    
+    return ${entityName.toLowerCase()}
+  }
+
+  async findById(id: string): Promise<${entityName}DTO | null> {
+    return await this.dynamoDBAdapter.get(id)
+  }
+
+  async update(data: Update${entityName}DTO): Promise<${entityName}DTO> {
+    const now = new Date().toISOString()
+    
+    const ${entityName.toLowerCase()} = await this.dynamoDBAdapter.update({
+      ...data,
+      updatedAt: now,
+    })
+    
+    // Publish event
+    await this.eventBridge.publishEvent<${entityName.toUpperCase()}_UPDATED_DOMAIN_EVENT>({
+      type: '${entityName.toUpperCase()}_UPDATED',
+      payload: data,
+    })
+    
+    return ${entityName.toLowerCase()}
+  }
+
+  async delete(id: string): Promise<void> {
+    await this.dynamoDBAdapter.delete(id)
+  }
+}
+`
+  await writeFileAsync(
+    path.join(repositoriesPath, `${entityName.toLowerCase()}-repository.ts`),
+    repositoryContent,
+  )
+}
+
+async function generateUseCasesFiles(
+  serviceName: string,
+  applicationPath: string,
+) {
+  const useCasesPath = path.join(applicationPath, 'use-cases')
+
+  // Create use-cases directory
+  await mkdirAsync(useCasesPath, { recursive: true })
+
+  const entityName = capitalizeFirstLetter(
+    serviceName.endsWith('s') ? serviceName.slice(0, -1) : serviceName,
+  )
+
+  // index.ts
+  const indexContent = `export * from './${entityName.toLowerCase()}-use-case'
+`
+  await writeFileAsync(path.join(useCasesPath, 'index.ts'), indexContent)
+
+  // entity-use-case.ts
+  const useCaseContent = `import { injectable, inject } from 'inversify'
+import { ${entityName}UseCase, ${entityName}Repository } from '@interfaces'
+import { ${entityName}DTO, Create${entityName}DTO, Update${entityName}DTO } from '@domain/models'
+import { dependencies } from '@dependencies'
+import { ${entityName}NotFoundError } from '@errors'
+
+@injectable()
+export class ${entityName}UseCaseImpl implements ${entityName}UseCase {
+  constructor(
+    @inject(dependencies.${entityName}Repository)
+    private readonly ${entityName.toLowerCase()}Repository: ${entityName}Repository
+  ) {}
+
+  async create${entityName}(data: Create${entityName}DTO): Promise<${entityName}DTO> {
+    return await this.${entityName.toLowerCase()}Repository.create(data)
+  }
+
+  async get${entityName}(id: string): Promise<${entityName}DTO> {
+    const ${entityName.toLowerCase()} = await this.${entityName.toLowerCase()}Repository.findById(id)
+    
+    if (!${entityName.toLowerCase()}) {
+      throw new ${entityName}NotFoundError(id)
+    }
+    
+    return ${entityName.toLowerCase()}
+  }
+
+  async update${entityName}(data: Update${entityName}DTO): Promise<${entityName}DTO> {
+    // Ensure entity exists before updating
+    await this.get${entityName}(data.id)
+    
+    return await this.${entityName.toLowerCase()}Repository.update(data)
+  }
+
+  async delete${entityName}(id: string): Promise<void> {
+    // Ensure entity exists before deleting
+    await this.get${entityName}(id)
+    
+    await this.${entityName.toLowerCase()}Repository.delete(id)
+  }
+}
+`
+  await writeFileAsync(
+    path.join(useCasesPath, `${entityName.toLowerCase()}-use-case.ts`),
+    useCaseContent,
+  )
+}
+
+async function generateErrorsFiles(
+  serviceName: string,
+  applicationPath: string,
+) {
+  const errorsPath = path.join(applicationPath, 'errors')
+
+  // Create errors directory
+  await mkdirAsync(errorsPath, { recursive: true })
+
+  const entityName = capitalizeFirstLetter(
+    serviceName.endsWith('s') ? serviceName.slice(0, -1) : serviceName,
+  )
+
+  // index.ts
+  const indexContent = `export * from './domain-errors'
+`
+  await writeFileAsync(path.join(errorsPath, 'index.ts'), indexContent)
+
+  // domain-errors.ts
+  const errorsContent = `import { DomainError } from '@shared'
+
+export class ${entityName}NotFoundError extends DomainError {
+  constructor(id: string) {
+    super(\`${entityName} with id \${id} not found\`, 'NOT_FOUND')
+    this.name = '${entityName}NotFoundError'
+  }
+}
+
+export class Invalid${entityName}DataError extends DomainError {
+  constructor(message: string) {
+    super(message, 'VALIDATION_ERROR')
+    this.name = 'Invalid${entityName}DataError'
+  }
+}
+`
+  await writeFileAsync(path.join(errorsPath, 'domain-errors.ts'), errorsContent)
+}
+
+// Helper function to capitalize first letter of a string
+function capitalizeFirstLetter(string: string): string {
+  return string.charAt(0).toUpperCase() + string.slice(1)
 }

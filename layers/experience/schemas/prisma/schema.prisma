@@ -6,12 +6,13 @@ datasource db {
 generator client_bff {
     provider      = "prisma-client-js"
     binaryTargets = ["native", "rhel-openssl-1.0.x"]
+    output        = "./../../services/bff/node_modules/@prisma/client"
 }
 
-generator client_fe_main {
+generator client_fe_app {
     provider      = "prisma-client-js"
     binaryTargets = ["native", "rhel-openssl-1.0.x"]
-    output        = "./../../clients/web/main/node_modules/@prisma/client"
+    output        = "./../../clients/web/app/node_modules/@prisma/client"
 }
 
 generator client_fe_marketing {

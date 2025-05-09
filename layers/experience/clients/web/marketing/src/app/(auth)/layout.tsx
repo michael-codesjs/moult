@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import { MinimalBackground } from "../components/backgrounds";
-import ConfigureAmplifyClientSide from "./amplify.config";
+import "../globals.css";
+import { MinimalBackground } from "@/components/backgrounds";
+import ConfigureAmplifyClientSide from "../amplify.config";
 import { Suspense } from "react";
+import { BottomNavigation } from "@/layout/navigation";
+import { Header } from "@/layout/header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

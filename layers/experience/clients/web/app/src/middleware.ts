@@ -20,7 +20,7 @@ export async function middleware(request: NextRequest) {
   const isAuthenticated = !!user
 
   if (!isAuthenticated) {
-    return NextResponse.redirect(new URL('/', MARKETING_CLIENT_URL))
+    // return NextResponse.redirect(new URL('/', MARKETING_CLIENT_URL))
   }
 
   // Default behavior for unspecified paths

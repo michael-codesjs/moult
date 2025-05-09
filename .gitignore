@@ -34,3 +34,4 @@ lambda-layers
 .esbuild
 *.env
 *.env.json
+.DBStore

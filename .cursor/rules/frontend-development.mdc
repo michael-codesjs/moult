@@ -1,0 +1,224 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Frontend Development Guide
+
+This rule provides guidance for frontend development in the Moult project, focusing on the web client implementation.
+
+## Application Structure
+
+The web client is built with Next.js 13+ using the app router pattern. The main application is located at:
+
+```
+/layers/experience/clients/web/app/
+```
+
+## Key Principles
+
+1. **Server-First Approach**
+   - Use server components by default
+   - Client components only for interactive elements
+   - Clearly mark client components with 'use client' directive
+
+2. **Component Organization**
+   - Follow atomic design principles (atoms, molecules, organisms)
+   - Feature-based organization for domain-specific components
+   - Shared UI components in dedicated library
+
+3. **State Management**
+   - React Query for server state
+   - React Context for global UI state
+   - Local state for component-specific concerns
+
+## Component Development
+
+### Component Structure
+
+```typescript
+// Example component structure
+// UI Component (atom)
+// components/ui/button.tsx
+
+import { cn } from '@/lib/utils'
+import { forwardRef } from 'react'
+
+type ButtonProps = {
+  variant?: 'primary' | 'secondary' | 'outline'
+  size?: 'sm' | 'md' | 'lg'
+  // other props
+} & React.ButtonHTMLAttributes<HTMLButtonElement>
+
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ variant = 'primary', size = 'md', className, children, ...props }, ref) => {
+    return (
+      <button
+        ref={ref}
+        className={cn(
+          'base-button-styles',
+          variant === 'primary' && 'primary-styles',
+          variant === 'secondary' && 'secondary-styles',
+          variant === 'outline' && 'outline-styles',
+          size === 'sm' && 'small-styles',
+          size === 'md' && 'medium-styles',
+          size === 'lg' && 'large-styles',
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </button>
+    )
+  }
+)
+
+Button.displayName = 'Button'
+```
+
+### Styling Approach
+
+- Use TailwindCSS for styling
+- Use clsx or cn utility for component variants
+- Follow consistent naming conventions
+- Maintain a design system with component variants
+
+```typescript
+// lib/utils.ts
+import { clsx, type ClassValue } from 'clsx'
+import { twMerge } from 'tailwind-merge'
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+```
+
+## 3D and Interactive Elements
+
+For 3D and interactive components:
+- Use ThreeJS and WebGL
+- Isolate in client components
+- Use dynamic imports to maintain SSR benefits
+
+```typescript
+// Example of a dynamic import for a 3D component
+// components/product-viewer.tsx
+'use client'
+
+import dynamic from 'next/dynamic'
+
+// Dynamically import the 3D component with no SSR
+const ThreeDViewer = dynamic(
+  () => import('./three-d-viewer'),
+  { ssr: false }
+)
+
+export function ProductViewer({ productId }: { productId: string }) {
+  return (
+    <div className="product-viewer-container">
+      <ThreeDViewer productId={productId} />
+    </div>
+  )
+}
+```
+
+## Performance Optimization
+
+- Use Next.js Image component for optimized images
+- Implement proper loading states
+- Lazy load below-the-fold content
+- Use React.memo for expensive renders
+- Implement code splitting by routes and features
+
+## Testing Frontend Components
+
+- Use Jest for unit testing
+- React Testing Library for component testing
+- Cypress for E2E testing
+- Visual regression testing for UI components
+
+## Common Patterns
+
+### Form Handling
+
+```typescript
+'use client'
+
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+
+const formSchema = z.object({
+  // form validation schema
+})
+
+export function MyForm() {
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      // default values
+    }
+  })
+
+  function onSubmit(data) {
+    // handle submission
+  }
+
+  return (
+    <form onSubmit={form.handleSubmit(onSubmit)}>
+      {/* form fields */}
+    </form>
+  )
+}
+```
+
+### Data Fetching
+
+```typescript
+// app/products/[id]/page.tsx
+import { getProduct } from '@/lib/api'
+
+export default async function ProductPage({ params }: { params: { id: string } }) {
+  const product = await getProduct(params.id)
+  
+  return (
+    <div>
+      <h1>{product.name}</h1>
+      {/* rest of the component */}
+    </div>
+  )
+}
+```
+
+### Client-side Data Fetching
+
+```typescript
+'use client'
+
+import { useQuery } from '@tanstack/react-query'
+import { getProduct } from '@/lib/api'
+
+export function ProductDetails({ productId }: { productId: string }) {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['product', productId],
+    queryFn: () => getProduct(productId)
+  })
+
+  if (isLoading) return <div>Loading...</div>
+  if (error) return <div>Error loading product</div>
+
+  return (
+    <div>
+      <h2>{data.name}</h2>
+      {/* product details */}
+    </div>
+  )
+}
+```
+
+## Reference Files
+
+Key files to reference:
+- Web client package.json: [layers/experience/clients/web/app/package.json](mdc:layers/experience/clients/web/app/package.json)
+- Root layout: [layers/experience/clients/web/app/app/layout.tsx](mdc:layers/experience/clients/web/app/app/layout.tsx)
+- Example component: [layers/experience/clients/web/app/components/ui/button.tsx](mdc:layers/experience/clients/web/app/components/ui/button.tsx)

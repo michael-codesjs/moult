@@ -1,0 +1,119 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Project Structure
+
+This rule provides a comprehensive overview of the Moult project structure to aid in navigation and understanding.
+
+## Repository Organization
+
+Moult uses a monorepo structure managed with Lerna, with the following top-level directories:
+
+- `/layers` - Contains the main code organized by architectural layers
+- `/docs` - Documentation resources
+- `/scripts` - Utility scripts for operations like deployment and setup
+- `/.github` - GitHub workflows and CI/CD configurations
+
+## Layer Structure
+
+The codebase follows Domain-Driven Design (DDD) with a clean layered architecture:
+
+```
+/layers
+├── domain/           # Core business logic and entities
+│   ├── user/         # User domain bounded context
+│   ├── commerce/     # Commerce domain bounded context
+│   └── media-storage/ # Media storage domain bounded context
+│
+├── experience/       # User-facing applications and services
+│   ├── clients/      # Frontend applications
+│   │   ├── web/      # Web clients (Next.js applications)
+│   │   │   ├── app/        # Main application
+│   │   │   └── marketing/  # Marketing website
+│   │   └── native/   # Native mobile applications
+│   ├── services/     # Backend services for user-facing operations
+│   ├── schemas/      # GraphQL schemas
+│   └── infrastructure/ # Experience layer infrastructure components
+│
+├── shared/           # Shared code and utilities
+│   └── typescript/   # TypeScript SDK and shared utilities
+│
+├── platform/         # Platform services and infrastructure
+│
+└── data/             # Data layer services and infrastructure
+```
+
+## Package Structure
+
+Each package within the monorepo follows a consistent structure:
+
+```
+package-name/
+├── package.json      # Package metadata and dependencies
+├── tsconfig.json     # TypeScript configuration
+├── jest.config.js    # Test configuration (if applicable)
+├── src/              # Source code
+│   ├── application/  # Application layer (use cases, commands, etc.)
+│   │   ├── adapters/ # Adapters for external systems
+│   │   │   ├── primary/   # Inbound adapters (controllers, Lambda handlers)
+│   │   │   └── secondary/ # Outbound adapters (repositories, event publishers)
+│   │   ├── commands/ # Command handlers
+│   │   ├── queries/  # Query handlers
+│   │   └── services/ # Application services
+│   ├── domain/       # Domain layer (entities, value objects, domain services)
+│   │   ├── entities/ # Domain entities
+│   │   ├── events/   # Domain events
+│   │   └── services/ # Domain services
+│   └── infrastructure/ # Infrastructure layer (implementations)
+├── tests/            # Test code
+│   ├── unit/         # Unit tests
+│   ├── integration/  # Integration tests
+│   └── e2e/          # End-to-end tests
+└── README.md         # Package documentation
+```
+
+## Web Client Structure
+
+The web clients follow Next.js 13+ conventions with the app directory structure:
+
+```
+app/
+├── app/              # Next.js 13+ app directory
+│   ├── layout.tsx    # Root layout
+│   ├── page.tsx      # Root page
+│   ├── (auth)/       # Auth route group
+│   ├── (marketing)/  # Marketing route group
+│   ├── (dashboard)/  # Dashboard route group
+│   └── api/          # API routes
+├── components/       # Shared components
+│   ├── ui/           # UI components (atoms, molecules, organisms)
+│   └── features/     # Feature-specific components
+├── hooks/            # Custom React hooks
+├── lib/              # Utilities and libraries
+├── styles/           # Global styles
+└── public/           # Static assets
+```
+
+## Main Entry Points
+
+- Root package.json: [package.json](mdc:package.json)
+- Lerna configuration: [lerna.json](mdc:lerna.json)
+- TypeScript configuration: [tsconfig.json](mdc:tsconfig.json)
+
+## Build and Deployment
+
+Moult uses AWS services for deployment, with infrastructure defined using Terraform and serverless functions deployed via the Serverless Framework.
+
+- AWS services are provisioned using Terraform
+- Lambda functions are deployed using the Serverless Framework
+- CI/CD is managed through GitHub Actions
+
+## Development Workflow
+
+1. Run `yarn setup` to install dependencies and set up CLI tools
+2. Run `yarn clients:web:live` to start the web client in development mode
+3. Run `yarn shared:live` to watch and build shared packages
+4. Use the CLI tools in the `/layers/shared/typescript/cli` directory for development tasks
+5. Follow the DDD patterns when adding new features
