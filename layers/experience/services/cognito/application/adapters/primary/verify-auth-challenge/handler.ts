@@ -1,4 +1,4 @@
-import { withLambdaStandard } from '@shared'
+import { withLambdaStandard } from '@moult/sdk'
 import { verifyAuthChallenge } from '@use-cases/verify-auth-challenge'
 import { VerifyAuthChallengeResponseTriggerHandler } from 'aws-lambda'
 

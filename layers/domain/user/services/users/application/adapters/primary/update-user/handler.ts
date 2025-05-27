@@ -4,7 +4,7 @@ import {
   withCommonInput,
   withLambdaIOStandard,
   CommonInputHandler,
-} from '@shared'
+} from '@moult/sdk'
 import { UserDTO } from '@domain/models'
 import { container, dependencies } from '@dependencies'
 import { UserUseCase } from '@interfaces'
@@ -12,8 +12,8 @@ import { UserUseCase } from '@interfaces'
 const inputMapper = async (
   input: UPDATE_USER_DOMAIN_COMMAND,
 ): Promise<UserDTO> => {
-  const userCredentials: UserUseCase = container.get(dependencies.UserUseCase)
-  return await userCredentials.updateUser(input.payload)
+  const user: UserUseCase = container.get(dependencies.UserUseCase)
+  return await user.updateUser(input.payload)
 }
 
 /** 'createUser' lambda function handler. */

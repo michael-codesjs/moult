@@ -1,6 +1,6 @@
 import { USER_DOMAIN_EVENTS } from '@domain/events'
 import { UserDTO } from '@domain/models'
-import { DomainEvent } from '@shared'
+import { DomainEvent } from '@moult/sdk'
 
 export interface UserDatabaseAdapter {
   put(dto: UserDTO): Promise<UserDTO>

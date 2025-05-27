@@ -2,7 +2,7 @@ import {
   withLambdaIOStandard,
   CommonInputHandler,
   withCommonInput,
-} from '@shared'
+} from '@moult/sdk'
 import { USER_UPDATED_DOMAIN_EVENT } from '../../../types/domain-events'
 import { updateCognitoUser } from '@use-cases'
 

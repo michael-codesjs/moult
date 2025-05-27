@@ -1,4 +1,4 @@
-import { AWS } from '@shared'
+import { AWS } from '@moult/sdk'
 import * as functions from '@adapters/primary'
 
 const serverlessConfiguration: AWS.Service = {

@@ -3,7 +3,7 @@ import {
   withCommonInput,
   withLambdaIOStandard,
   CommonInputHandler,
-} from '@shared'
+} from '@moult/sdk'
 import { UserDTO } from '@domain/models'
 import { container, dependencies } from '@dependencies'
 import { UserUseCase } from '@interfaces'

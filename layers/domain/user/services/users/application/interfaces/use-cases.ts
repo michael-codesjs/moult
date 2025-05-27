@@ -2,10 +2,11 @@ import { UserDTO } from '@domain/models'
 
 type CreateUserParams = {
   id?: string
-  username?: string
   email?: string
-  phoneNumber?: string
-  password: string
+  phone_number?: string
+  password?: string
+  name?: string
+  bio?: string
 }
 
 type UpdateUserParams = {

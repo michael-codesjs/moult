@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { authenticatedUser } from './utils/amplify-server-utils'
+import { getAuthenticatedCognitoUser } from './utils/amplify-server-utils'
 
 const MARKETING_CLIENT_URL = process.env.NEXT_PUBLIC_MARKETING_CLIENT_URL
 
@@ -15,7 +15,7 @@ export async function middleware(request: NextRequest) {
   }
 
   const response = NextResponse.next()
-  const user = await authenticatedUser({ request, response } as any)
+  const user = await getAuthenticatedCognitoUser({ request, response } as any)
 
   const isAuthenticated = !!user
 

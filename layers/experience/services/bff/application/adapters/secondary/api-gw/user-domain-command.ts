@@ -3,8 +3,9 @@ import {
   CreateUserDomainCommand,
   CheckIfUserWithUsernameAttributeExistsCommand,
   UpdateUserDomainCommand,
+  UpdateUserSignatureDomainCommand,
 } from '@typings'
-import { apiGatewaySignedFetch, configureEnviromentVariables } from '@shared'
+import { apiGatewaySignedFetch, configureEnviromentVariables } from '@moult/sdk'
 
 const { CENTRAL_API_URL } = configureEnviromentVariables()
 
@@ -40,12 +41,38 @@ export class ApiGwDomainCommandAdapter implements UserDomainCommandAdapter {
       payload: params,
     }
 
-    const result = await apiGatewaySignedFetch(CENTRAL_API_URL + '/user/user', {
-      method: 'PUT',
-      body: JSON.stringify(updateUserDomainCommand),
-    })
+    const result = await apiGatewaySignedFetch(
+      CENTRAL_API_URL + '/user/users',
+      {
+        method: 'PUT',
+        body: JSON.stringify(updateUserDomainCommand),
+      },
+    )
 
     console.log('result', result)
+  }
+
+  async sendUpdateUserSignatureCommand(params: {
+    id: string
+    signature: string
+  }): Promise<boolean> {
+    const updateUserSignatureDomainCommand: UpdateUserSignatureDomainCommand = {
+      source: 'moult.experience.services.bff',
+      name: 'UPDATE_USER_SIGNATURE',
+      payload: params,
+    }
+
+    const result = await apiGatewaySignedFetch(
+      CENTRAL_API_URL + '/user/users',
+      {
+        method: 'PUT',
+        body: JSON.stringify(updateUserSignatureDomainCommand),
+      },
+    )
+
+    console.log('result', result)
+
+    return true
   }
 
   async sendCheckIfUserWithUsernameAttributeExistsCommand(

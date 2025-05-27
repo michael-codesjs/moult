@@ -1,4 +1,4 @@
-import { withLambdaStandard } from '@shared'
+import { withLambdaStandard } from '@moult/sdk'
 import { preSignUp } from '@use-cases/pre-sign-up'
 import { PreSignUpTriggerHandler } from 'aws-lambda'
 

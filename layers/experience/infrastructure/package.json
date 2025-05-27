@@ -6,7 +6,8 @@
   "author": "Michael Phiri",
   "license": "MIT",
   "dependencies": {
-    "@moult/platform-infrastructure": "*"
+    "@moult/platform-infrastructure": "*",
+    "@moult/data-infrastructure": "*"
   },
   "scripts": {
     "deploy": "terraform init & terraform apply -auto-approve",

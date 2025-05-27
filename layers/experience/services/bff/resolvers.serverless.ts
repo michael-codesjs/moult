@@ -3,6 +3,10 @@ const queries = {
     dataSource: 'prisma_appsync',
     kind: 'UNIT',
   },
+  checkSignatureAvailability: {
+    dataSource: 'prisma_appsync',
+    kind: 'UNIT',
+  },
 }
 
 const queryEntries = Object.entries(queries).reduce((acc, [key, value]) => {
@@ -15,6 +19,10 @@ const queryEntries = Object.entries(queries).reduce((acc, [key, value]) => {
 
 const mutations = {
   updateUser: {
+    dataSource: 'prisma_appsync',
+    kind: 'UNIT',
+  },
+  updateUserSignature: {
     dataSource: 'prisma_appsync',
     kind: 'UNIT',
   },

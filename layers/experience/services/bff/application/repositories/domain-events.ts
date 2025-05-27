@@ -1,4 +1,4 @@
-import { DomainEvent as TDomainEvent } from '@shared'
+import { DomainEvent as TDomainEvent } from '@moult/sdk'
 import { EventBridgeAdapter } from '@adapters/secondary'
 import { EventAdapter } from '@interfaces'
 

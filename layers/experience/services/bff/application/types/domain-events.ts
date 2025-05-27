@@ -1,4 +1,4 @@
-import { DomainEvent } from '@shared'
+import { DomainEvent } from '@moult/sdk'
 
 export type USER_AUTHENTICATED_DOMAIN_EVENT = DomainEvent<
   'postAuthentication',

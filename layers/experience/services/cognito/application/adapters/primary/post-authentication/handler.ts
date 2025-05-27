@@ -1,4 +1,4 @@
-import { withLambdaStandard } from '@shared'
+import { withLambdaStandard } from '@moult/sdk'
 import { postAuthentication } from '@use-cases/post-authentication'
 import { PostAuthenticationTriggerHandler } from 'aws-lambda'
 

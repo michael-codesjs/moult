@@ -1,5 +1,5 @@
 import { DefineAuthChallengeTriggerHandler } from 'aws-lambda'
-import { withLambdaStandard } from '@shared'
+import { withLambdaStandard } from '@moult/sdk'
 
 /** 'defineAuthChallenge' lambda function handler. */
 const handler: DefineAuthChallengeTriggerHandler = async (event) => {

@@ -1,5 +1,5 @@
 import { SIGNATURE_GENERATED_DOMAIN_EVENT } from '@domain/events'
-import { configureEnviromentVariables } from '@shared'
+import { configureEnviromentVariables } from '@moult/sdk'
 import {
   EventBridgeClient,
   PutEventsCommand,

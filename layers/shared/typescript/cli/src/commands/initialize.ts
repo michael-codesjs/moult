@@ -341,7 +341,7 @@ async function createServiceFiles(
       outDir: 'dist',
       baseUrl: 'application',
       paths: {
-        '@shared': ['../../../../../shared/typescript/sdk/src/index.ts'],
+        '@moult/sdk': ['../../../../../shared/typescript/sdk/src/index.ts'],
         '@adapters/*': ['adapters/*'],
         '@domain/*': ['domain/*'],
         '@dependencies/*': ['dependencies/*'],
@@ -408,7 +408,7 @@ export default jestConfig
   await writeFileAsync(path.join(servicePath, 'jest.config.ts'), jestConfig)
 
   // Create serverless.ts
-  const serverlessTs = `import { AWS } from '@shared'
+  const serverlessTs = `import { AWS } from '@moult/sdk'
 
 /** Serverless configuration for the '${serviceName}' service. */
 const serverlessConfiguration: AWS.Service = {
@@ -575,7 +575,7 @@ async function generateAdaptersFiles(
     createEntityIndexContent,
   )
 
-  const createEntityDefinitionContent = `import { AWS, handlerPath } from '@shared'
+  const createEntityDefinitionContent = `import { AWS, handlerPath } from '@moult/sdk'
 
 // 'create${capitalizeFirstLetter(serviceName.endsWith('s') ? serviceName.slice(0, -1) : serviceName)}' lambda function sls definition.
 export const definition: AWS.ServerlessLambdaFunction = {
@@ -632,7 +632,7 @@ import {
   withCommonInput,
   withLambdaIOStandard,
   CommonInputHandler,
-} from '@shared'
+} from '@moult/sdk'
 import { ${entityName}DTO } from '@domain/models'
 import { container, dependencies } from '@dependencies'
 import { ${entityName}UseCase } from '@interfaces'
@@ -686,7 +686,7 @@ async function generateDomainFiles(
   await writeFileAsync(path.join(modelsPath, 'index.ts'), modelsIndexContent)
 
   // models/entity.ts
-  const entityModelContent = `import { Resource } from '@shared'
+  const entityModelContent = `import { Resource } from '@moult/sdk'
 
 export interface ${entityName}DTO extends Resource {
   id: string
@@ -716,7 +716,7 @@ export interface Update${entityName}DTO {
 
   // events/types.ts
   const entityUppercase = entityName.toUpperCase()
-  const eventsTypesContent = `import { DomainCommand } from '@shared'
+  const eventsTypesContent = `import { DomainCommand } from '@moult/sdk'
 import { Create${entityName}DTO, Update${entityName}DTO } from '../models'
 
 // Domain Commands
@@ -836,7 +836,7 @@ export interface ${entityName}UseCase {
 
   // adapters.ts
   const adaptersContent = `import { EventBridgeEvent } from 'aws-lambda'
-import { DomainCommand, DomainEvent } from '@shared'
+import { DomainCommand, DomainEvent } from '@moult/sdk'
 
 /**
  * Interface for EventBridge adapter.
@@ -1126,7 +1126,7 @@ async function generateErrorsFiles(
   await writeFileAsync(path.join(errorsPath, 'index.ts'), indexContent)
 
   // domain-errors.ts
-  const errorsContent = `import { DomainError } from '@shared'
+  const errorsContent = `import { DomainError } from '@moult/sdk'
 
 export class ${entityName}NotFoundError extends DomainError {
   constructor(id: string) {

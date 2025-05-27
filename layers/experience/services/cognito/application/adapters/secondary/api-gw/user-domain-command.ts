@@ -3,7 +3,7 @@ import {
   CreateUserDomainCommand,
   CheckIfUserWithUsernameAttributeExistsCommand,
 } from '@typings'
-import { apiGatewaySignedFetch, configureEnviromentVariables } from '@shared'
+import { apiGatewaySignedFetch, configureEnviromentVariables } from '@moult/sdk'
 
 const { CENTRAL_API_URL } = configureEnviromentVariables()
 

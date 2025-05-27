@@ -5,8 +5,8 @@ datasource db {
 
 generator client_bff {
     provider      = "prisma-client-js"
-    binaryTargets = ["native", "rhel-openssl-1.0.x"]
-    output        = "./../../services/bff/node_modules/@prisma/client"
+    binaryTargets = ["rhel-openssl-1.0.x"]
+    output        = "./../../services/bff/application/prisma/client/generated"
 }
 
 generator client_fe_app {
@@ -31,4 +31,6 @@ model User {
     profile_image String?
     created_at    DateTime @default(now())
     updated_at    DateTime @updatedAt
+
+    @@index([signature])
 }

@@ -1,5 +1,4 @@
-import { prisma } from '@prisma-client'
-import { User } from '@prisma/client'
+import { prisma, User } from '@prisma-client'
 
 type GetUserArgs = { id: string }
 

@@ -1,5 +1,10 @@
 import { USER_DOMAIN_EVENTS } from '@domain/events'
-import { AggregateRoot, DomainEvent, NotPutable, NotUpdateable } from '@shared'
+import {
+  AggregateRoot,
+  DomainEvent,
+  NotPutable,
+  NotUpdateable,
+} from '@moult/sdk'
 import { UserDTO } from '@domain/models'
 import { UserAttributes } from './attributes'
 import { CreateUserParams, UpdateUserParams } from './types'
@@ -138,7 +143,7 @@ export class User extends AggregateRoot {
 
     this.registerDomainEvent({
       name: 'USER_SIGNATURE_UPDATED',
-      payload: { signature, id: this.attributes.get('id') },
+      payload: { signature },
       source: 'moult.domain.user.users',
       date: new Date(),
     })

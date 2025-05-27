@@ -15,8 +15,8 @@
     "test:silent": "ts-node scripts/generate-env.ts && jest --silent"
   },
   "dependencies": {
-    "@moult/data-infrastructure": "*",
-    "@moult/platform-infrastructure": "*",
+    "@moult/authentication-infrastructure": "*",
+    "@moult/sdk": "*",
     "inversify": "^6.0.1",
     "reflect-metadata": "^0.1.13",
     "validator": "^13.9.0",
@@ -30,7 +30,7 @@
   "devDependencies": {
     "@aws-sdk/client-dynamodb": "^3.287.0",
     "@aws-sdk/client-ssm": "^3.569.0",
-   "@aws-sdk/client-eventbridge": "^3.279.0",
+    "@aws-sdk/client-eventbridge": "^3.279.0",
     "@serverless/typescript": "^3.3.0",
     "@types/aws-lambda": "^8.10.71",
     "@types/jest": "^29.4.0",

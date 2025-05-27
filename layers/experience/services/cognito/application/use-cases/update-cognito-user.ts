@@ -2,7 +2,7 @@ import {
   CognitoIdentityProviderClient,
   AdminUpdateUserAttributesCommand,
 } from '@aws-sdk/client-cognito-identity-provider'
-import { configureEnviromentVariables } from '@shared'
+import { configureEnviromentVariables } from '@moult/sdk'
 
 const { REGION, USER_POOL_ID } = configureEnviromentVariables()
 

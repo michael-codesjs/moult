@@ -7,20 +7,21 @@
   "author": "Michael Phiri(github@michael-codesjs)",
   "license": "MIT",
   "scripts": {
-    "prisma:generate": "prisma generate --schema=./../../schemas/prisma/schema.prisma",
+    "prisma:generate": "prisma generate --schema=./../../schemas/prisma/schema.prisma --generator client_bff",
     "prisma:push": "prisma db push --schema=./../../schemas/prisma/schema.prisma",
-    "prepare:layer": "./scripts/prepare-layer.sh",
-    "build": "yarn prisma:generate && yarn prepare:layer && sls package",
-    "predeploy": "yarn prisma:generate && yarn prepare:layer",
+    "build": "yarn prisma:generate && sls package",
+    "predeploy": "yarn prisma:generate",
     "deploy": "sls deploy",
     "deploy:debug": "yarn pre:deploy && yarn prepare:layer && SLS_DEBUG=* sls deploy",
     "destroy": "sls remove",
-    "generate-env": "ts-node scripts/generate-env.ts",
     "test": "jest --silent"
   },
   "dependencies": {
+    "@moult/sdk": "*",
+    "@moult/experience-infrastructure": "*",
     "dotenv": "^16.0.3",
-    "serverless-appsync-plugin": "^2.9.1"
+    "serverless-appsync-plugin": "^2.9.1",
+    "@prisma/client": "^5.22.0"
   },
   "devDependencies": {
     "@aws-sdk/client-eventbridge": "^3.279.0",
@@ -33,7 +34,7 @@
     "@types/jest": "^29.4.0",
     "@types/node": "^14.14.25",
     "@types/ora": "^3.2.0",
-    "aws-amplify": "^6.0.27",
+    "aws-amplify": "^6.14.4",
     "babel-loader": "^9.1.3",
     "chalk": "2",
     "chance": "1.1.9",
@@ -42,7 +43,6 @@
     "js-yaml": "^4.1.0",
     "ora": "2",
     "prisma": "^5.11.0",
-    "@prisma/client": "^5.22.0",
     "serverless": "^3.2.0",
     "serverless-esbuild": "^1.50.0",
     "serverless-iam-roles-per-function": "^3.2.0",

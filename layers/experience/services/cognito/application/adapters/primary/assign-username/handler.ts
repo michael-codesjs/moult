@@ -2,7 +2,7 @@ import {
   withLambdaIOStandard,
   CommonInputHandler,
   withCommonInput,
-} from '@shared'
+} from '@moult/sdk'
 import { SIGNATURE_GENERATED_DOMAIN_EVENT } from '../../../types/domain-events'
 import { assignUsername } from '@use-cases/assign-username'
 

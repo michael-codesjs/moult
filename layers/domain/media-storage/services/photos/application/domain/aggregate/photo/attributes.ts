@@ -4,7 +4,7 @@ import {
   AttributeSchema,
   Attribute,
   EntriesFromAttributesSchema,
-} from '@shared'
+} from '@moult/sdk'
 
 enum FileStorageType {
   S3 = 'S3',

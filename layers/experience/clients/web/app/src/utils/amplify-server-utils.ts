@@ -5,7 +5,7 @@ import {
   fetchUserAttributes,
 } from 'aws-amplify/auth/server'
 import { NextRequest, NextResponse } from 'next/server'
-import { headers } from 'next/headers'
+import { headers, cookies } from 'next/headers'
 
 export type AuthenticatedUser = Awaited<ReturnType<typeof authenticatedUser>>
 
@@ -44,7 +44,7 @@ export async function createServerContext() {
   return { request, response }
 }
 
-export async function authenticatedUser(context: NextServer.Context) {
+export async function getAuthenticatedCognitoUser(context: NextServer.Context) {
   return await runWithAmplifyServerContext({
     nextServerContext: context,
     operation: async (contextSpec) => {
@@ -64,6 +64,7 @@ export async function authenticatedUser(context: NextServer.Context) {
         return user
       } catch (error) {
         console.log(error)
+        throw error
       }
     },
   })

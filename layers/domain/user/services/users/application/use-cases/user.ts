@@ -9,17 +9,17 @@ import { USER_SNAPSHOT_DOMAIN_EVENT } from '@domain/events'
 
 type CreateUserParams = {
   id?: string
-  username?: string
   email?: string
-  phoneNumber?: string
+  phone_number?: string
   password: string
 }
 
 type UpdateUserParams = {
   id: string
-  username?: string
+  name?: string
+  bio?: string
   email?: string
-  phoneNumber?: string
+  phone_number?: string
 }
 
 type UpdateSignatureParams = {
@@ -60,15 +60,15 @@ export class User implements UserUseCase {
   async createUser(params: CreateUserParams): Promise<UserDTO> {
     try {
       // this.failIfUserWithEitherUsernameAttributesExists({ currentUser: params.id, ...params });
-      const user_credential = UserEntity.create(params)
-      const events = user_credential.getDomainEvents()
+      const user = UserEntity.create(params)
+      const events = user.getDomainEvents()
 
       console.log('events:', events)
 
       await this.events.write(events)
       await this.events.publish(events)
 
-      return user_credential.toDTO()
+      return user.toDTO()
     } catch (error) {
       console.error('error', error)
       throw error

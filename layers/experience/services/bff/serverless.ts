@@ -1,4 +1,4 @@
-import { AWS } from '@shared'
+import { AWS } from '@moult/sdk'
 import * as functions from './application/adapters/primary'
 import { resolvers } from './resolvers.serverless'
 /**
@@ -24,9 +24,9 @@ const serverless_configuration: AWS.Service = {
     environment: {
       DATABASE_URL:
         '${ssm:/moult/${self:custom.stage}/infrastructure/storage/postgres/url}',
-      PRISMA_QUERY_ENGINE_LIBRARY:
-        '/opt/nodejs/node_modules/.prisma/client/libquery_engine-rhel-openssl-1.0.x.so.node',
       NODE_ENV: '${self:custom.stage}',
+      // PRISMA_QUERY_ENGINE_LIBRARY:
+      //   '/opt/nodejs/node_modules/.prisma/client/libquery_engine-rhel-openssl-1.0.x.so.node',
     },
   },
 
@@ -38,7 +38,6 @@ const serverless_configuration: AWS.Service = {
       bundle: true,
       minify: false,
       sourcemap: true,
-      exclude: [],
       target: 'node18',
       define: { 'require.resolve': undefined },
       platform: 'node',
@@ -50,6 +49,7 @@ const serverless_configuration: AWS.Service = {
   // Package configuration based on Prisma's AWS Lambda deployment guidelines
   package: {
     individually: true,
+    patterns: ['application/prisma/client/generated/**'],
   },
 
   plugins: [
@@ -58,24 +58,24 @@ const serverless_configuration: AWS.Service = {
     'serverless-appsync-plugin',
   ],
 
-  // Define the Lambda Layer for Prisma
-  layers: {
-    PrismaLayer: {
-      path: '.layers/prisma',
-      name: '${self:service}-${self:provider.stage}-prisma-layer',
-      description: 'Prisma Client, Engine and Prisma-AppSync generated files',
-      compatibleRuntimes: ['nodejs18.x'],
-      retain: false,
-      package: {
-        patterns: [
-          '!node_modules/.prisma/client/query-engine-*',
-          'node_modules/.prisma/client/query-engine-rhel-*',
-          '!node_modules/prisma/*',
-          '!node_modules/@prisma/engines/**',
-        ],
-      },
-    },
-  },
+  // // Define the Lambda Layer for Prisma
+  // layers: {
+  //   PrismaLayer: {
+  //     path: '.layers/prisma',
+  //     name: '${self:service}-${self:provider.stage}-prisma-layer',
+  //     description: 'Prisma Client & Engine',
+  //     compatibleRuntimes: ['nodejs18.x'],
+  //     retain: false,
+  //     package: {
+  //       patterns: [
+  //         'node_modules/.prisma/client/libquery_engine-*',
+  //         'node_modules/.prisma/client/libquery_engine-rhel-*',
+  //         'node_modules/prisma/libquery_engine-*',
+  //         'node_modules/@prisma/engines/**',
+  //       ],
+  //     },
+  //   },
+  // },
 
   appSync: {
     name: 'moult-api-${self:custom.stage}',

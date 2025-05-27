@@ -1,6 +1,6 @@
 import { Photo } from '@domain/aggregate'
 import { PHOTO_DOMAIN_EVENTS } from '@domain/events'
-import { DomainEvent } from '@shared'
+import { DomainEvent } from '@moult/sdk'
 
 export interface PhotoAggregateRepository {
   get(id: string): Promise<Photo>

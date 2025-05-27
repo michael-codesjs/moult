@@ -1,6 +1,6 @@
 import { User } from '@domain/aggregate'
 import { USER_DOMAIN_EVENTS } from '@domain/events'
-import { DomainEvent } from '@shared'
+import { DomainEvent } from '@moult/sdk'
 
 export interface UserMaterializedViewRepository {
   get(id: string): Promise<User>

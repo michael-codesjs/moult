@@ -1,6 +1,6 @@
 import { PHOTO_DOMAIN_EVENTS } from '@domain/events'
 import { PhotoDTO } from '@domain/models'
-import { DomainEvent } from '@shared'
+import { DomainEvent } from '@moult/sdk'
 
 export interface EventBusAdapter {
   publish(events: Array<DomainEvent>): Promise<void>

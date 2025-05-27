@@ -13,7 +13,6 @@
     "outDir": "dist",
     "baseUrl": "application",
     "paths": {
-      "@shared": ["../../../../shared/typescript/sdk/src/index.ts"],
       "@adapters/*": ["adapters/*"],
       "@domain/*": ["domain/*"],
       "@dependencies/*": ["dependencies/*"],
@@ -34,7 +33,6 @@
       "@prisma-appsync/*": ["prisma/appsync/*"]
     }
   },
-  "references": [{ "path": "../../../shared/typescript/sdk" }],
   "include": ["serverless.ts", "application/**/*.ts"],
   "ts-node": {
     "require": ["tsconfig-paths/register"]

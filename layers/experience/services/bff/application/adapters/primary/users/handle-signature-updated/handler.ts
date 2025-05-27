@@ -2,7 +2,7 @@ import {
   withCommonInput,
   withLambdaIOStandard,
   CommonInputHandler,
-} from '@shared'
+} from '@moult/sdk'
 import { prisma } from '@prisma-client'
 
 /**

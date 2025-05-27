@@ -2,7 +2,7 @@ import {
   withCommonInput,
   withLambdaIOStandard,
   CommonInputHandler,
-} from '@shared'
+} from '@moult/sdk'
 import { prisma } from '@prisma-client'
 
 /**
@@ -24,14 +24,13 @@ type USER_CREATED_EVENT = {
  */
 const inputMapper = async (input: USER_CREATED_EVENT) => {
   try {
-    const { id, name, email, phone_number, username } = input.payload
+    const { id, name, email, phone_number } = input.payload
     await prisma.user.create({
       data: {
         id,
         name,
         email,
         phone_number,
-        username,
       },
     })
   } catch (error) {

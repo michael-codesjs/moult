@@ -2,7 +2,7 @@ import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
 import { Table } from 'dynamodb-onetable'
 import { Dynamo } from 'dynamodb-onetable/Dynamo'
 import { SignatureAssignmentDTO } from '@domain/models'
-import { configureEnviromentVariables } from '@shared'
+import { configureEnviromentVariables } from '@moult/sdk'
 import { v4 as uuidv4 } from 'uuid'
 
 // Environment configuration
@@ -234,5 +234,50 @@ export async function getBaseSignatureAssignments(
     )
 
     return []
+  }
+}
+
+/**
+ * Gets a signature assignment by signature (username)
+ *
+ * This function retrieves a signature assignment by its signature value,
+ * which is used as the primary key in the table.
+ *
+ * @param signature - The signature to get the assignment for
+ * @returns Promise resolving to the signature assignment or null if not found
+ */
+export async function getSignatureAssignmentBySignature(
+  signature: string,
+): Promise<SignatureAssignmentDTO | null> {
+  if (!signature) {
+    throw new Error('Signature is required to get signature assignment')
+  }
+
+  try {
+    // Log the query
+    console.log(`Retrieving signature assignment for signature ${signature}`)
+
+    // Use OneTable's get method to query by primary key
+    const result = await SignatureAssignment.get({ signature })
+
+    if (result) {
+      console.log(`Found signature assignment for signature ${signature}`)
+      return result as SignatureAssignmentDTO
+    } else {
+      console.log(`No signature assignment found for signature ${signature}`)
+      return null
+    }
+  } catch (error) {
+    // Log detailed error information
+    console.error(
+      `Failed to get signature assignment for signature ${signature}`,
+      {
+        errorMessage: error.message,
+        errorName: error.name,
+        tableName: table.name,
+      },
+    )
+
+    return null
   }
 }

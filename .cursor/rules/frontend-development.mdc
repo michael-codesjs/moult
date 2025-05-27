@@ -1,6 +1,6 @@
 ---
-description: 
-globs: .tsx
+description:
+globs:
 alwaysApply: false
 ---
 # Frontend Development Guide
@@ -32,6 +32,14 @@ The web client is built with Next.js 13+ using the app router pattern. The main 
    - React Context for global UI state
    - Local state for component-specific concerns
 
+4. **Naming Conventions**
+   - **File Names:** Use kebab-case for file names (e.g., `personal-info-form.tsx` instead of `PersonalInfoForm.tsx`)
+   - **Component Names:** Keep component names in PascalCase within the files (e.g., `export default function PersonalInfoForm()`)
+   - **Variable Names:** Use snake_case for variable names (e.g., `user_data`, `form_data`)
+   - **Function Names:** Use camelCase for function names (e.g., `handleSubmit`, `fetchData`)
+   - **Class Names:** Use PascalCase for class names (e.g., `UserProfile`, `ApiService`)
+   - **Constants:** Use UPPER_SNAKE_CASE for constants (e.g., `MAX_ITEMS`, `API_URL`)
+
 ## Component Development
 
 ### Component Structure
@@ -44,6 +52,13 @@ The web client is built with Next.js 13+ using the app router pattern. The main 
 import { cn } from '@/lib/utils'
 import { forwardRef } from 'react'
 
+// Constants in UPPER_SNAKE_CASE
+const DEFAULT_VARIANTS = {
+  primary: 'bg-purple-600 text-white',
+  secondary: 'bg-gray-200 text-gray-800',
+  outline: 'bg-transparent border border-gray-300 text-gray-700'
+}
+
 type ButtonProps = {
   variant?: 'primary' | 'secondary' | 'outline'
   size?: 'sm' | 'md' | 'lg'
@@ -52,17 +67,23 @@ type ButtonProps = {
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ variant = 'primary', size = 'md', className, children, ...props }, ref) => {
+    // Variables in snake_case
+    const size_classes = {
+      sm: 'py-1 px-2 text-sm',
+      md: 'py-2 px-4 text-base',
+      lg: 'py-3 px-6 text-lg'
+    }
+    
+    // Variable in snake_case
+    const selected_size = size_classes[size]
+    
     return (
       <button
         ref={ref}
         className={cn(
-          'base-button-styles',
-          variant === 'primary' && 'primary-styles',
-          variant === 'secondary' && 'secondary-styles',
-          variant === 'outline' && 'outline-styles',
-          size === 'sm' && 'small-styles',
-          size === 'md' && 'medium-styles',
-          size === 'lg' && 'large-styles',
+          'rounded-md font-medium transition-colors',
+          DEFAULT_VARIANTS[variant],
+          selected_size,
           className
         )}
         {...props}
@@ -114,9 +135,16 @@ const ThreeDViewer = dynamic(
 )
 
 export function ProductViewer({ productId }: { productId: string }) {
+  // Snake case for variables
+  const viewer_options = {
+    autoRotate: true,
+    lighting: 'studio',
+    background: 'transparent'
+  }
+  
   return (
     <div className="product-viewer-container">
-      <ThreeDViewer productId={productId} />
+      <ThreeDViewer productId={productId} options={viewer_options} />
     </div>
   )
 }
@@ -153,19 +181,23 @@ const formSchema = z.object({
 })
 
 export function MyForm() {
-  const form = useForm({
+  // Snake case for variables
+  const form_options = {
     resolver: zodResolver(formSchema),
     defaultValues: {
       // default values
     }
-  })
+  }
+  
+  const form = useForm(form_options)
 
-  function onSubmit(data) {
+  // camelCase for function names
+  function handleSubmit(data) {
     // handle submission
   }
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)}>
+    <form onSubmit={form.handleSubmit(handleSubmit)}>
       {/* form fields */}
     </form>
   )
@@ -179,11 +211,12 @@ export function MyForm() {
 import { getProduct } from '@/lib/api'
 
 export default async function ProductPage({ params }: { params: { id: string } }) {
-  const product = await getProduct(params.id)
+  // Snake case for variables
+  const product_data = await getProduct(params.id)
   
   return (
     <div>
-      <h1>{product.name}</h1>
+      <h1>{product_data.name}</h1>
       {/* rest of the component */}
     </div>
   )
@@ -199,8 +232,11 @@ import { useQuery } from '@tanstack/react-query'
 import { getProduct } from '@/lib/api'
 
 export function ProductDetails({ productId }: { productId: string }) {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['product', productId],
+  // Snake case for variables
+  const query_key = ['product', productId]
+  
+  const { data: product_data, isLoading, error } = useQuery({
+    queryKey: query_key,
     queryFn: () => getProduct(productId)
   })
 
@@ -209,7 +245,7 @@ export function ProductDetails({ productId }: { productId: string }) {
 
   return (
     <div>
-      <h2>{data.name}</h2>
+      <h2>{product_data.name}</h2>
       {/* product details */}
     </div>
   )

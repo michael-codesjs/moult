@@ -1,7 +1,7 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
 import { Table } from 'dynamodb-onetable'
 import { Dynamo } from 'dynamodb-onetable/Dynamo'
-import { configureEnviromentVariables } from '@shared'
+import { configureEnviromentVariables } from '@moult/sdk'
 
 // Environment configuration
 const { SIGNATURE_COUNTS_TABLE, REGION = 'eu-central-1' } =

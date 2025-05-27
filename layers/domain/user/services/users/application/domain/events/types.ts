@@ -1,4 +1,4 @@
-import { DomainCommand, DomainEvent } from '@shared'
+import { DomainCommand, DomainEvent } from '@moult/sdk'
 import { UserDTO } from '@domain/models'
 
 export type GetUserDomainCommandPayload = { id: string }
@@ -10,11 +10,11 @@ export type GET_USER_DOMAIN_COMMAND = DomainCommand<
 
 export type CreateUserDomainCommandPayload = {
   id?: string
-  username?: string
   email?: string
   phone_number?: string
-  password: string
-  name: string
+  password?: string
+  name?: string
+  bio?: string
 }
 export type CREATE_USER_DOMAIN_COMMAND = DomainCommand<
   string,
@@ -24,10 +24,12 @@ export type CREATE_USER_DOMAIN_COMMAND = DomainCommand<
 
 export type UpdateUserDomainCommandPayload = {
   id: string
-  username?: string
   email?: string
   phone_number?: string
+  name?: string
+  bio?: string
 }
+
 export type UPDATE_USER_DOMAIN_COMMAND = DomainCommand<
   string,
   'UPDATE_USER',

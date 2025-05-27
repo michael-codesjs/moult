@@ -35,3 +35,8 @@ lambda-layers
 *.env
 *.env.json
 .DBStore
+
+.turbo
+
+# Generated Prisma clients
+layers/experience/services/bff/application/prisma/client/generated

@@ -1,4 +1,4 @@
-import { DomainCommand } from '@shared'
+import { DomainCommand } from '@moult/sdk'
 
 export type CreateUserDomainCommand = DomainCommand<
   'moult.services.cognito.confirmSignUp',

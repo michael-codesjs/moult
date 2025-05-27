@@ -1,4 +1,4 @@
-import { AWS } from '@shared'
+import { AWS } from '@moult/sdk'
 import * as functions from '@adapters/primary'
 
 /** Serverless configuration for the 'user' service. */
@@ -10,7 +10,7 @@ const serverlessConfiguration: AWS.Service = {
     name: 'aws',
     region: 'eu-central-1',
     stage: 'dev',
-    runtime: 'nodejs18.x',
+    runtime: 'nodejs20.x',
 
     apiGateway: {
       restApiId:
@@ -42,10 +42,17 @@ const serverlessConfiguration: AWS.Service = {
       minify: false,
       sourcemap: true,
       exclude: ['aws-sdk'],
-      target: 'node18',
-      define: { 'require.resolve': undefined },
+      target: 'node20',
+      define: {
+        'require.resolve': undefined,
+        global: 'globalThis',
+      },
       platform: 'node',
       concurrency: 1,
+      mainFields: ['module', 'main'],
+      conditions: ['node'],
+      keepNames: true,
+      metafile: false,
     },
   },
 

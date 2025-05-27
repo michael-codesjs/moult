@@ -3,7 +3,7 @@ import {
   CommonInputHandler,
   withCommonInput,
   withLambdaIOStandard,
-} from '@shared'
+} from '@moult/sdk'
 import { PhotoDTO } from '@domain/models'
 import { CREATE_PHOTO_DOMAIN_COMMAND } from '@domain/events'
 import { PhotoUseCase } from '@use-cases/photo'

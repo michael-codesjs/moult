@@ -1,4 +1,4 @@
-import { DomainCommand } from '@shared'
+import { DomainCommand } from '@moult/sdk'
 
 export type CreateUserDomainCommand = DomainCommand<
   'moult.experience.services.bff',
@@ -10,6 +10,12 @@ export type UpdateUserDomainCommand = DomainCommand<
   'moult.experience.services.bff',
   'UPDATE_USER',
   { id: string; [k: string]: any }
+>
+
+export type UpdateUserSignatureDomainCommand = DomainCommand<
+  'moult.experience.services.bff',
+  'UPDATE_USER_SIGNATURE',
+  { id: string; signature: string }
 >
 
 export type CheckIfUserWithUsernameAttributeExistsCommand = DomainCommand<

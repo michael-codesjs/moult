@@ -1,0 +1,19 @@
+/* Profile page styles */
+
+.toggle-checkbox:checked {
+  right: 0;
+  border-color: #8b5cf6;
+}
+
+.toggle-checkbox:checked + .toggle-label {
+  background-color: #ddd6fe;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+} 

@@ -3,7 +3,7 @@ import {
   PutEventsCommand,
 } from '@aws-sdk/client-eventbridge'
 import { EventAdapter } from '@interfaces'
-import { configureEnviromentVariables, DomainEvent } from '@shared'
+import { configureEnviromentVariables, DomainEvent } from '@moult/sdk'
 
 const { REGION, CENTRAL_EVENT_BUS_NAME } = configureEnviromentVariables()
 

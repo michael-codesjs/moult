@@ -19,8 +19,7 @@ interface Common {
 
 input UpdateUserInput {
   name: String
-  phone_number: String
-  email: String
+  bio: String
 }
 
 type User implements Common {
@@ -34,13 +33,16 @@ type User implements Common {
   name: String!
   phone_number: String
   email: String
+  username: String
 }
 
 type Query {
-  getUser(id: String!): User!
-  checkUsernameAvailability(username: String!): Boolean!
+  getUser(id: String!): User! @aws_cognito_user_pools
+  checkSignatureAvailability(signature: String!): Boolean!
+    @aws_cognito_user_pools
 }
 
 type Mutation {
-  updateUser(input: UpdateUserInput!): User!
+  updateUser(input: UpdateUserInput!): User! @aws_cognito_user_pools
+  updateUserSignature(signature: String!): User! @aws_cognito_user_pools
 }

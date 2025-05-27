@@ -1,4 +1,4 @@
-import { AWS } from '@shared'
+import { AWS } from '@moult/sdk'
 import * as functions from '@adapters/primary'
 
 /** Serverless configuration for the 'photos' service. */

@@ -1,4 +1,4 @@
-import { AWS, handlerPath } from '@shared'
+import { AWS, handlerPath } from '@moult/sdk'
 
 export const definition: AWS.ServerlessLambdaFunction = {
   handler: `${handlerPath(__dirname)}/handler.main`,
@@ -23,5 +23,4 @@ export const definition: AWS.ServerlessLambdaFunction = {
       Resource: ['*'],
     },
   ],
-  layers: [{ Ref: 'PrismaLayerLambdaLayer' }],
 }

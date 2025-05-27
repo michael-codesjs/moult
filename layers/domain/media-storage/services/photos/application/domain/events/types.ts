@@ -1,4 +1,4 @@
-import { DomainCommand, DomainEvent } from '@shared'
+import { DomainCommand, DomainEvent } from '@moult/sdk'
 
 export type CreatePhotoDomainCommandPayload = {
   user_id: string

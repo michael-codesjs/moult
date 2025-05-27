@@ -4,7 +4,7 @@ import {
 } from '@aws-sdk/client-eventbridge'
 import { PHOTO_DOMAIN_EVENTS } from '@domain/events'
 import { EventBusAdapter } from '@interfaces'
-import { configureEnviromentVariables } from '@shared'
+import { configureEnviromentVariables } from '@moult/sdk'
 import { injectable } from 'inversify'
 
 const { REGION, CENTRAL_EVENT_BUS_NAME } = configureEnviromentVariables()

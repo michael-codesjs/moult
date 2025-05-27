@@ -4,7 +4,7 @@ import {
   AttributeSchema,
   Attribute,
   EntriesFromAttributesSchema,
-} from '@shared'
+} from '@moult/sdk'
 
 export type UserAttributesSchema = CommonAttributes & {
   entity_type: AttributeSchema<'USER', true>

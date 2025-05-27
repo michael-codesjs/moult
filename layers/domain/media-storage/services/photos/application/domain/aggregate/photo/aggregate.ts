@@ -1,4 +1,4 @@
-import { AggregateRoot, DomainEvent } from '@shared'
+import { AggregateRoot, DomainEvent } from '@moult/sdk'
 import { PhotoAttributes } from './attributes'
 import { CreatePhotoParams } from './types'
 import { PhotoDTO } from '@domain/models'

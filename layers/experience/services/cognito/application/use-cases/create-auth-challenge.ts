@@ -2,7 +2,7 @@ import {
   configureEnviromentVariables,
   WithPartial,
   DEFAULT_AUTH_CHALLENGE,
-} from '@shared'
+} from '@moult/sdk'
 import * as digitGenerator from 'crypto-secure-random-digit'
 
 configureEnviromentVariables()

@@ -1,4 +1,4 @@
-import { DomainEvent } from '@shared'
+import { DomainEvent } from '@moult/sdk'
 
 export interface UserDomainCommandAdapter {
   sendCreateUserCommand: (params: {

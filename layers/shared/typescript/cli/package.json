@@ -1,5 +1,5 @@
 {
-  "name": "@moult/shared-cli-tools",
+  "name": "@moult/cli",
   "version": "1.0.0",
   "description": "moult shared CLI tools",
   "main": "./dist/index.js",

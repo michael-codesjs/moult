@@ -10,6 +10,8 @@
     "prisma:generate": "prisma generate --schema=../../../schemas/prisma/schema.prisma"
   },
   "dependencies": {
+    "@moult/experience-bff": "*",
+    "@moult/experience-cognito": "*",
     "clsx": "^2.1.1",
     "next": "15.3.0",
     "react": "^19.0.0",
@@ -18,7 +20,7 @@
     "react-hook-form": "^7.55.0",
     "react-icons": "^5.5.0",
     "class-variance-authority": "^0.7.0",
-    "@aws-amplify/adapter-nextjs": "^1.6.0 "
+    "@aws-amplify/adapter-nextjs": "^1.6.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

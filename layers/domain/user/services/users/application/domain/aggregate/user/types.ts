@@ -1,4 +1,4 @@
-import { DomainEvent } from '@shared'
+import { DomainEvent } from '@moult/sdk'
 
 export type CreateUserParams = {
   id?: string

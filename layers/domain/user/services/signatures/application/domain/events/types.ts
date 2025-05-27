@@ -1,4 +1,4 @@
-import { DomainCommand, DomainEvent } from '@shared'
+import { DomainCommand, DomainEvent } from '@moult/sdk'
 import { SignatureAssignmentDTO } from '@domain/models'
 
 export interface UserCreatedEventPayload {

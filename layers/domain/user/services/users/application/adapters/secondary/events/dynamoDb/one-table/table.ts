@@ -1,7 +1,7 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
 import { Table } from 'dynamodb-onetable'
 import { Dynamo } from 'dynamodb-onetable/Dynamo'
-import { configureEnviromentVariables } from '@shared'
+import { configureEnviromentVariables } from '@moult/sdk'
 
 const {
   EVENTS_STORE_DYNAMODB_TABLE_NAME,
